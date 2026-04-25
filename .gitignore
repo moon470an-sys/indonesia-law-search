@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+web/out/
+.turbo/
+*.log
+tmp_*.html
+
+# Data — laws.db는 git에 커밋(GitHub Pages 배포용 단일 소스).
+# 트랜잭션 임시 파일만 무시.
+data/laws.db-journal
+data/laws.db-wal
+data/laws.db-shm
+data/pending/*.md
+!data/pending/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
