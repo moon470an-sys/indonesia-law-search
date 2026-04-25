@@ -1,0 +1,190 @@
+name: Detail Enrich (peraturan.go.id)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hierarchies:
+        description: "Comma-separated hierarchy slugs to enrich (uu,pp,perpres,permen,kepmen,perda)."
+        required: false
+        default: "uu,pp,perpres"
+      limit:
+        description: "Max rows per hierarchy (0 = all)"
+        required: false
+        default: "0"
+      concurrency:
+        description: "Parallel HTTP requests per hierarchy job"
+        required: false
+        default: "15"
+      deadline_seconds:
+        description: "Per-hierarchy time budget (seconds)"
+        required: false
+        default: "1500"
+      probe_first:
+        description: "Run a 5-row probe before enrich (yes/no) — produces a log artifact"
+        required: false
+        default: "no"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: enrich-detail
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        shell: bash
+        run: |
+          raw="${{ inputs.hierarchies }}"
+          [ -z "$raw" ] && raw="uu,pp,perpres"
+          arr=$(python3 -c "import json,sys; print(json.dumps([s.strip() for s in '$raw'.split(',') if s.strip()]))")
+          echo "matrix=$arr" >> "$GITHUB_OUTPUT"
+          echo "matrix: $arr"
+
+  enrich:
+    name: enrich ${{ matrix.hierarchy }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        hierarchy: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install 'httpx[http2]>=0.27.0' beautifulsoup4 lxml
+
+      - name: Probe selectors
+        if: ${{ inputs.probe_first == 'yes' }}
+        run: |
+          mkdir -p data/enrich-probe
+          python -m crawler.peraturan_enrich \
+            --hierarchy ${{ matrix.hierarchy }} \
+            --probe 5 \
+            > data/enrich-probe/${{ matrix.hierarchy }}.log
+          cat data/enrich-probe/${{ matrix.hierarchy }}.log
+
+      - name: Upload probe log
+        if: ${{ inputs.probe_first == 'yes' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: enrich-probe-${{ matrix.hierarchy }}
+          path: data/enrich-probe/${{ matrix.hierarchy }}.log
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Enrich ${{ matrix.hierarchy }}
+        timeout-minutes: 30
+        run: |
+          mkdir -p data/enrich
+          python -m crawler.peraturan_enrich ${{ matrix.hierarchy }} \
+            --db data/laws.db \
+            --out-dir data/enrich \
+            --concurrency ${{ inputs.concurrency }} \
+            --deadline-seconds ${{ inputs.deadline_seconds }} \
+            --limit ${{ inputs.limit }}
+
+      - name: Stats
+        if: always()
+        run: |
+          f=data/enrich/${{ matrix.hierarchy }}.jsonl
+          if [ -f "$f" ]; then
+            echo "lines: $(wc -l < "$f")"
+            echo "head:"; head -3 "$f"
+          else
+            echo "no file"
+          fi
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: enrich-${{ matrix.hierarchy }}
+          path: data/enrich/${{ matrix.hierarchy }}.jsonl
+          retention-days: 7
+          if-no-files-found: ignore
+
+  reduce:
+    name: import enrichments and commit
+    needs: enrich
+    if: always() && needs.enrich.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: crawler/requirements.txt
+
+      - name: Install deps
+        run: pip install -r crawler/requirements.txt
+
+      - name: Download enrichment artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: data/enrich
+          pattern: enrich-*
+          merge-multiple: true
+
+      - name: List artifacts
+        run: |
+          ls -la data/enrich/ || true
+          for f in data/enrich/*.jsonl; do
+            [ -e "$f" ] || continue
+            echo "$f → $(wc -l < "$f") rows"
+          done
+
+      - name: Import enrichments
+        run: |
+          shopt -s nullglob
+          files=(data/enrich/*.jsonl)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no JSONL — nothing to import"
+            exit 0
+          fi
+          python -m crawler.import_enrich 'data/enrich/*.jsonl'
+
+      - name: DB stats
+        continue-on-error: true
+        run: |
+          python - <<'PY'
+          import sqlite3
+          c = sqlite3.connect("data/laws.db")
+          n_promul = c.execute(
+              "SELECT COUNT(*) FROM laws WHERE promulgation_date NOT LIKE '____-01-01'"
+          ).fetchone()[0]
+          n_relations = c.execute("SELECT COUNT(*) FROM relations").fetchone()[0]
+          n_total = c.execute("SELECT COUNT(*) FROM laws").fetchone()[0]
+          print(f"laws total: {n_total}")
+          print(f"laws with precise promulgation_date: {n_promul}")
+          print(f"relations rows: {n_relations}")
+          PY
+
+      - name: Commit DB
+        if: always()
+        shell: bash
+        run: |
+          set -x
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/laws.db
+          if git diff --cached --quiet; then
+            echo "No DB changes."
+            exit 0
+          fi
+          git commit -m "chore: detail enrich $(date -u +%FT%TZ)"
+          git push || (sleep 5 && git pull --rebase origin main && git push)
