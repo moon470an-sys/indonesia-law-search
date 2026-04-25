@@ -1,0 +1,563 @@
+
+======================================================================
+=== home: https://peraturan.go.id/
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/
+title = 'Database Peraturan | DITJEN PP'
+
+-- selector counts --
+      2  a[href*="/uu/"]
+      2  a[href*="/pp/"]
+      2  a[href*="/perpres/"]
+      2  a[href*="/permen/"]
+      2  a[href*="/perda/"]
+     30  a[href*=".pdf"]
+
+-- total anchors: 198; detail-pattern matches: 90 --
+  href='/id/pp-no-44-tahun-2025'
+    text='Tata Cara Penetapan Tarif, Pengelolaan, dan Penyelesaian Keberatan, Keringanan, dan Pengembalian Penerimaan Negara Bukan Pajak'
+  href='/id/pp-no-44-tahun-2025'
+    text='Detail'
+  href='/files/pp-no-44-tahun-2025.pdf'
+    text='Download'
+  href='/id/pp-no-4-tahun-2026'
+    text='PERUBAHAN ATAS PERATURAN PEMERINTAH NOMOR 28 TAHUN 2022 TENTANG PENGURUSAN PIUTANG NEGARA OLEH PANITIA URUSAN PIUTANG NEGARA'
+  href='/id/pp-no-4-tahun-2026'
+    text='Detail'
+  href='/files/pp-no-4-tahun-2026.pdf'
+    text='Download'
+  href='/id/pp-no-3-tahun-2026'
+    text='PERUBAHAN ATAS PERATURAN PEMERINTAH NOMOR 29 TAHUN 2021 TENTANG PENYELENGGARAAN BIDANG PERDAGANGAN'
+  href='/id/pp-no-3-tahun-2026'
+    text='Detail'
+  href='/files/pp-no-3-tahun-2026.pdf'
+    text='Download'
+  href='/id/uu-no-1-tahun-2026'
+    text='PENYESUAIAN PIDANA'
+  href='/id/uu-no-1-tahun-2026'
+    text='Detail'
+  href='/files/uu-no-1-tahun-2026.pdf'
+    text='Download'
+  href='/id/pp-no-55-tahun-2025'
+    text='Tata Cara dan Kriteria Penetapan Hukum yang Hidup Dalam Masyarakat'
+  href='/id/pp-no-55-tahun-2025'
+    text='Detail'
+  href='/files/pp-no-55-tahun-2025.pdf'
+    text='Download'
+
+-- ancestor of first detail-link --
+   tag=DIV class='row'
+<div class="row">
+
+                <div class="col-lg-7 col-md-5">
+                    <p style="padding-left: 0px;">Peraturan Pemerintah Nomor 44 Tahun 2025<br>
+                        <a href="/id/pp-no-44-tahun-2025">Tata Cara Penetapan Tarif, Pengelolaan, dan Penyelesaian Keberatan, Keringanan, dan Pengembalian Penerimaan Negara Bukan Pajak</a></p>
+
+                    Diundangkan 7 bulan yang lalu
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <ul class="info_booking">
+                        <li><strong>Tanggal Penetapan</strong>19 September 2026</li>
+                        <li><strong>Tanggal Pengundangan</strong> 19 September 2025</li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="booking_buttons">
+                        <a class="btn_2" href="/id/pp-no-44-tahun-2025">Detail</a>                        <a class="btn_3" href="/files/pp-no-44-tahun-2025.pdf" target="_blank">Download</a>&nbsp;
+                    </div>
+                </div>
+            </div>
+
+======================================================================
+=== uu: https://peraturan.go.id/uu
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/uu
+title = 'Undang-Undang - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      3  a[href*="/uu/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 174; detail-pattern matches: 40 --
+  href='/id/uu-no-1-tahun-2026'
+    text='Penyesuaian Pidana'
+  href='/files/uu-no-1-tahun-2026.pdf'
+  href='/id/uu-no-5-tahun-2025'
+    text='Kota Gorontalo Provinsi Gorontalo'
+  href='/files/uu-no-5-tahun-2025.pdf'
+  href='/id/uu-no-8-tahun-2025'
+    text='Kabupaten Konawe di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-8-tahun-2025.pdf'
+  href='/id/uu-no-2-tahun-2025'
+    text='Perubahan Keempat Atas Undang-undang Nomor 4 Tahun 2009 Tentang Pertambangan Mineral dan Batubara'
+  href='/files/uu-no-2-tahun-2025.pdf'
+  href='/id/uu-no-9-tahun-2025'
+    text='Kabupaten Muna di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-9-tahun-2025.pdf'
+  href='/id/uu-no-18-tahun-2025'
+    text='Perubahan Ketiga Atas Undang-undang Nomor 10 Tahun 2009 Tentang Kepariwisataan'
+  href='/files/uu-no-18-tahun-2025.pdf'
+  href='/id/uu-no-12-tahun-2025'
+    text='Kabupaten Minahasa di Provinsi Sulawesi Utara'
+  href='/files/uu-no-12-tahun-2025.pdf'
+  href='/id/uu-no-13-tahun-2025'
+    text='Kota Manado di Provinsi Sulawesi Utara'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">UU</a>         <a class="wish_bt" href="/id/#">2026</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Undang-Undang Nomor 1 Tahun 2026</p>
+         <p><a href="/id/uu-no-1-tahun-2026" title="lihat detail" data-pjax="0">Penyesuaian Pidana</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/uu?page=1" data-page="0">1</a></li>
+<li><a href="/uu?page=2" data-page="1">2</a></li>
+<li><a href="/uu?page=3" data-page="2">3</a></li>
+<li><a href="/uu?page=4" data-page="3">4</a></li>
+<li><a href="/uu?page=5" data-page="4">5</a></li>
+<li><a href="/uu?page=6" data-page="5">6</a></li>
+<li><a href="/uu?page=7" data-page="6">7</a></li>
+<li><a href="/uu?page=8" data-page="7">8</a></li>
+<li><a href="/uu?page=9" data-page="8">9</a></li>
+<li><a href="/uu?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/uu?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== pp: https://peraturan.go.id/pp
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/pp
+title = 'Peraturan Pemerintah - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      3  a[href*="/pp/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 174; detail-pattern matches: 40 --
+  href='/id/pp-no-4-tahun-2026'
+    text='Perubahan Atas Peraturan Pemerintah Nomor 28 Tahun 2022 Tentang Pengurusan Piutang Negara Oleh Panitia Urusan Piutang Negara'
+  href='/files/pp-no-4-tahun-2026.pdf'
+  href='/id/pp-no-3-tahun-2026'
+    text='Perubahan Atas Peraturan Pemerintah Nomor 29 Tahun 2021 Tentang Penyelenggaraan Bidang Perdagangan'
+  href='/files/pp-no-3-tahun-2026.pdf'
+  href='/id/pp-no-40-tahun-2025'
+    text='Kebijakan Energi Nasional'
+  href='/files/pp-no-40-tahun-2025.pdf'
+  href='/id/pp-no-28-tahun-2025'
+    text='Penyelenggaraan Perizinan Berusaha Berbasis Risiko'
+  href='/files/pp-no-28-tahun-2025.pdf'
+  href='/id/pp-no-50-tahun-2025'
+    text='Penyesuaian Iuran Jaminan Kecelakaan Kerja dan Jaminan Kematian Bagi Peserta Bukan Penerima Upah'
+  href='/files/pp-no-50-tahun-2025.pdf'
+  href='/id/pp-no-22-tahun-2025'
+    text='Pembentukan Pengadilan Militer Tinggi Iv Balikpapan dan Pengadilan Militer Tinggi V Makassar'
+  href='/files/pp-no-22-tahun-2025.pdf'
+  href='/id/pp-no-23-tahun-2025'
+    text='Pembentukan Pengadilan Militer I-03 Pekanbaru, Pengadilan Militer V-18 Kendari, dan Pengadilan Militer V-21 Manokwari'
+  href='/files/pp-no-23-tahun-2025.pdf'
+  href='/id/pp-no-7-tahun-2025'
+    text='Penyesuaian Iuran Jaminan Kecelakaan Kerja Bagi Perusahaan Industri Padat Karya Tertentu Tahun 2025'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">PP</a>         <a class="wish_bt" href="/id/#">2026</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Peraturan Pemerintah Nomor 4 Tahun 2026</p>
+         <p><a href="/id/pp-no-4-tahun-2026" title="lihat detail" data-pjax="0">Perubahan Atas Peraturan Pemerintah Nomor 28 Tahun 2022 Tentang Pengurusan Piutang Negara Oleh Panitia Urusan Piutang Negara</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/pp?page=1" data-page="0">1</a></li>
+<li><a href="/pp?page=2" data-page="1">2</a></li>
+<li><a href="/pp?page=3" data-page="2">3</a></li>
+<li><a href="/pp?page=4" data-page="3">4</a></li>
+<li><a href="/pp?page=5" data-page="4">5</a></li>
+<li><a href="/pp?page=6" data-page="5">6</a></li>
+<li><a href="/pp?page=7" data-page="6">7</a></li>
+<li><a href="/pp?page=8" data-page="7">8</a></li>
+<li><a href="/pp?page=9" data-page="8">9</a></li>
+<li><a href="/pp?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/pp?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== perpres: https://peraturan.go.id/perpres
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/perpres
+title = 'Peraturan Presiden - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      3  a[href*="/perpres/"]
+     26  a[href*=".pdf"]
+
+-- total anchors: 180; detail-pattern matches: 46 --
+  href='/id/perpres-no-53-tahun-2025'
+    text='Universitas Islam Negeri Sunan Kudus'
+  href='/files/perpres-no-53-tahun-2025.pdf'
+  href='/id/perpres-no-115-tahun-2025'
+    text='Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis'
+  href='/files/perpres-no-115-tahun-2025.pdf'
+  href='/id/perpres-no-60-tahun-2025'
+    text='Universitas Islam Negeri Abdul Muthalib Sangadji Ambon'
+  href='/files/perpres-no-60-tahun-2025.pdf'
+  href='/id/perpres-no-7-tahun-2025'
+    text='Perubahan Atas Peraturan Presiden Nomor 61 Tahun 2024 Tentang Neraca Komoditas'
+  href='/files/Salinan+Perpres+Nomor+7+Tahun+2025+%281%29.pdf'
+  href='/id/perpres-no-14-tahun-2025'
+    text='Perubahan Institut Seni Indonesia Denpasar Menjadi Institut Seni Indonesia Bali'
+  href='/files/perpres-no-14-tahun-2025.pdf'
+  href='/id/perpres-no-90-tahun-2025'
+    text='Perubahan Atas Peraturan Presiden Nomor 140 Tahun 2024 Tentang Organisasi Kementerian Negara'
+  href='/files/perpres-no-90-tahun-2025.pdf'
+  href='/id/perpres-no-83-tahun-2025'
+    text='Komite Percepatan Transformasi Digital Pemerintah'
+  href='/files/perpres-no-83-tahun-2025.pdf'
+  href='/id/perpres-no-117-tahun-2025'
+    text='Rencana Kerja Pemerintah Tahun 2026'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">PERPRES</a>         <a class="wish_bt" href="/id/#">2025</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Peraturan Presiden Nomor 53 Tahun 2025</p>
+         <p><a href="/id/perpres-no-53-tahun-2025" title="lihat detail" data-pjax="0">Universitas Islam Negeri Sunan Kudus</a></p>         <span class="badge bg-dark">Pendidikan &amp; Kebudayaan</span>&nbsp;        
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/perpres?page=1" data-page="0">1</a></li>
+<li><a href="/perpres?page=2" data-page="1">2</a></li>
+<li><a href="/perpres?page=3" data-page="2">3</a></li>
+<li><a href="/perpres?page=4" data-page="3">4</a></li>
+<li><a href="/perpres?page=5" data-page="4">5</a></li>
+<li><a href="/perpres?page=6" data-page="5">6</a></li>
+<li><a href="/perpres?page=7" data-page="6">7</a></li>
+<li><a href="/perpres?page=8" data-page="7">8</a></li>
+<li><a href="/perpres?page=9" data-page="8">9</a></li>
+<li><a href="/perpres?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/perpres?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== permen: https://peraturan.go.id/permen
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/permen
+title = 'Peraturan Menteri - [PERATURAN.GO.ID]'
+
+-- selector counts --
+     23  a[href*="/permen/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 174; detail-pattern matches: 40 --
+  href='/id/permenperin-no-5-tahun-2026'
+    text='Pusat Penyedia Bahan Baku dan Atau Bahan Penolong'
+  href='/files/permenperin-no-5-tahun-2026.pdf'
+  href='/id/permenkeu-no-19--tahun-2026'
+    text='Perubahan Kedua Atas Peraturan Menteri Keuangan Nomor 68/pmk.02/2016 Tentang Tata Cara Penyediaan, Pencairan, dan Pertanggungjawaban Dana Subsidi Pupuk'
+  href='/files/permenkeu-no-19+-tahun-2026.pdf'
+  href='/id/permendag-no-4-tahun-2026'
+    text='Pengembangan Kompetensi Melalui Sistem Pembelajaran Terintegrasi di Bidang Perdagangan'
+  href='/files/permendag-no-4-tahun-2026.pdf'
+  href='/id/permenkeu-no-16--tahun-2026'
+    text='Penggunaan Dana Bagi Hasil Sumber Daya Alam Kehutanan Dana Reboisasi'
+  href='/files/permenkeu-no-16+-tahun-2026.pdf'
+  href='/id/permenag-no-2-tahun-2026'
+    text='Statuta Sekolah Tinggi Agama Kristen Negeri Mesias Sorong'
+  href='/files/permenag-no-2-tahun-2026.pdf'
+  href='/id/permenkum-no-2-tahun-2026'
+    text='Organisasi dan Tata Kerja  Balai Pelatihan Hukum'
+  href='/files/permenkum-no-2-tahun-2026.pdf'
+  href='/id/permendikdasmen-no-1-tahun-2026'
+    text='Standar Proses Pada Pendidikan Anak Usia Dini Jenjang Pendidikan Dasar dan Jenjang Pendidikan Menengah'
+  href='/files/Permendikdasmen-no-1-tahun-2026.pdf'
+  href='/id/permendikdasmen-no-9-tahun-2026'
+    text='Perubahan Atas Peraturan Menteri Pendidikan Kebudayaan Riset dan Teknologi Nomor 17 Tahun 2021 Tentang Asesmen Nasional'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/permen/permenperin ">PERMEN</a>         <a class="wish_bt" href="/id/#">2026</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Peraturan Menteri Perindustrian Nomor 5 Tahun 2026</p>
+         <p><a href="/id/permenperin-no-5-tahun-2026" title="lihat detail" data-pjax="0">Pusat Penyedia Bahan Baku dan Atau Bahan Penolong</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/permen?page=1" data-page="0">1</a></li>
+<li><a href="/permen?page=2" data-page="1">2</a></li>
+<li><a href="/permen?page=3" data-page="2">3</a></li>
+<li><a href="/permen?page=4" data-page="3">4</a></li>
+<li><a href="/permen?page=5" data-page="4">5</a></li>
+<li><a href="/permen?page=6" data-page="5">6</a></li>
+<li><a href="/permen?page=7" data-page="6">7</a></li>
+<li><a href="/permen?page=8" data-page="7">8</a></li>
+<li><a href="/permen?page=9" data-page="8">9</a></li>
+<li><a href="/permen?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/permen?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== perda: https://peraturan.go.id/perda
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/perda
+title = 'Peraturan Daerah - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      1  a[href*="/perda/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 172; detail-pattern matches: 40 --
+  href='/id/perda-kabupaten-kendal-no-10-tahun-2025'
+    text='Peraturan Pelaksanaan Peraturan Daerah Kabupaten Kendal Nomor 5 Tahun 2023 Tentang Pemberian Insentif dan/atau Pemberian Kemudahan Investasi'
+  href='/files/perda-kabupaten-kendal-no-10-tahun-2025.pdf'
+  href='/id/perwako-padang-panjang-no-2-tahun-2025'
+    text='Peraturan Wali Kota Padang Panjang Nomor 2 Tahun 2025 Tentang Penyelenggaraan Mal Pelayanan Publik Kota Padang Panjang'
+  href='/files/perwako-padang-panjang-no-2-tahun-2025.pdf'
+  href='/id/perda-kota-surabaya-no-5-tahun-2025'
+    text='Peraturan Daerah Kota Surabaya Nomor 5 Tahun 2025 Tentang Pengembangan Ekonomi Kreatif'
+  href='/files/perda-kota-surabaya-no-5-tahun-2025.pdf'
+  href='/id/perda-kabupaten-bandung-no-8-tahun-2025'
+    text='Peraturan Daerah Kabupaten Bandung Nomor  8 Tahun 2025 Tentang Penetapan Desa'
+  href='/files/perda-kabupaten-bandung-no-8-tahun-2025.pdf'
+  href='/id/perda-kabupaten-sragen-no-1-tahun-2025'
+    text='Penyelenggaraan Penanaman Modal'
+  href='/files/perda-kabupaten-sragen-no-1-tahun-2025.pdf'
+  href='/id/perda-kota-surakarta-no-1-tahun-2025'
+    text='Perubahan Bentuk Badan Hukum Perusahaan Umum Daerah\nbank Perkreditan Rakyat Bank Solo Menjadi Perusahaan\nperseroan Daerah Bank Perekonomian Rakyat Bank Solo'
+  href='/files/perda-kota-surakarta-no-1-tahun-2025.pdf'
+  href='/id/perda-kota-padang-no-1-tahun-2025'
+    text='Peraturan Daerah Kota Padang Nomor 1 Tahun 2025 Tentang Ketenteraman dan Ketertiban Umum'
+  href='/files/perda-kota-padang-no-1-tahun-2025.pdf'
+  href='/id/perda-kabupaten-sukoharjo-no-1-tahun-2025'
+    text='Kawasan Tanpa Rokok'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">PERDA</a>         <a class="wish_bt" href="/id/#">2025</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Peraturan Daerah Kabupaten Kendal Nomor 10 Tahun 2025</p>
+         <p><a href="/id/perda-kabupaten-kendal-no-10-tahun-2025" title="lihat detail" data-pjax="0">Peraturan Pelaksanaan Peraturan Daerah Kabupaten Kendal Nomor 5 Tahun 2023 Tentang Pemberian Insentif dan/atau Pemberian Kemudahan Investasi</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/perda?page=1" data-page="0">1</a></li>
+<li><a href="/perda?page=2" data-page="1">2</a></li>
+<li><a href="/perda?page=3" data-page="2">3</a></li>
+<li><a href="/perda?page=4" data-page="3">4</a></li>
+<li><a href="/perda?page=5" data-page="4">5</a></li>
+<li><a href="/perda?page=6" data-page="5">6</a></li>
+<li><a href="/perda?page=7" data-page="6">7</a></li>
+<li><a href="/perda?page=8" data-page="7">8</a></li>
+<li><a href="/perda?page=9" data-page="8">9</a></li>
+<li><a href="/perda?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/perda?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== uu-2023: https://peraturan.go.id/uu/2023
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/uu
+title = 'Undang-Undang - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      3  a[href*="/uu/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 174; detail-pattern matches: 40 --
+  href='/id/uu-no-1-tahun-2026'
+    text='Penyesuaian Pidana'
+  href='/files/uu-no-1-tahun-2026.pdf'
+  href='/id/uu-no-5-tahun-2025'
+    text='Kota Gorontalo Provinsi Gorontalo'
+  href='/files/uu-no-5-tahun-2025.pdf'
+  href='/id/uu-no-8-tahun-2025'
+    text='Kabupaten Konawe di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-8-tahun-2025.pdf'
+  href='/id/uu-no-2-tahun-2025'
+    text='Perubahan Keempat Atas Undang-undang Nomor 4 Tahun 2009 Tentang Pertambangan Mineral dan Batubara'
+  href='/files/uu-no-2-tahun-2025.pdf'
+  href='/id/uu-no-9-tahun-2025'
+    text='Kabupaten Muna di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-9-tahun-2025.pdf'
+  href='/id/uu-no-18-tahun-2025'
+    text='Perubahan Ketiga Atas Undang-undang Nomor 10 Tahun 2009 Tentang Kepariwisataan'
+  href='/files/uu-no-18-tahun-2025.pdf'
+  href='/id/uu-no-12-tahun-2025'
+    text='Kabupaten Minahasa di Provinsi Sulawesi Utara'
+  href='/files/uu-no-12-tahun-2025.pdf'
+  href='/id/uu-no-13-tahun-2025'
+    text='Kota Manado di Provinsi Sulawesi Utara'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">UU</a>         <a class="wish_bt" href="/id/#">2026</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Undang-Undang Nomor 1 Tahun 2026</p>
+         <p><a href="/id/uu-no-1-tahun-2026" title="lihat detail" data-pjax="0">Penyesuaian Pidana</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/uu?page=1" data-page="0">1</a></li>
+<li><a href="/uu?page=2" data-page="1">2</a></li>
+<li><a href="/uu?page=3" data-page="2">3</a></li>
+<li><a href="/uu?page=4" data-page="3">4</a></li>
+<li><a href="/uu?page=5" data-page="4">5</a></li>
+<li><a href="/uu?page=6" data-page="5">6</a></li>
+<li><a href="/uu?page=7" data-page="6">7</a></li>
+<li><a href="/uu?page=8" data-page="7">8</a></li>
+<li><a href="/uu?page=9" data-page="8">9</a></li>
+<li><a href="/uu?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/uu?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== uu-tahun-23: https://peraturan.go.id/uu/tahun/2023
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/uu
+title = 'Undang-Undang - [PERATURAN.GO.ID]'
+
+-- selector counts --
+      3  a[href*="/uu/"]
+     20  a[href*=".pdf"]
+
+-- total anchors: 174; detail-pattern matches: 40 --
+  href='/id/uu-no-1-tahun-2026'
+    text='Penyesuaian Pidana'
+  href='/files/uu-no-1-tahun-2026.pdf'
+  href='/id/uu-no-5-tahun-2025'
+    text='Kota Gorontalo Provinsi Gorontalo'
+  href='/files/uu-no-5-tahun-2025.pdf'
+  href='/id/uu-no-8-tahun-2025'
+    text='Kabupaten Konawe di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-8-tahun-2025.pdf'
+  href='/id/uu-no-2-tahun-2025'
+    text='Perubahan Keempat Atas Undang-undang Nomor 4 Tahun 2009 Tentang Pertambangan Mineral dan Batubara'
+  href='/files/uu-no-2-tahun-2025.pdf'
+  href='/id/uu-no-9-tahun-2025'
+    text='Kabupaten Muna di Provinsi Sulawesi Tenggara'
+  href='/files/uu-no-9-tahun-2025.pdf'
+  href='/id/uu-no-18-tahun-2025'
+    text='Perubahan Ketiga Atas Undang-undang Nomor 10 Tahun 2009 Tentang Kepariwisataan'
+  href='/files/uu-no-18-tahun-2025.pdf'
+  href='/id/uu-no-12-tahun-2025'
+    text='Kabupaten Minahasa di Provinsi Sulawesi Utara'
+  href='/files/uu-no-12-tahun-2025.pdf'
+  href='/id/uu-no-13-tahun-2025'
+    text='Kota Manado di Provinsi Sulawesi Utara'
+
+-- ancestor of first detail-link --
+   tag=DIV class='wrapper'
+<div class="wrapper">
+
+
+
+         <a class="float-right" href="/pemerintah-pusat">UU</a>         <a class="wish_bt" href="/id/#">2026</a>         <hr style="  margin: 20px 0 15px 0;">
+
+         <p style="padding-top: -2;">Undang-Undang Nomor 1 Tahun 2026</p>
+         <p><a href="/id/uu-no-1-tahun-2026" title="lihat detail" data-pjax="0">Penyesuaian Pidana</a></p>                 
+    </div>
+
+-- pagination HTML --
+<ul class="pagination"><li class="prev disabled"><span class="page-link">«</span></li>
+<li class="active"><a href="/uu?page=1" data-page="0">1</a></li>
+<li><a href="/uu?page=2" data-page="1">2</a></li>
+<li><a href="/uu?page=3" data-page="2">3</a></li>
+<li><a href="/uu?page=4" data-page="3">4</a></li>
+<li><a href="/uu?page=5" data-page="4">5</a></li>
+<li><a href="/uu?page=6" data-page="5">6</a></li>
+<li><a href="/uu?page=7" data-page="6">7</a></li>
+<li><a href="/uu?page=8" data-page="7">8</a></li>
+<li><a href="/uu?page=9" data-page="8">9</a></li>
+<li><a href="/uu?page=10" data-page="9">10</a></li>
+<li class="next"><a href="/uu?page=2" data-page="1">»</a></li></ul>
+
+======================================================================
+=== pencarian: https://peraturan.go.id/pencarian
+======================================================================
+HTTP 404 | final URL = https://peraturan.go.id/pencarian
+title = ''
+
+-- selector counts --
+
+-- total anchors: 86; detail-pattern matches: 0 --
+
+======================================================================
+=== search: https://peraturan.go.id/search
+======================================================================
+HTTP 500 | final URL = https://peraturan.go.id/search
+title = ''
+
+-- selector counts --
+
+-- total anchors: 86; detail-pattern matches: 0 --
+
+======================================================================
+=== permenkeu: https://peraturan.go.id/permen/permenkeu
+======================================================================
+HTTP 200 | final URL = https://peraturan.go.id/permen/permenkeu
+title = ''
+
+-- selector counts --
+     21  div.card
+      1  a[href*="/permen/"]
+
+-- total anchors: 146; detail-pattern matches: 42 --
+  href='/permen?pemrakarsa=31&tahun=2026'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2026'
+    text='Lihat Grafik 2026'
+  href='/permen?pemrakarsa=31&tahun=2025'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2025'
+    text='Lihat Grafik 2025'
+  href='/permen?pemrakarsa=31&tahun=2024'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2024'
+    text='Lihat Grafik 2024'
+  href='/permen?pemrakarsa=31&tahun=2023'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2023'
+    text='Lihat Grafik 2023'
+  href='/permen?pemrakarsa=31&tahun=2022'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2022'
+    text='Lihat Grafik 2022'
+  href='/permen?pemrakarsa=31&tahun=2021'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2021'
+    text='Lihat Grafik 2021'
+  href='/permen?pemrakarsa=31&tahun=2020'
+    text='Lihat Peraturan'
+  href='/grafikkementerianpertahun?idkementerian=31&tahun=2020'
+    text='Lihat Grafik 2020'
+  href='/permen?pemrakarsa=31&tahun=2019'
+    text='Lihat Peraturan'
+
+-- ancestor of first detail-link --
+   tag=LABEL class='container_check'
+<label class="container_check" style="padding-left: 0px;">
+                                                            <a class="btn btn-primary btn-sm" href="/permen?pemrakarsa=31&amp;tahun=2026">Lihat Peraturan</a>                                                            <a class="btn btn-warning btn-sm" href="/grafikkementerianpertahun?idkementerian=31&amp;tahun=2026">Lihat Grafik 2026</a>                                                        </label>
