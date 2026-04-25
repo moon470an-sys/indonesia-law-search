@@ -19,6 +19,7 @@ import json
 import logging
 import re
 import sys
+import time
 from pathlib import Path
 from typing import Iterable
 
@@ -175,7 +176,13 @@ async def crawl_section(
     chunk: int = 20,
     concurrency: int = 10,
     max_pages: int = 5000,
+    deadline_seconds: int = 1800,
 ) -> int:
+    """Crawl one hierarchy.
+
+    Stops when (a) a whole page-chunk yields 0 new rows, (b) max_pages reached,
+    (c) deadline_seconds elapsed since this call started.
+    """
     sem = asyncio.Semaphore(concurrency)
 
     async def go(url: str) -> str | None:
@@ -185,18 +192,28 @@ async def crawl_section(
     seen_slugs: set[str] = set()
     total = 0
     page = 1
+    start = time.monotonic()
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("a", encoding="utf-8") as f:
         while page <= max_pages:
+            elapsed = time.monotonic() - start
+            if elapsed > deadline_seconds:
+                log.warning("[%s] deadline %ds reached at page %d (rows so far %d), stopping",
+                            slug, deadline_seconds, page, total)
+                break
+
             urls = [f"{BASE}/{slug}?page={page + i}" for i in range(chunk)]
-            log.info("[%s] fetching pages %d-%d", slug, page, page + chunk - 1)
-            results = await asyncio.gather(*[go(u) for u in urls])
+            log.info("[%s] fetching pages %d-%d (elapsed %.0fs, total %d)",
+                     slug, page, page + chunk - 1, elapsed, total)
+            results = await asyncio.gather(*[go(u) for u in urls], return_exceptions=True)
 
             chunk_rows = 0
+            chunk_fetched = 0
             for html in results:
-                if not html:
+                if isinstance(html, BaseException) or not html:
                     continue
+                chunk_fetched += 1
                 for row in parse_page(html, law_type, category):
                     key = row["source_url"]
                     if key in seen_slugs:
@@ -206,24 +223,25 @@ async def crawl_section(
                     chunk_rows += 1
 
             total += chunk_rows
-            log.info("[%s] page-chunk yielded %d rows (running total %d)",
-                     slug, chunk_rows, total)
+            log.info("[%s] chunk: %d/%d pages OK, %d new rows (running total %d)",
+                     slug, chunk_fetched, chunk, chunk_rows, total)
 
             if chunk_rows == 0:
-                # whole chunk produced nothing → assume end of list
+                # whole chunk produced nothing → end of list
                 break
             page += chunk
 
     return total
 
 
-async def amain(targets: Iterable[str], out_dir: Path, chunk: int, concurrency: int, max_pages: int) -> int:
+async def amain(targets: Iterable[str], out_dir: Path, chunk: int, concurrency: int,
+                max_pages: int, deadline_seconds: int) -> int:
     headers = {"User-Agent": UA, "Accept-Language": "id-ID,id;q=0.9"}
     async with httpx.AsyncClient(
         headers=headers,
         http2=True,
         follow_redirects=True,
-        timeout=30,
+        timeout=15,
         limits=httpx.Limits(max_connections=concurrency * 2, max_keepalive_connections=concurrency),
     ) as client:
         for slug in targets:
@@ -232,12 +250,12 @@ async def amain(targets: Iterable[str], out_dir: Path, chunk: int, concurrency: 
                 return 1
             law_type, category = SECTIONS[slug]
             out_path = out_dir / f"{slug}.jsonl"
-            # truncate any prior run
             if out_path.exists():
                 out_path.unlink()
             n = await crawl_section(
                 client, slug, law_type, category, out_path,
-                chunk=chunk, concurrency=concurrency, max_pages=max_pages,
+                chunk=chunk, concurrency=concurrency,
+                max_pages=max_pages, deadline_seconds=deadline_seconds,
             )
             log.info("=== %s done: %d rows → %s ===", slug, n, out_path)
     return 0
@@ -250,10 +268,15 @@ def main() -> int:
     ap.add_argument("--chunk", type=int, default=20, help="pages fetched per round")
     ap.add_argument("--concurrency", type=int, default=10, help="max in-flight requests")
     ap.add_argument("--max-pages", type=int, default=5000)
+    ap.add_argument("--deadline-seconds", type=int, default=1800,
+                    help="absolute time budget per hierarchy (default 30min)")
     args = ap.parse_args()
 
     targets = list(SECTIONS) if args.targets == ["all"] else args.targets
-    return asyncio.run(amain(targets, Path(args.out_dir), args.chunk, args.concurrency, args.max_pages))
+    return asyncio.run(amain(
+        targets, Path(args.out_dir),
+        args.chunk, args.concurrency, args.max_pages, args.deadline_seconds,
+    ))
 
 
 if __name__ == "__main__":

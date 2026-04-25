@@ -3,6 +3,10 @@ name: Full Crawl (peraturan.go.id, all hierarchies)
 on:
   workflow_dispatch:
     inputs:
+      hierarchies:
+        description: "Comma-separated hierarchy slugs (uu,pp,perpres,permen,kepmen,perda). Empty = all."
+        required: false
+        default: "uu,pp,perpres,permen,kepmen"
       max_pages:
         description: "Hard cap on pages per hierarchy"
         required: false
@@ -11,6 +15,10 @@ on:
         description: "Parallel HTTP requests per hierarchy job"
         required: false
         default: "10"
+      deadline_seconds:
+        description: "Absolute time budget per hierarchy (seconds)"
+        required: false
+        default: "1500"
 
 permissions:
   contents: write
@@ -20,54 +28,76 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prepare:
+    name: prepare matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        shell: bash
+        run: |
+          raw="${{ inputs.hierarchies }}"
+          [ -z "$raw" ] && raw="uu,pp,perpres,permen,kepmen,perda"
+          arr=$(python3 -c "import json,sys; print(json.dumps([s.strip() for s in '$raw'.split(',') if s.strip()]))")
+          echo "matrix=$arr" >> "$GITHUB_OUTPUT"
+          echo "matrix: $arr"
+
   scrape:
     name: scrape ${{ matrix.hierarchy }}
+    needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 35
     strategy:
       fail-fast: false
       matrix:
-        hierarchy: [uu, pp, perpres, permen, kepmen, perda]
+        hierarchy: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
-          cache-dependency-path: crawler/requirements.txt
 
-      - name: Install deps (httpx + bs4)
-        run: pip install httpx[http2] beautifulsoup4 lxml
+      - name: Install deps (httpx + bs4 + lxml)
+        run: pip install 'httpx[http2]>=0.27.0' beautifulsoup4 lxml
 
       - name: Crawl ${{ matrix.hierarchy }}
+        timeout-minutes: 30
         run: |
           mkdir -p data/raw
           python -m crawler.peraturan_full ${{ matrix.hierarchy }} \
             --out-dir data/raw \
-            --concurrency ${{ inputs.concurrency || 10 }} \
-            --max-pages ${{ inputs.max_pages || 5000 }}
+            --concurrency ${{ inputs.concurrency }} \
+            --max-pages ${{ inputs.max_pages }} \
+            --deadline-seconds ${{ inputs.deadline_seconds }}
 
       - name: Stats
+        if: always()
         run: |
           f=data/raw/${{ matrix.hierarchy }}.jsonl
           if [ -f "$f" ]; then
             echo "rows: $(wc -l < "$f")"
-            echo "size: $(stat -c%s "$f" 2>/dev/null || stat -f%z "$f") bytes"
-            echo "head:"
-            head -1 "$f"
+            echo "size: $(stat -c%s "$f") bytes"
+            echo "head:"; head -1 "$f"
+            echo "tail:"; tail -1 "$f"
+          else
+            echo "no file"
           fi
 
       - name: Upload artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jsonl-${{ matrix.hierarchy }}
           path: data/raw/${{ matrix.hierarchy }}.jsonl
           retention-days: 7
+          if-no-files-found: ignore
 
   reduce:
     name: merge into DB and commit
     needs: scrape
+    if: always() && needs.scrape.result != 'cancelled'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -97,18 +127,25 @@ jobs:
             echo "$f → $(wc -l < "$f") rows"
           done
 
-      - name: Apply existing translations first (preserves title_ko on upsert)
+      - name: Initialize DB schema
+        run: python -m crawler.db
+
+      - name: Apply existing translations (preserve title_ko on upsert)
         run: |
           shopt -s nullglob
           for f in translations/*.json; do
             python -m crawler.import_translations "$f"
           done
 
-      - name: Initialize DB schema
-        run: python -m crawler.db
-
       - name: Import all JSONL
-        run: python -m crawler.import_jsonl 'data/raw/*.jsonl'
+        run: |
+          shopt -s nullglob
+          files=(data/raw/*.jsonl)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no JSONL files to import"
+            exit 0
+          fi
+          python -m crawler.import_jsonl 'data/raw/*.jsonl'
 
       - name: Re-apply translations (in case import created new ids)
         run: |
