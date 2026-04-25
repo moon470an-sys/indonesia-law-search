@@ -1,7 +1,8 @@
 import LawTable from "@/components/LawTable";
 import MinistryGrid from "@/components/MinistryGrid";
 import PopularSearches from "@/components/PopularSearches";
-import { CATEGORY_META, categoryCounts, listMinistries, listRecent, type LawCategory } from "@/lib/db";
+import { categoryCounts, listMinistries, listRecent } from "@/lib/db";
+import { CATEGORY_META, type LawCategory } from "@/lib/meta";
 import { path } from "@/lib/paths";
 
 export default function HomePage() {

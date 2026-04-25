@@ -1,14 +1,5 @@
 import { path } from "@/lib/paths";
-import { CATEGORY_META, STATUS_META, type Law, type LawStatus } from "@/lib/db";
-
-const STATUS_CLASSES: Record<LawStatus, string> = {
-  berlaku:          "bg-emerald-50 text-emerald-700",
-  diubah:           "bg-amber-50 text-amber-700",
-  dicabut:          "bg-rose-50 text-rose-700",
-  dicabut_sebagian: "bg-rose-50 text-rose-700",
-  belum_berlaku:    "bg-slate-100 text-slate-600",
-  tidak_diketahui:  "bg-slate-100 text-slate-600",
-};
+import { CATEGORY_META, STATUS_META, STATUS_CLASSES, type Law } from "@/lib/meta";
 
 export default function LawTable({ laws }: { laws: Law[] }) {
   if (laws.length === 0) {

@@ -1,15 +1,7 @@
 import { notFound } from "next/navigation";
-import { CATEGORY_META, getById, listAllIds, STATUS_META, type LawStatus } from "@/lib/db";
+import { getById, listAllIds } from "@/lib/db";
+import { CATEGORY_META, STATUS_META, STATUS_CLASSES } from "@/lib/meta";
 import { path } from "@/lib/paths";
-
-const STATUS_CLASSES: Record<LawStatus, string> = {
-  berlaku:          "bg-emerald-50 text-emerald-700",
-  diubah:           "bg-amber-50 text-amber-700",
-  dicabut:          "bg-rose-50 text-rose-700",
-  dicabut_sebagian: "bg-rose-50 text-rose-700",
-  belum_berlaku:    "bg-slate-100 text-slate-600",
-  tidak_diketahui:  "bg-slate-100 text-slate-600",
-};
 
 const TABS = [
   { code: "title",         label: "법령명" },
