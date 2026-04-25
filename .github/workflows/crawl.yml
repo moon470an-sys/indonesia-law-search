@@ -5,6 +5,15 @@ on:
     # KST 06:00 = UTC 21:00 (전일)
     - cron: "0 21 * * *"
   workflow_dispatch:
+    inputs:
+      sources:
+        description: "Space-separated source keys (peraturan / esdm / dephub / bkpm / kemenkeu / kemendag). Empty = all."
+        required: false
+        default: ""
+      probe_peraturan:
+        description: "Run the peraturan.go.id DOM probe before scraping (yes/no)"
+        required: false
+        default: "yes"
 
 jobs:
   crawl:
@@ -26,7 +35,22 @@ jobs:
           pip install -r crawler/requirements.txt
           python -m playwright install --with-deps chromium
 
-      - name: Apply existing translation JSONs (for new rows / re-crawl)
+      - name: Probe peraturan.go.id (DOM discovery)
+        if: ${{ github.event_name != 'schedule' && inputs.probe_peraturan == 'yes' }}
+        run: |
+          mkdir -p data/probe
+          python -m crawler.probe_peraturan 2>&1 | tee data/probe/peraturan_$(date -u +%Y%m%dT%H%M%SZ).log
+        continue-on-error: true
+
+      - name: Upload probe log artifact
+        if: ${{ github.event_name != 'schedule' && inputs.probe_peraturan == 'yes' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: peraturan-probe-log
+          path: data/probe/*.log
+          retention-days: 14
+
+      - name: Apply existing translation JSONs
         run: |
           shopt -s nullglob
           for f in translations/*.json; do
@@ -34,19 +58,24 @@ jobs:
           done
 
       - name: Run crawlers
-        run: python -m crawler.run_all
+        run: |
+          if [ -z "${{ inputs.sources }}" ]; then
+            python -m crawler.run_all
+          else
+            python -m crawler.run_all ${{ inputs.sources }}
+          fi
 
       - name: Export pending translations
         run: python -m crawler.export_pending
 
-      - name: Commit DB + pending markdown
+      - name: Commit DB + pending markdown + probe log
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/laws.db data/pending/*.md 2>/dev/null || true
+          git add data/laws.db data/pending/*.md data/probe/*.log 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes."
           else
-            git commit -m "chore: daily crawl $(date -u +%F)"
+            git commit -m "chore: crawl run $(date -u +%FT%TZ)"
             git push
           fi
