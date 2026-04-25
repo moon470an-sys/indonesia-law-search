@@ -5,12 +5,9 @@ import { classify, getHierarchy } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
 const TABS = [
-  { code: "title",    label: "한국어 요약" },
-  { code: "body",     label: "인니어 원문" },
-  { code: "article",  label: "조문내용" },
-  { code: "addendum", label: "부칙" },
-  { code: "amendment", label: "제정·개정문" },
-  { code: "links",    label: "원문 자료" },
+  { code: "title", label: "한국어 요약" },
+  { code: "body",  label: "인니어 원문" },
+  { code: "links", label: "원문 자료" },
 ];
 
 export function generateStaticParams() {
