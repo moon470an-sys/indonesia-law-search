@@ -98,6 +98,7 @@ export type LawMin = {
   law_number: string;
   title_id: string;
   title_ko: string | null;
+  ministry_code: string | null;
   ministry_name_ko: string | null;
   year: number | null;
   promulgation_date: string | null;
@@ -110,7 +111,7 @@ export function listAllMin(): LawMin[] {
   const rows = db()
     .prepare(
       `SELECT id, category, law_type, law_number, title_id, title_ko,
-              ministry_name_ko, year, promulgation_date, status,
+              ministry_code, ministry_name_ko, year, promulgation_date, status,
               source_url, pdf_url_id
          FROM laws`,
     )
@@ -122,6 +123,7 @@ export function listAllMin(): LawMin[] {
     law_number: r.law_number as string,
     title_id: r.title_id as string,
     title_ko: (r.title_ko as string | null) ?? null,
+    ministry_code: (r.ministry_code as string | null) ?? null,
     ministry_name_ko: (r.ministry_name_ko as string | null) ?? null,
     year: (r.year as number | null) ?? null,
     promulgation_date: (r.promulgation_date as string | null) ?? null,

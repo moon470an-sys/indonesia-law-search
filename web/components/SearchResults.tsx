@@ -29,6 +29,7 @@ type Row = {
   law_number: string;
   title_id: string;
   title_ko: string | null;
+  ministry_code: string | null;
   ministry_name_ko: string | null;
   promulgation_date: string | null;
   status: string;
@@ -79,10 +80,7 @@ export default function SearchResults({
       out = out.filter((law) => classify(law) === target);
     }
     if (ministry) {
-      out = out.filter((law) => {
-        // best-effort: map ministry code via name_ko
-        return law.ministry_name_ko === ministries.find((m) => m.code === ministry)?.name_ko;
-      });
+      out = out.filter((law) => law.ministry_code === ministry);
     }
     if (statusParam && (STATUSES as string[]).includes(statusParam)) {
       out = out.filter((law) => law.status === statusParam);
