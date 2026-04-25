@@ -1,10 +1,19 @@
 import { path } from "@/lib/paths";
-import SearchBox from "./SearchBox";
+import { HIERARCHIES } from "@/lib/hierarchy";
+
+const SLUG: Record<string, string> = {
+  UUD: "uud", TAP: "tap", UU: "uu", PP: "pp", Perpres: "perpres",
+  Permen: "permen", Kepmen: "kepmen", Perda_Prov: "perda_prov",
+  Perda_Kab: "perda_kab", Lainnya: "lainnya",
+};
+
+// 헤더 nav에 노출할 위계 (UUD/TAP/Lainnya는 데이터 풀이 적어 메뉴에서 제외)
+const NAV_KEYS = ["UU", "PP", "Perpres", "Permen", "Kepmen", "Perda_Prov", "Perda_Kab"];
 
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-6 py-4 md:gap-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         <a href={path("/")} className="flex shrink-0 items-center gap-2.5">
           <span className="grid size-9 place-items-center rounded-md bg-brand text-base font-bold text-white shadow-sm">
             법
@@ -14,13 +23,9 @@ export default function SiteHeader() {
           </span>
         </a>
 
-        <div className="order-3 w-full md:order-2 md:flex-1">
-          <SearchBox />
-        </div>
-
         <a
           href={path("/search/?ai=1")}
-          className="order-2 hidden shrink-0 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 md:order-3 md:inline-block"
+          className="hidden shrink-0 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 md:inline-block"
           title="향후 확장 예정"
         >
           AI 법령검색
@@ -31,28 +36,21 @@ export default function SiteHeader() {
   );
 }
 
-const PRIMARY = [
-  { code: "peraturan",  label: "법령",         href: "/search/?category=peraturan" },
-  { code: "keputusan",  label: "행정규칙",      href: "/search/?category=keputusan" },
-  { code: "lampiran",   label: "별표·서식",    href: "/search/?category=lampiran" },
-  { code: "perda",      label: "지방법규",      href: "/search/?category=perda" },
-  { code: "putusan",    label: "판례·해석례",   href: "/search/?category=putusan" },
-  { code: "kepkl",      label: "부처별 결정",   href: "/search/?category=kepkl" },
-  { code: "perjanjian", label: "조약",         href: "/search/?category=perjanjian" },
-  { code: "lainnya",    label: "기타",         href: "/search/?category=lainnya" },
-];
-
 function PrimaryNav() {
+  const items = HIERARCHIES.filter((h) => NAV_KEYS.includes(h.key));
   return (
     <nav className="bg-brand text-white">
-      <ul className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-2 text-[15px] font-medium">
-        {PRIMARY.map((item) => (
-          <li key={item.code}>
+      <ul className="mx-auto flex max-w-7xl items-stretch overflow-x-auto px-2 text-[15px] font-medium">
+        {items.map((h) => (
+          <li key={h.key} className="relative">
             <a
-              href={path(item.href)}
-              className="block whitespace-nowrap px-4 py-3.5 transition-colors hover:bg-brand-dark"
+              href={path(`/search/?hierarchy=${SLUG[h.key]}`)}
+              className="flex items-center gap-2 whitespace-nowrap px-4 py-3.5 transition-colors hover:bg-brand-dark"
             >
-              {item.label}
+              <span className="grid size-5 place-items-center rounded text-[10px] font-bold text-white/90 ring-1 ring-white/30 tabular-nums">
+                {h.rank}
+              </span>
+              {h.name_ko}
             </a>
           </li>
         ))}
