@@ -1,0 +1,148 @@
+name: Full Crawl (peraturan.go.id, all hierarchies)
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_pages:
+        description: "Hard cap on pages per hierarchy"
+        required: false
+        default: "5000"
+      concurrency:
+        description: "Parallel HTTP requests per hierarchy job"
+        required: false
+        default: "10"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crawl-full
+  cancel-in-progress: true
+
+jobs:
+  scrape:
+    name: scrape ${{ matrix.hierarchy }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        hierarchy: [uu, pp, perpres, permen, kepmen, perda]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: crawler/requirements.txt
+
+      - name: Install deps (httpx + bs4)
+        run: pip install httpx[http2] beautifulsoup4 lxml
+
+      - name: Crawl ${{ matrix.hierarchy }}
+        run: |
+          mkdir -p data/raw
+          python -m crawler.peraturan_full ${{ matrix.hierarchy }} \
+            --out-dir data/raw \
+            --concurrency ${{ inputs.concurrency || 10 }} \
+            --max-pages ${{ inputs.max_pages || 5000 }}
+
+      - name: Stats
+        run: |
+          f=data/raw/${{ matrix.hierarchy }}.jsonl
+          if [ -f "$f" ]; then
+            echo "rows: $(wc -l < "$f")"
+            echo "size: $(stat -c%s "$f" 2>/dev/null || stat -f%z "$f") bytes"
+            echo "head:"
+            head -1 "$f"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsonl-${{ matrix.hierarchy }}
+          path: data/raw/${{ matrix.hierarchy }}.jsonl
+          retention-days: 7
+
+  reduce:
+    name: merge into DB and commit
+    needs: scrape
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: crawler/requirements.txt
+
+      - name: Install deps
+        run: pip install -r crawler/requirements.txt
+
+      - name: Download all jsonl artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: data/raw
+          pattern: jsonl-*
+          merge-multiple: true
+
+      - name: List artifacts
+        run: |
+          ls -la data/raw/ || true
+          for f in data/raw/*.jsonl; do
+            [ -e "$f" ] || continue
+            echo "$f → $(wc -l < "$f") rows"
+          done
+
+      - name: Apply existing translations first (preserves title_ko on upsert)
+        run: |
+          shopt -s nullglob
+          for f in translations/*.json; do
+            python -m crawler.import_translations "$f"
+          done
+
+      - name: Initialize DB schema
+        run: python -m crawler.db
+
+      - name: Import all JSONL
+        run: python -m crawler.import_jsonl 'data/raw/*.jsonl'
+
+      - name: Re-apply translations (in case import created new ids)
+        run: |
+          shopt -s nullglob
+          for f in translations/*.json; do
+            python -m crawler.import_translations "$f"
+          done
+
+      - name: DB stats
+        run: |
+          python - <<'PY'
+          import sqlite3
+          c = sqlite3.connect("data/laws.db")
+          for src, n in c.execute("SELECT source, COUNT(*) FROM laws GROUP BY source ORDER BY n DESC"):
+              print(f"  {src:20} {n}")
+          print()
+          for cat, n in c.execute("SELECT category, COUNT(*) FROM laws GROUP BY category ORDER BY n DESC"):
+              print(f"  {cat:15} {n}")
+          print()
+          total = c.execute("SELECT COUNT(*) FROM laws").fetchone()[0]
+          translated = c.execute("SELECT COUNT(*) FROM laws WHERE title_ko IS NOT NULL").fetchone()[0]
+          print(f"total: {total}; translated: {translated}; pending: {total-translated}")
+          PY
+
+      - name: Commit DB
+        shell: bash
+        run: |
+          set -x
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/laws.db
+          if git diff --cached --quiet; then
+            echo "No DB changes."
+            exit 0
+          fi
+          git commit -m "chore: full crawl $(date -u +%FT%TZ)"
+          git push || (sleep 5 && git pull --rebase origin main && git push)
