@@ -13,6 +13,7 @@ out/
 web/out/
 .turbo/
 *.log
+!data/probe/*.log
 tmp_*.html
 
 # Data — laws.db는 git에 커밋(GitHub Pages 배포용 단일 소스).

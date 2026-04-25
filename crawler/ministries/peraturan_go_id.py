@@ -25,6 +25,16 @@ log = logging.getLogger(__name__)
 
 NUMBER_RE = re.compile(r"(?:Nomor|No\.?)\s*([\w./-]+)\s+Tahun\s+(\d{4})", re.IGNORECASE)
 
+# 네비게이션/통계/카테고리 페이지 — 법령 detail 이 아님
+NAV_SLUGS = frozenset({
+    "rekapitulasi", "grafik", "statistik", "infografis",
+    "tentang", "kontak", "bantuan", "pencarian",
+    "permenperin", "permenkeu", "permenhub", "permenesdm",
+    "permenag", "permenkes", "permendag", "permendagri",
+    "permenkominfo", "permenpan", "permensos", "permendikbud",
+    "permenpu", "permenpera", "permenpan-rb",
+})
+
 
 @dataclass(frozen=True)
 class _Section:
@@ -85,10 +95,20 @@ class PeraturanGoIdScraper(BaseScraper):
                     # 분류 페이지 자체 링크는 스킵
                     if href.rstrip("/").endswith(section.path):
                         continue
+                    # 네비게이션/통계/하위 카테고리 링크 스킵
+                    last_seg = href.rstrip("/").rsplit("/", 1)[-1].lower().strip()
+                    if last_seg in NAV_SLUGS:
+                        continue
+                    # 진짜 detail은 보통 숫자나 'tahun' 같은 토큰을 포함
+                    if not re.search(r"\d|tahun|details", last_seg):
+                        continue
                     seen.add(href)
 
                     title_id = (await el.inner_text()).strip()
-                    if not title_id or len(title_id) < 5:
+                    if not title_id or len(title_id) < 10:
+                        continue
+                    # 단순 메뉴 라벨은 제외
+                    if title_id.lower() in {"lihat grafik", "rekapitulasi", "permen"}:
                         continue
 
                     detail_url = urljoin(self.base_url, href)
