@@ -84,6 +84,21 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
+      - name: Commit probe log to git (so we can read it)
+        if: ${{ inputs.probe_first == 'yes' }}
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p data/enrich-probe
+          git add -f data/enrich-probe/${{ matrix.hierarchy }}.log || true
+          if git diff --cached --quiet; then
+            echo "no probe log to commit"
+            exit 0
+          fi
+          git commit -m "chore: enrich probe log ${{ matrix.hierarchy }} $(date -u +%FT%TZ)"
+          git push || (sleep 5 && git pull --rebase origin main && git push) || true
+
       - name: Enrich ${{ matrix.hierarchy }}
         timeout-minutes: 30
         run: |
