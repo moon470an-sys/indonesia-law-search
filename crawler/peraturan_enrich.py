@@ -93,23 +93,22 @@ def parse_date_id(text: str) -> str | None:
 
 
 def select_hierarchy_rows(db_path: Path, hierarchy: str, limit: int) -> list[tuple[int, str]]:
-    """Return (id, source_url) rows belonging to the given hierarchy bucket."""
+    """Return (id, source_url) rows belonging to the given hierarchy bucket,
+    sorted by year DESC so probes hit modern (richer) detail pages first."""
     prefixes = HIERARCHY_PREFIXES.get(hierarchy)
     if not prefixes:
         log.error("unknown hierarchy: %s", hierarchy)
         return []
-    placeholders = ",".join(["?"] * len(prefixes))
-    # We extract slug prefix in SQL — use a subquery with INSTR for portability.
-    # Simpler: fetch all peraturan_go_id rows then filter in Python.
     con = sqlite3.connect(db_path)
     rows = con.execute(
-        "SELECT id, source_url FROM laws WHERE source = 'peraturan_go_id'"
+        "SELECT id, source_url, COALESCE(year, 0) AS y "
+        "FROM laws WHERE source = 'peraturan_go_id' "
+        "ORDER BY y DESC, id DESC"
     ).fetchall()
     con.close()
 
     out: list[tuple[int, str]] = []
-    for row_id, url in rows:
-        # /id/<prefix>-... pattern
+    for row_id, url, _y in rows:
         path_part = url.split("peraturan.go.id", 1)[-1]
         m = re.match(r"^/id/([a-z]+)", path_part, re.IGNORECASE)
         if not m:
@@ -274,28 +273,53 @@ async def amain(targets: Iterable[str], db_path: Path, out_dir: Path,
 
 
 def probe_main(args) -> int:
-    """Fetch a few detail URLs and dump parsed fields + a snippet of HTML for selector tuning."""
+    """Fetch a few detail URLs and dump parsed fields + selector hits + raw HTML hints."""
     rows = select_hierarchy_rows(Path(args.db), args.hierarchy, args.probe)
-    print(f"=== probing {len(rows)} {args.hierarchy} rows ===")
+    print(f"=== probing {len(rows)} {args.hierarchy} rows (newest first) ===")
     headers = {"User-Agent": UA, "Accept-Language": "id-ID,id;q=0.9"}
+
+    candidates = [
+        "ul.info_booking", "ul.info-booking", "ul.law-info",
+        "table.detail", "table.detail-info", "table.law-detail",
+        "dl.detail-list", "dl.detail", "div.law-meta", "div.detail-meta",
+        "div.detail", "section.detail",
+        "div.col-md-7", "div.col-lg-7",  # peraturan.go.id often uses these
+    ]
 
     async def go() -> None:
         async with httpx.AsyncClient(headers=headers, http2=True, follow_redirects=True, timeout=15) as c:
             for rid, url in rows:
-                print(f"\n--- id={rid} {url} ---")
+                print(f"\n=== id={rid} {url} ===")
                 html = await fetch(c, url)
                 if html is None:
                     print("  fetch failed")
                     continue
                 fields = parse_detail(html)
-                print(f"  parsed: {json.dumps(fields, ensure_ascii=False)}")
+                print(f"parsed: {json.dumps(fields, ensure_ascii=False)}")
                 soup = BeautifulSoup(html, "lxml")
-                for sel in ("ul.info_booking", "table.detail", "dl.detail-list",
-                            "div.law-meta", "div.detail", "section.detail"):
+
+                # selector hits
+                for sel in candidates:
                     nodes = soup.select(sel)
                     if nodes:
-                        print(f"  selector hit: {sel} (n={len(nodes)})")
-                        print(f"    snippet: {nodes[0].get_text(' ', strip=True)[:300]}")
+                        print(f"  hit {sel} (n={len(nodes)}): "
+                              f"{nodes[0].get_text(' ', strip=True)[:240]}")
+
+                # explicit Tanggal Penetapan / Pengundangan / Status text presence
+                txt = soup.get_text("\n", strip=True)
+                for kw in ("Tanggal Penetapan", "Tanggal Pengundangan",
+                           "Tanggal Berlaku", "Status", "Bentuk", "Pemrakarsa",
+                           "Disahkan di", "Ditetapkan di", "Diundangkan di"):
+                    idx = txt.find(kw)
+                    if idx >= 0:
+                        snippet = txt[idx:idx + 100].replace("\n", " | ")
+                        print(f"  TEXT '{kw}': {snippet}")
+
+                # dump first 2KB of body for forensics
+                body = soup.find("body")
+                if body:
+                    raw = str(body)[:2500]
+                    print(f"  BODY[:2500]: {raw}")
 
     asyncio.run(go())
     return 0
