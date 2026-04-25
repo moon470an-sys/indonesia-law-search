@@ -13,16 +13,18 @@ const POPULAR = [
 
 export default function PopularSearches() {
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-      <span className="font-semibold text-slate-700">인기 검색어</span>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm">
+      <span className="font-bold text-slate-700">인기 검색어</span>
       {POPULAR.map((p, i) => (
         <a
           key={p.term}
           href={path(`/search/?q=${encodeURIComponent(p.term)}`)}
-          className="text-slate-600 hover:text-blue-700"
+          className="text-slate-600 transition-colors hover:text-brand"
           title={p.note}
         >
-          <span className="mr-1 text-xs text-slate-400">{i + 1}.</span>
+          <span className="mr-1 text-xs font-semibold text-slate-400">
+            {i + 1}.
+          </span>
           {p.term}
         </a>
       ))}

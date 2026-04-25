@@ -16,7 +16,6 @@ const FIELDS = [
 ];
 
 export default function SearchPage() {
-  // load every translated law at build time, then filter client-side
   const laws = search({ limit: 5000 });
   const ministries = listMinistries();
 
@@ -29,7 +28,7 @@ export default function SearchPage() {
           <li key={f.code}>
             <a
               href={path(f.code === "title" ? "/search/" : `/search/?field=${f.code}`)}
-              className="block whitespace-nowrap px-4 py-2 text-slate-600 hover:text-blue-700"
+              className="block whitespace-nowrap px-4 py-2.5 font-medium text-slate-600 transition-colors hover:text-brand"
             >
               {f.label}
             </a>

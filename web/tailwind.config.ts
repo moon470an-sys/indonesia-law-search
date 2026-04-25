@@ -5,7 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Pretendard"', '"Noto Sans KR"', "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)"],
+      },
+      maxWidth: {
+        "7xl": "76rem",
+      },
+      colors: {
+        brand: {
+          DEFAULT: "#1d4ed8",   // blue-700
+          dark: "#1e3a8a",      // blue-900
+          soft: "#eff6ff",      // blue-50
+        },
+      },
+      lineHeight: {
+        snug: "1.45",
+        normal: "1.65",
       },
     },
   },

@@ -62,7 +62,6 @@ export default function SearchResults({
       out = out.filter((law) => law.era === era);
     }
     if (recent) {
-      // simple "recent N days" by promulgation_date sort, top N rows
       const n = Math.max(1, Math.min(200, Number(recent) || 30));
       out = [...out]
         .sort((a, b) => (b.promulgation_date ?? "").localeCompare(a.promulgation_date ?? ""))
@@ -85,11 +84,14 @@ export default function SearchResults({
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-[220px_1fr]">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
       <aside className="space-y-4 text-sm">
         <FilterBox title="1차 메뉴">
           <FilterLink href={link({ category: undefined })} active={!category}>
-            전체 ({laws.length})
+            전체
+            <span className="text-xs font-semibold text-slate-400 tabular-nums">
+              {laws.length}
+            </span>
           </FilterLink>
           {(Object.keys(CATEGORY_META) as LawCategory[]).map((c) => {
             const cnt = laws.filter((l) => l.category === c).length;
@@ -99,9 +101,11 @@ export default function SearchResults({
                 key={c}
                 href={link({ category: c })}
                 active={category === c}
-                count={cnt}
               >
                 {CATEGORY_META[c].name_ko}
+                <span className="text-xs font-semibold text-slate-400 tabular-nums">
+                  {cnt}
+                </span>
               </FilterLink>
             );
           })}
@@ -117,9 +121,11 @@ export default function SearchResults({
                 key={m.code}
                 href={link({ ministry: m.code })}
                 active={ministry === m.code}
-                count={m.count}
               >
                 {m.name_ko}
+                <span className="text-xs font-semibold text-slate-400 tabular-nums">
+                  {m.count}
+                </span>
               </FilterLink>
             ))}
           </FilterBox>
@@ -141,17 +147,23 @@ export default function SearchResults({
         </FilterBox>
       </aside>
 
-      <div className="space-y-3">
-        <p className="text-sm text-slate-600">
-          {filtered.length === 0 ? (
-            "검색 결과가 없습니다."
-          ) : (
-            <>
-              <span className="font-bold text-slate-900">{filtered.length}건</span> 의 결과
-              {q ? <> · <span className="font-medium">"{q}"</span></> : null}
-            </>
-          )}
-        </p>
+      <div className="space-y-4">
+        <header className="flex items-baseline justify-between border-b border-slate-200 pb-3">
+          <p className="text-base text-slate-700">
+            {filtered.length === 0 ? (
+              "검색 결과가 없습니다."
+            ) : (
+              <>
+                <span className="text-2xl font-bold text-slate-900 tabular-nums">
+                  {filtered.length.toLocaleString()}
+                </span>
+                <span className="ml-1 font-semibold text-slate-700">건</span>
+                <span className="ml-1 text-slate-500">의 결과</span>
+                {q ? <span className="ml-2 text-slate-500">· "<span className="font-medium text-slate-800">{q}</span>"</span> : null}
+              </>
+            )}
+          </p>
+        </header>
         <LawTable laws={filtered} />
       </div>
     </div>
@@ -160,8 +172,8 @@ export default function SearchResults({
 
 function FilterBox({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-md border border-slate-200 bg-white p-3">
-      <h4 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">
+    <div className="rounded-lg border border-slate-200 bg-white p-4">
+      <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">
         {title}
       </h4>
       <ul className="space-y-1">{children}</ul>
@@ -170,28 +182,25 @@ function FilterBox({ title, children }: { title: string; children: React.ReactNo
 }
 
 function FilterLink({
-  href, active, count, children,
+  href, active, children,
 }: {
   href: string;
   active: boolean;
-  count?: number;
   children: React.ReactNode;
 }) {
   return (
-    <li className="flex items-center justify-between">
+    <li>
       <a
         href={href}
         className={
-          active
-            ? "font-semibold text-blue-700"
-            : "text-slate-600 hover:text-blue-700"
+          "flex items-center justify-between gap-2 rounded-md px-2 py-1.5 transition-colors " +
+          (active
+            ? "bg-blue-50 font-semibold text-brand"
+            : "text-slate-700 hover:bg-slate-50 hover:text-brand")
         }
       >
         {children}
       </a>
-      {typeof count === "number" && (
-        <span className="text-[11px] text-slate-400">{count}</span>
-      )}
     </li>
   );
 }
