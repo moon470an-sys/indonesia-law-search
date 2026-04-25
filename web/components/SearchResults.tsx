@@ -3,9 +3,8 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import LawTable from "./LawTable";
-import type { Law, LawCategory, LawStatus } from "@/lib/meta";
-import { CATEGORY_META } from "@/lib/meta";
-import { HIERARCHIES, classify, getHierarchy, type HierarchyKey } from "@/lib/hierarchy";
+import type { LawStatus } from "@/lib/meta";
+import { HIERARCHIES, classify, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
 const STATUSES: LawStatus[] = [
@@ -23,24 +22,39 @@ const SLUG_OF: Record<HierarchyKey, string> = Object.fromEntries(
   Object.entries(HIERARCHY_SLUG).map(([slug, key]) => [key, slug])
 ) as Record<HierarchyKey, string>;
 
+type Row = {
+  id: number;
+  category: string;
+  law_type: string;
+  law_number: string;
+  title_id: string;
+  title_ko: string | null;
+  ministry_name_ko: string | null;
+  promulgation_date: string | null;
+  status: string;
+  source_url: string;
+};
+
 type Ministry = { code: string; name_ko: string; count: number };
 
 export default function SearchResults({
   laws,
   ministries,
+  // when set, the page is already scoped to one hierarchy and we hide that facet
+  fixedHierarchy,
 }: {
-  laws: Law[];
+  laws: Row[];
   ministries: Ministry[];
+  fixedHierarchy?: HierarchyKey;
 }) {
   const sp = useSearchParams();
   const q = (sp.get("q") ?? "").trim();
-  const category = sp.get("category");
+  const hierarchySlug = sp.get("hierarchy");
   const ministry = sp.get("ministry");
   const statusParam = sp.get("status");
-  const hierarchySlug = sp.get("hierarchy");
+  const onlyTranslated = sp.get("translated") === "1";
   const recent = sp.get("recent");
 
-  // local UI state: grouping mode (default ON when no query, OFF when searching)
   const [grouped, setGrouped] = useState(true);
 
   const filtered = useMemo(() => {
@@ -52,28 +66,29 @@ export default function SearchResults({
         const hay = (
           (law.title_ko ?? "") + " " +
           (law.title_id ?? "") + " " +
-          (law.summary_ko ?? "") + " " +
           (law.law_number ?? "") + " " +
           (law.law_type ?? "") + " " +
-          (law.keywords ?? []).join(" ") + " " +
-          (law.categories ?? []).join(" ")
+          (law.ministry_name_ko ?? "")
         ).toLowerCase();
         return tokens.every((t) => hay.includes(t));
       });
     }
 
-    if (category && category in CATEGORY_META) {
-      out = out.filter((law) => law.category === category);
+    if (!fixedHierarchy && hierarchySlug && hierarchySlug in HIERARCHY_SLUG) {
+      const target = HIERARCHY_SLUG[hierarchySlug];
+      out = out.filter((law) => classify(law) === target);
     }
     if (ministry) {
-      out = out.filter((law) => law.ministry_code === ministry);
+      out = out.filter((law) => {
+        // best-effort: map ministry code via name_ko
+        return law.ministry_name_ko === ministries.find((m) => m.code === ministry)?.name_ko;
+      });
     }
     if (statusParam && (STATUSES as string[]).includes(statusParam)) {
       out = out.filter((law) => law.status === statusParam);
     }
-    if (hierarchySlug && hierarchySlug in HIERARCHY_SLUG) {
-      const target = HIERARCHY_SLUG[hierarchySlug];
-      out = out.filter((law) => classify(law) === target);
+    if (onlyTranslated) {
+      out = out.filter((law) => law.title_ko != null);
     }
     if (recent) {
       const n = Math.max(1, Math.min(500, Number(recent) || 30));
@@ -83,11 +98,10 @@ export default function SearchResults({
     }
 
     return out;
-  }, [laws, q, category, ministry, statusParam, hierarchySlug, recent]);
+  }, [laws, q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, fixedHierarchy, ministries]);
 
-  // Group by hierarchy (only when grouped mode)
   const groups = useMemo(() => {
-    const map = new Map<HierarchyKey, Law[]>();
+    const map = new Map<HierarchyKey, Row[]>();
     for (const law of filtered) {
       const k = classify(law);
       if (!map.has(k)) map.set(k, []);
@@ -98,7 +112,6 @@ export default function SearchResults({
       .filter((g) => g.items.length > 0);
   }, [filtered]);
 
-  // Filter link helper
   const baseParams = new URLSearchParams();
   if (q) baseParams.set("q", q);
   const link = (extra: Record<string, string | undefined>) => {
@@ -109,51 +122,42 @@ export default function SearchResults({
     return path(`/search/${p.toString() ? "?" + p : ""}`);
   };
 
-  const activeHierarchy = hierarchySlug ? HIERARCHY_SLUG[hierarchySlug] : null;
+  const activeHierarchy = fixedHierarchy ?? (hierarchySlug ? HIERARCHY_SLUG[hierarchySlug] : null);
+  const transCount = laws.filter((l) => l.title_ko != null).length;
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-[260px_1fr]">
       <aside className="space-y-4 text-sm">
-        <FilterBox title="법위계">
-          <FilterLink href={link({ hierarchy: undefined })} active={!activeHierarchy}>
-            전체
-            <Count n={laws.length} />
-          </FilterLink>
-          {HIERARCHIES.map((h) => {
-            const cnt = laws.filter((l) => classify(l) === h.key).length;
-            if (cnt === 0) return null;
-            return (
-              <FilterLink
-                key={h.key}
-                href={link({ hierarchy: SLUG_OF[h.key] })}
-                active={activeHierarchy === h.key}
-                accent={h.classes.text}
-                dot={h.classes.bgStrong}
-              >
-                {h.name_ko}
-                <Count n={cnt} />
-              </FilterLink>
-            );
-          })}
-        </FilterBox>
-
-        {ministries.length > 0 && (
-          <FilterBox title="소관 부처">
-            <FilterLink href={link({ ministry: undefined })} active={!ministry}>
-              전체
+        {!fixedHierarchy && (
+          <FilterBox title="법위계">
+            <FilterLink href={link({ hierarchy: undefined })} active={!activeHierarchy}>
+              전체 <Count n={laws.length} />
             </FilterLink>
-            {ministries.map((m) => (
-              <FilterLink
-                key={m.code}
-                href={link({ ministry: m.code })}
-                active={ministry === m.code}
-              >
-                {m.name_ko}
-                <Count n={m.count} />
-              </FilterLink>
-            ))}
+            {HIERARCHIES.map((h) => {
+              const cnt = laws.filter((l) => classify(l) === h.key).length;
+              if (cnt === 0) return null;
+              return (
+                <FilterLink
+                  key={h.key}
+                  href={link({ hierarchy: SLUG_OF[h.key] })}
+                  active={activeHierarchy === h.key}
+                  dot={h.classes.bgStrong}
+                >
+                  {h.name_ko} <Count n={cnt} />
+                </FilterLink>
+              );
+            })}
           </FilterBox>
         )}
+
+        <FilterBox title="번역 상태">
+          <FilterLink href={link({ translated: undefined })} active={!onlyTranslated}>
+            전체 (번역+미번역)
+          </FilterLink>
+          <FilterLink href={link({ translated: "1" })} active={onlyTranslated}>
+            한국어 번역만 <Count n={transCount} />
+          </FilterLink>
+        </FilterBox>
 
         <FilterBox title="상태">
           <FilterLink href={link({ status: undefined })} active={!statusParam}>전체</FilterLink>
@@ -190,7 +194,7 @@ export default function SearchResults({
             )}
           </p>
 
-          {filtered.length > 0 && (
+          {filtered.length > 0 && !fixedHierarchy && (
             <div className="inline-flex rounded-md border border-slate-200 bg-white p-0.5 text-xs">
               <button
                 type="button"
@@ -220,7 +224,7 @@ export default function SearchResults({
           <p className="rounded-lg border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
             검색 결과가 없습니다.
           </p>
-        ) : grouped ? (
+        ) : grouped && !fixedHierarchy ? (
           <div className="space-y-6">
             {groups.map(({ h, items }) => (
               <section
@@ -245,12 +249,23 @@ export default function SearchResults({
                     {items.length.toLocaleString()}건
                   </p>
                 </header>
-                <LawTable laws={items} compact />
+                <LawTable laws={items.slice(0, 200)} compact />
+                {items.length > 200 && (
+                  <div className="border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-xs text-slate-500">
+                    상위 200건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
+                    <a
+                      href={path(`/search/${SLUG_OF[h.key]}/`)}
+                      className="font-semibold text-brand hover:underline"
+                    >
+                      {h.name_ko} 인덱스 →
+                    </a>
+                  </div>
+                )}
               </section>
             ))}
           </div>
         ) : (
-          <LawTable laws={filtered} />
+          <LawTable laws={filtered.slice(0, 500)} />
         )}
       </div>
     </div>
@@ -259,7 +274,7 @@ export default function SearchResults({
 
 function Count({ n }: { n: number }) {
   return (
-    <span className="text-xs font-semibold text-slate-400 tabular-nums">{n}</span>
+    <span className="ml-auto text-xs font-semibold text-slate-400 tabular-nums">{n}</span>
   );
 }
 
@@ -275,15 +290,10 @@ function FilterBox({ title, children }: { title: string; children: React.ReactNo
 }
 
 function FilterLink({
-  href,
-  active,
-  accent,
-  dot,
-  children,
+  href, active, dot, children,
 }: {
   href: string;
   active: boolean;
-  accent?: string;
   dot?: string;
   children: React.ReactNode;
 }) {
@@ -295,7 +305,7 @@ function FilterLink({
           "flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors " +
           (active
             ? "bg-slate-900 font-semibold text-white"
-            : `${accent ?? "text-slate-700"} hover:bg-slate-50 hover:text-slate-900`)
+            : "text-slate-700 hover:bg-slate-50 hover:text-slate-900")
         }
       >
         {dot && !active && (

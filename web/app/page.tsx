@@ -2,12 +2,15 @@ import HierarchyMap from "@/components/HierarchyMap";
 import LawTable from "@/components/LawTable";
 import MinistryGrid from "@/components/MinistryGrid";
 import PopularSearches from "@/components/PopularSearches";
-import { listMinistries, listRecent, search } from "@/lib/db";
+import { listAllMin, listMinistries } from "@/lib/db";
 import { path } from "@/lib/paths";
 
 export default function HomePage() {
-  const allLaws = search({ limit: 5000 });
-  const recent = listRecent(8);
+  const all = listAllMin();
+  const recent = [...all]
+    .filter((l) => l.title_ko)
+    .sort((a, b) => (b.promulgation_date ?? "").localeCompare(a.promulgation_date ?? ""))
+    .slice(0, 8);
   const ministries = listMinistries();
 
   return (
@@ -16,13 +19,13 @@ export default function HomePage() {
 
       <Section
         title="법위계별 분포"
-        subtitle="인도네시아 법령은 UU(법률) → PP(정부령) → Perpres(대통령령) → Permen(부령) → Perda(지방조례)의 수직 위계로 구성됩니다."
+        subtitle={`인도네시아 법령은 UU(법률) → PP(정부령) → Perpres(대통령령) → Permen(부령) → Perda(지방조례)의 수직 위계로 구성됩니다. 전체 ${all.length.toLocaleString()}건 메타가 등록되어 있습니다.`}
         href="/search/"
       >
-        <HierarchyMap laws={allLaws} />
+        <HierarchyMap laws={all} />
       </Section>
 
-      <Section title="최신법령" subtitle="최근 공포된 법령 8건" href="/search/?recent=30">
+      <Section title="최신법령" subtitle="최근 공포된 한국어 번역 8건" href="/search/?recent=30">
         <LawTable laws={recent} />
       </Section>
 

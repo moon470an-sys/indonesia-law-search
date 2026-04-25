@@ -87,6 +87,50 @@ export function listAllIds(): number[] {
   ).map((r) => r.id);
 }
 
+/**
+ * Minimal projection used by hierarchy index pages. Avoids inlining the heavy
+ * fields (categories/keywords/summary_ko) when listing 5,000+ rows.
+ */
+export type LawMin = {
+  id: number;
+  category: string;
+  law_type: string;
+  law_number: string;
+  title_id: string;
+  title_ko: string | null;
+  ministry_name_ko: string | null;
+  year: number | null;
+  promulgation_date: string | null;
+  status: string;
+  source_url: string;
+  pdf_url_id: string | null;
+};
+
+export function listAllMin(): LawMin[] {
+  const rows = db()
+    .prepare(
+      `SELECT id, category, law_type, law_number, title_id, title_ko,
+              ministry_name_ko, year, promulgation_date, status,
+              source_url, pdf_url_id
+         FROM laws`,
+    )
+    .all() as Record<string, unknown>[];
+  return rows.map((r) => ({
+    id: r.id as number,
+    category: r.category as string,
+    law_type: r.law_type as string,
+    law_number: r.law_number as string,
+    title_id: r.title_id as string,
+    title_ko: (r.title_ko as string | null) ?? null,
+    ministry_name_ko: (r.ministry_name_ko as string | null) ?? null,
+    year: (r.year as number | null) ?? null,
+    promulgation_date: (r.promulgation_date as string | null) ?? null,
+    status: r.status as string,
+    source_url: r.source_url as string,
+    pdf_url_id: (r.pdf_url_id as string | null) ?? null,
+  }));
+}
+
 export function listMinistries(): { code: string; name_ko: string; count: number }[] {
   const rows = db()
     .prepare(

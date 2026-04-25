@@ -1,14 +1,27 @@
 import { path } from "@/lib/paths";
-import { CATEGORY_META, STATUS_META, STATUS_CLASSES, type Law } from "@/lib/meta";
+import { STATUS_META, STATUS_CLASSES, type LawStatus } from "@/lib/meta";
 import HierarchyBadge from "./HierarchyBadge";
 
-type Props = {
-  laws: Law[];
-  /** Compact: drop the hierarchy column (used inside grouped sections where header already names the hierarchy). */
-  compact?: boolean;
+type Row = {
+  id: number;
+  category: string;
+  law_type: string;
+  law_number: string;
+  title_id: string;
+  title_ko: string | null;
+  ministry_name_ko: string | null;
+  promulgation_date: string | null;
+  status: string;
+  source_url: string;
 };
 
-export default function LawTable({ laws, compact = false }: Props) {
+export default function LawTable({
+  laws,
+  compact = false,
+}: {
+  laws: Row[];
+  compact?: boolean;
+}) {
   if (laws.length === 0) {
     return (
       <p className="rounded-lg border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
@@ -18,7 +31,13 @@ export default function LawTable({ laws, compact = false }: Props) {
   }
 
   return (
-    <div className={compact ? "overflow-x-auto" : "overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm"}>
+    <div
+      className={
+        compact
+          ? "overflow-x-auto"
+          : "overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm"
+      }
+    >
       <table className="w-full text-[15px]">
         <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500">
           <tr>
@@ -34,33 +53,34 @@ export default function LawTable({ laws, compact = false }: Props) {
         </thead>
         <tbody className="divide-y divide-slate-100">
           {laws.map((law) => {
-            const status = STATUS_META[law.status];
+            const translated = !!law.title_ko;
+            const status = STATUS_META[(law.status as LawStatus)] ?? STATUS_META.berlaku;
+            const cls = STATUS_CLASSES[(law.status as LawStatus)] ?? STATUS_CLASSES.berlaku;
+            const detailHref = translated
+              ? path(`/laws/${law.id}/`)
+              : law.source_url;
             return (
               <tr key={law.id} className="transition-colors hover:bg-blue-50/40">
                 <td className="px-5 py-4 align-top">
                   <a
-                    href={path(`/laws/${law.id}/`)}
+                    href={detailHref}
+                    target={translated ? undefined : "_blank"}
+                    rel={translated ? undefined : "noreferrer"}
                     className="block text-[15px] font-semibold leading-snug text-slate-900 hover:text-brand hover:underline"
                   >
-                    {law.title_ko ?? law.title_id}
+                    {translated ? law.title_ko : law.title_id}
                   </a>
-                  {law.title_ko && (
+                  {translated && (
                     <p className="mt-1 text-[13px] italic leading-relaxed text-slate-500 line-clamp-2">
                       {law.title_id}
                     </p>
                   )}
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <span className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">
-                      {CATEGORY_META[law.category]?.name_ko ?? law.category}
-                    </span>
-                    {law.categories?.slice(0, 4).map((c) => (
-                      <span
-                        key={c}
-                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600"
-                      >
-                        {c}
+                    {!translated && (
+                      <span className="rounded bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 ring-1 ring-amber-200">
+                        미번역
                       </span>
-                    ))}
+                    )}
                   </div>
                 </td>
                 {!compact && (
@@ -79,7 +99,7 @@ export default function LawTable({ laws, compact = false }: Props) {
                 </td>
                 <td className="px-3 py-4 align-top">
                   <span
-                    className={`inline-block rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap ${STATUS_CLASSES[law.status]}`}
+                    className={`inline-block rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap ${cls}`}
                   >
                     {status.name_ko}
                   </span>
