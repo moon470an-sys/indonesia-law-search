@@ -1,39 +1,86 @@
-import LawCard from "@/components/LawCard";
-import MinistryFilter from "@/components/MinistryFilter";
-import SearchBox from "@/components/SearchBox";
-import { listMinistries, listRecent } from "@/lib/db";
+import LawTable from "@/components/LawTable";
+import MinistryGrid from "@/components/MinistryGrid";
+import PopularSearches from "@/components/PopularSearches";
+import { CATEGORY_META, categoryCounts, listMinistries, listRecent, type LawCategory } from "@/lib/db";
+import { path } from "@/lib/paths";
 
 export default function HomePage() {
-  const recent = listRecent(20);
+  const recent = listRecent(10);
   const ministries = listMinistries();
+  const counts = categoryCounts();
+
+  const categoryOrder: LawCategory[] = [
+    "peraturan", "keputusan", "lampiran", "perda",
+    "putusan", "kepkl", "perjanjian", "lainnya",
+  ];
 
   return (
     <div className="space-y-8">
-      <section className="rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-8 text-white shadow">
-        <h1 className="text-2xl font-bold">인도네시아 법령을 한국어로 검색하세요</h1>
-        <p className="mt-2 text-sm text-blue-100">
-          교통부, ESDM, BKPM, 재무부, 무역부 — 5개 부처의 JDIH 법령 정보를 매일 갱신합니다.
-        </p>
-        <div className="mt-6">
-          <SearchBox />
-        </div>
-      </section>
+      <PopularSearches />
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-[220px_1fr]">
-        <MinistryFilter ministries={ministries} baseHref="/search/" />
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold">최근 공포된 법령</h2>
-          {recent.length === 0 ? (
-            <p className="text-sm text-slate-500">아직 등록된 법령이 없습니다.</p>
-          ) : (
-            <div className="grid gap-3">
-              {recent.map((law) => (
-                <LawCard key={law.id} law={law} />
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card title="최신법령" href="/search/?recent=30" subtitle="최근 공포된 법령 10건">
+          <LawTable laws={recent} />
+        </Card>
+
+        <div className="space-y-6">
+          <Card title="법령 카테고리" href="/search/" subtitle="1차 메뉴별 등록 건수">
+            <ul className="grid grid-cols-2 gap-2 text-sm">
+              {categoryOrder.map((c) => (
+                <li key={c}>
+                  <a
+                    href={path(`/search/?category=${c}`)}
+                    className="flex items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 hover:border-blue-300"
+                  >
+                    <span className="font-medium text-slate-700">
+                      {CATEGORY_META[c].name_ko}
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      {counts[c]}건
+                    </span>
+                  </a>
+                </li>
               ))}
-            </div>
-          )}
+            </ul>
+          </Card>
+
+          <Card title="부처별 빠른 진입" href="/search/" subtitle="소관 부처로 검색">
+            <MinistryGrid counts={ministries} />
+          </Card>
         </div>
       </section>
     </div>
+  );
+}
+
+function Card({
+  title,
+  subtitle,
+  href,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="mb-3 flex items-baseline justify-between">
+        <div>
+          <h2 className="text-base font-bold text-slate-800">{title}</h2>
+          {subtitle && (
+            <p className="text-xs text-slate-500">{subtitle}</p>
+          )}
+        </div>
+        <a
+          href={path(href)}
+          className="text-xs text-blue-700 hover:underline"
+        >
+          더보기 →
+        </a>
+      </div>
+      {children}
+    </section>
   );
 }

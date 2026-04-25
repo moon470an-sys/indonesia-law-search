@@ -1,25 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Disclaimer from "@/components/Disclaimer";
-import { path } from "@/lib/paths";
+import SiteHeader from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "인도네시아 법령 검색",
-  description: "인도네시아 정부 부처(JDIH) 법령을 한국어로 검색합니다.",
+  title: "인도네시아 법령정보센터",
+  description:
+    "인도네시아 정부 공식 법령(peraturan.go.id) 정보를 한국어로 검색하는 비공식 정보 사이트입니다.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <body>
-        <header className="border-b bg-white">
-          <div className="mx-auto max-w-5xl px-6 py-4">
-            <a href={path("/")} className="text-lg font-semibold">
-              인도네시아 법령 검색
-            </a>
-          </div>
-        </header>
-        <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
+        <SiteHeader />
+        <main className="mx-auto max-w-6xl px-6 py-6">{children}</main>
         <Disclaimer />
       </body>
     </html>

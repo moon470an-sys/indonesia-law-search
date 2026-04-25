@@ -14,16 +14,34 @@ log = logging.getLogger(__name__)
 
 @dataclass
 class LawRecord:
-    ministry_code: str
-    ministry_name_ko: str
-    law_number: str
-    title_id: str
+    # — 1차 메뉴 매핑
+    category: str                         # 'peraturan'|'keputusan'|'lampiran'|'perda'|'putusan'|'kepkl'|'perjanjian'|'lainnya'
+    law_type: str                         # 'UU' | 'PP' | 'Perpres' | 'Permen' | 'Kepmen' | 'Perda' | 'KEPUTUSAN MENTERI ESDM' …
+    law_number: str                       # 예: '12 Tahun 2023'
+    title_id: str                         # 인니어 원제목
+    source: str                           # 'peraturan_go_id' | 'jdih_esdm' | …
     source_url: str
-    law_type: str | None = None
-    issuance_date: str | None = None
+
+    # — 부처/지역
+    ministry_code: str | None = None
+    ministry_name_ko: str | None = None
+    region_code: str | None = None
+
+    # — 일자
+    year: int | None = None
+    enactment_date: str | None = None
+    promulgation_date: str | None = None
     effective_date: str | None = None
-    status: str | None = None
-    pdf_url: str | None = None
+    repealed_date: str | None = None
+
+    # — 상태
+    status: str = "berlaku"
+    era: str = "modern"
+
+    # — 외국어/원문
+    title_en: str | None = None
+    pdf_url_id: str | None = None
+    pdf_url_en: str | None = None
 
     def as_row(self) -> dict:
         return asdict(self)

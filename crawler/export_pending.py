@@ -66,13 +66,13 @@ def main() -> int:
     lines.append("")
     lines.append(INSTRUCTIONS)
     lines.append("")
-    lines.append("| id | ministry | law_number | title_id | issuance_date | source_url |")
-    lines.append("|----|----------|------------|----------|---------------|------------|")
+    lines.append("| id | category | type | ministry | law_number | title_id | promulgation | source_url |")
+    lines.append("|----|----------|------|----------|------------|----------|--------------|------------|")
     for r in rows:
         title = (r["title_id"] or "").replace("|", "\\|").replace("\n", " ")
         lines.append(
-            f"| {r['id']} | {r['ministry_code']} | {r['law_number']} | {title} | "
-            f"{r['issuance_date'] or ''} | {r['source_url']} |"
+            f"| {r['id']} | {r['category']} | {r['law_type']} | {r['ministry_code'] or ''} | "
+            f"{r['law_number']} | {title} | {r['promulgation_date'] or ''} | {r['source_url']} |"
         )
 
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")

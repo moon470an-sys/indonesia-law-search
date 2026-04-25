@@ -33,9 +33,12 @@ class BkpmScraper(BaseScraper):
                 source_url = f"{self.base_url}{source_url}"
             law_number = (await tds[0].inner_text()).strip() or title_id[:64]
             yield LawRecord(
-                ministry_code=self.ministry_code,
-                ministry_name_ko=self.ministry_name_ko,
+                category="keputusan",
+                law_type="Permen",
                 law_number=law_number,
                 title_id=title_id,
+                source="jdih_bkpm",
                 source_url=source_url,
+                ministry_code=self.ministry_code,
+                ministry_name_ko=self.ministry_name_ko,
             )

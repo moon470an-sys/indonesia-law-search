@@ -31,9 +31,12 @@ class KemenkeuScraper(BaseScraper):
             num_el = await it.query_selector(".doc-number, .nomor")
             law_number = (await num_el.inner_text()).strip() if num_el else title_id[:64]
             yield LawRecord(
-                ministry_code=self.ministry_code,
-                ministry_name_ko=self.ministry_name_ko,
+                category="keputusan",
+                law_type="Permen",
                 law_number=law_number,
                 title_id=title_id,
+                source="jdih_kemenkeu",
                 source_url=source_url,
+                ministry_code=self.ministry_code,
+                ministry_name_ko=self.ministry_name_ko,
             )

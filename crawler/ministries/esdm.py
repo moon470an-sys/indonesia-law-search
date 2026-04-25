@@ -71,24 +71,27 @@ class EsdmScraper(BaseScraper):
                 # 연도 (제정일 대용 — 상세 페이지에서 정확한 날짜 가져올 수 있으나 일단 연도만)
                 year_el = await card.query_selector("ul li a")
                 year_txt = (await year_el.inner_text()).strip() if year_el else ""
-                issuance_date = f"{year_txt}-01-01" if year_txt.isdigit() and len(year_txt) == 4 else None
+                year_int = int(year_txt) if year_txt.isdigit() and len(year_txt) == 4 else None
+                promulgation_date = f"{year_int}-01-01" if year_int else None
 
                 # 법령 번호 추출 (제목에서 "Nomor X tentang Y" 패턴)
                 law_number = self._extract_number(title_id)
                 if not law_number:
-                    # fallback: detail id 사용 (전체적으로 unique 보장)
                     m = re.search(r"id=(\d+)", source_url)
                     law_number = f"esdm-detail-{m.group(1)}" if m else title_id[:64]
 
                 yield LawRecord(
-                    ministry_code=self.ministry_code,
-                    ministry_name_ko=self.ministry_name_ko,
+                    category="keputusan",            # ESDM Kepmen은 행정규칙 메뉴
+                    law_type=law_type or "Kepmen",
                     law_number=law_number,
                     title_id=title_id,
+                    source="jdih_esdm",
                     source_url=source_url,
-                    law_type=law_type,
-                    issuance_date=issuance_date,
-                    pdf_url=pdf_url,
+                    ministry_code=self.ministry_code,
+                    ministry_name_ko=self.ministry_name_ko,
+                    year=year_int,
+                    promulgation_date=promulgation_date,
+                    pdf_url_id=pdf_url,
                 )
                 yielded += 1
 

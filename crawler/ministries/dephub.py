@@ -46,11 +46,14 @@ class DephubScraper(BaseScraper):
                 if not (law_number and title_id and source_url):
                     continue
                 yield LawRecord(
-                    ministry_code=self.ministry_code,
-                    ministry_name_ko=self.ministry_name_ko,
+                    category="keputusan",
+                    law_type="Permen",
                     law_number=law_number,
                     title_id=title_id,
+                    source="jdih_dephub",
                     source_url=source_url,
+                    ministry_code=self.ministry_code,
+                    ministry_name_ko=self.ministry_name_ko,
                 )
 
             next_btn = await page.query_selector("a.next, li.next > a")
