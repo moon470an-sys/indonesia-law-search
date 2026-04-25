@@ -1,15 +1,21 @@
 """peraturan.go.id (DITJEN PP, Kemenkumham) scraper.
 
-NOTE: 실제 selector는 GitHub Actions(미국 IP) 첫 실행 결과를 보고 보정한다.
-한국 IP 회선에서는 TLS/ALPN 단계에서 차단되어 로컬 검증 불가.
+Confirmed structure (probe 2026-04-25):
 
-법령 위계 매핑:
-  /uu        → law_type='UU'        category='peraturan'
-  /pp        → law_type='PP'        category='peraturan'
-  /perpres   → law_type='Perpres'   category='peraturan'
-  /permen    → law_type='Permen'    category='peraturan'
-  /kepmen    → law_type='Kepmen'    category='keputusan'
-  /perda     → law_type='Perda'     category='perda'
+  Listing pages:
+    https://peraturan.go.id/{type}                  (type ∈ uu|pp|perpres|permen|perda)
+    https://peraturan.go.id/{type}?page=N           (pagination)
+
+  Row container:    div.wrapper
+  Detail link:      <a href="/id/{slug}" title="lihat detail">{title}</a>
+  Slug pattern:     {type}-no-{num}-tahun-{year}
+                    perda-{region}-no-{num}-tahun-{year}     (지방법규)
+  PDF:              https://peraturan.go.id/files/{slug}.pdf
+
+Inside the wrapper there is also:
+    <a class="float-right" href="/pemerintah-pusat">UU</a>      ← 위계 label
+    <a class="wish_bt"     href="/id/#">2026</a>                ← year
+    <p>Undang-Undang Nomor 1 Tahun 2026</p>                     ← meta line
 """
 from __future__ import annotations
 
@@ -23,17 +29,14 @@ from ..base_scraper import BaseScraper, LawRecord
 
 log = logging.getLogger(__name__)
 
-NUMBER_RE = re.compile(r"(?:Nomor|No\.?)\s*([\w./-]+)\s+Tahun\s+(\d{4})", re.IGNORECASE)
-
-# 네비게이션/통계/카테고리 페이지 — 법령 detail 이 아님
-NAV_SLUGS = frozenset({
-    "rekapitulasi", "grafik", "statistik", "infografis",
-    "tentang", "kontak", "bantuan", "pencarian",
-    "permenperin", "permenkeu", "permenhub", "permenesdm",
-    "permenag", "permenkes", "permendag", "permendagri",
-    "permenkominfo", "permenpan", "permensos", "permendikbud",
-    "permenpu", "permenpera", "permenpan-rb",
-})
+SLUG_RE = re.compile(
+    r"^/id/"
+    r"(?P<type>[a-z]+)"               # uu / pp / perpres / permen / perda / perwako / pergub …
+    r"(?:-(?P<region>[a-z-]+?))?"     # optional 지역명 (perda-kabupaten-kendal …)
+    r"-no-(?P<num>[\w.+-]+?)"
+    r"-tahun-(?P<year>\d{4})/?$",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -48,91 +51,128 @@ SECTIONS: tuple[_Section, ...] = (
     _Section("/pp",      "PP",      "peraturan"),
     _Section("/perpres", "Perpres", "peraturan"),
     _Section("/permen",  "Permen",  "peraturan"),
-    _Section("/kepmen",  "Kepmen",  "keputusan"),
     _Section("/perda",   "Perda",   "perda"),
 )
 
 
 class PeraturanGoIdScraper(BaseScraper):
-    """Crawl peraturan.go.id across all 1차 categories."""
-
-    ministry_code = "kumham"                 # data publisher (DITJEN PP, Kemenkumham)
+    ministry_code = "kumham"          # data publisher (DITJEN PP)
     ministry_name_ko = "법무인권부"
     base_url = "https://peraturan.go.id"
 
-    # 첫 실행 시 한 위계당 가져올 페이지 수 (rate-limit 고려)
-    pages_per_section: ClassVar[int] = 2
+    pages_per_section: ClassVar[int] = 2   # ~20 records per section per run
 
     async def scrape(self) -> AsyncIterator[LawRecord]:
         for section in SECTIONS:
-            log.info("[peraturan.go.id] section %s (%s)", section.path, section.law_type)
+            log.info("[peraturan.go.id] %s (%s)", section.path, section.law_type)
             page = await self.new_page()
-            for page_no in range(1, self.pages_per_section + 1):
-                url = f"{self.base_url}{section.path}?page={page_no}"
-                try:
-                    await self.goto(page, url)
-                    await page.wait_for_load_state("networkidle", timeout=20_000)
-                except Exception as e:
-                    log.warning("  goto fail %s: %s", url, e)
-                    break
+            try:
+                seen_slugs: set[str] = set()
+                for page_no in range(1, self.pages_per_section + 1):
+                    url = f"{self.base_url}{section.path}?page={page_no}"
+                    try:
+                        await self.goto(page, url)
+                        await page.wait_for_load_state("networkidle", timeout=20_000)
+                    except Exception as e:
+                        log.warning("  goto %s: %s", url, e)
+                        break
 
-                # peraturan.go.id 의 실제 DOM 셀렉터는 첫 실행 시 보정.
-                # 추정: 결과 카드/행 안에 상세 페이지 링크 + PDF 링크가 있다.
-                items = await page.query_selector_all(
-                    'a[href*="/details/"], a[href*="/peraturan/"], a[href*="/uu/"], '
-                    'a[href*="/pp/"], a[href*="/perpres/"], a[href*="/permen/"], '
-                    'a[href*="/kepmen/"], a[href*="/perda/"]'
-                )
-                if not items:
-                    log.warning("  no items on %s", url)
-                    break
+                    wrappers = await page.query_selector_all("div.wrapper")
+                    if not wrappers:
+                        log.warning("  no div.wrapper on %s", url)
+                        break
+                    log.info("  page %d: %d wrappers", page_no, len(wrappers))
 
-                seen: set[str] = set()
-                for el in items:
-                    href = (await el.get_attribute("href")) or ""
-                    if not href or href in seen:
-                        continue
-                    # 분류 페이지 자체 링크는 스킵
-                    if href.rstrip("/").endswith(section.path):
-                        continue
-                    # 네비게이션/통계/하위 카테고리 링크 스킵
-                    last_seg = href.rstrip("/").rsplit("/", 1)[-1].lower().strip()
-                    if last_seg in NAV_SLUGS:
-                        continue
-                    # 진짜 detail은 보통 숫자나 'tahun' 같은 토큰을 포함
-                    if not re.search(r"\d|tahun|details", last_seg):
-                        continue
-                    seen.add(href)
+                    yielded_this_page = 0
+                    for w in wrappers:
+                        title_link = await w.query_selector('a[href^="/id/"][title="lihat detail"]')
+                        if not title_link:
+                            # fallback: any a[href^="/id/"]
+                            title_link = await w.query_selector('a[href^="/id/"]')
+                        if not title_link:
+                            continue
 
-                    title_id = (await el.inner_text()).strip()
-                    if not title_id or len(title_id) < 10:
-                        continue
-                    # 단순 메뉴 라벨은 제외
-                    if title_id.lower() in {"lihat grafik", "rekapitulasi", "permen"}:
-                        continue
+                        href = (await title_link.get_attribute("href")) or ""
+                        if not href.startswith("/id/"):
+                            continue
+                        if href in seen_slugs:
+                            continue
+                        seen_slugs.add(href)
 
-                    detail_url = urljoin(self.base_url, href)
-                    law_number, year = self._parse_number_year(title_id)
-                    if not law_number:
-                        m = re.search(r"/([^/]+)$", href)
-                        law_number = m.group(1) if m else title_id[:64]
+                        title_id = (await title_link.inner_text()).strip()
+                        if not title_id:
+                            continue
 
-                    yield LawRecord(
-                        category=section.category,
-                        law_type=section.law_type,
-                        law_number=law_number,
-                        title_id=title_id,
-                        source="peraturan_go_id",
-                        source_url=detail_url,
-                        ministry_code=self.ministry_code,
-                        ministry_name_ko=self.ministry_name_ko,
-                        year=year,
-                        promulgation_date=f"{year}-01-01" if year else None,
-                    )
+                        m = SLUG_RE.match(href)
+                        if m:
+                            slug_type = m.group("type").lower()
+                            num = m.group("num")
+                            year = int(m.group("year"))
+                            region = m.group("region")
+                            law_number = f"Nomor {num} Tahun {year}"
+                        else:
+                            # fallback — use the slug itself
+                            slug_type = section.law_type.lower()
+                            year = None
+                            region = None
+                            law_number = href.rsplit("/", 1)[-1]
+
+                        # detail page + PDF
+                        detail_url = urljoin(self.base_url, href)
+                        slug = href.rsplit("/", 1)[-1]
+                        pdf_url = f"{self.base_url}/files/{slug}.pdf"
+
+                        # 위계 결정 — section의 law_type을 우선
+                        law_type = self._normalize_law_type(slug_type, section.law_type)
+
+                        # category
+                        # Perda 패밀리(perda/pergub/perwali/perwako/pergub-prov 등)는 'perda'
+                        category = (
+                            "perda"
+                            if slug_type.startswith(("perda", "pergub", "perwako", "perwali", "perbup", "perdal"))
+                            else section.category
+                        )
+
+                        yield LawRecord(
+                            category=category,
+                            law_type=law_type,
+                            law_number=law_number,
+                            title_id=title_id,
+                            source="peraturan_go_id",
+                            source_url=detail_url,
+                            ministry_code=self.ministry_code,
+                            ministry_name_ko=self.ministry_name_ko,
+                            year=year,
+                            promulgation_date=f"{year}-01-01" if year else None,
+                            pdf_url_id=pdf_url,
+                        )
+                        yielded_this_page += 1
+
+                    if yielded_this_page == 0:
+                        break
+            finally:
+                await page.close()
 
     @staticmethod
-    def _parse_number_year(title: str) -> tuple[str | None, int | None]:
-        m = NUMBER_RE.search(title)
-        if not m:
-            return None, None
-        return f"{m.group(1)} Tahun {m.group(2)}", int(m.group(2))
+    def _normalize_law_type(slug_type: str, fallback: str) -> str:
+        mapping = {
+            "uu":              "UU",
+            "pp":              "PP",
+            "perpres":         "Perpres",
+            "permen":          "Permen",
+            "permendag":       "Permendag",
+            "permenkeu":       "Permenkeu",
+            "permenhub":       "Permenhub",
+            "permenesdm":      "Permen ESDM",
+            "permenkum":       "Permenkumham",
+            "permendikdasmen": "Permendikdasmen",
+            "permenpan":       "PermenPAN-RB",
+            "permenkominfo":   "Permenkominfo",
+            "permenperin":    "Permenperin",
+            "perda":           "Perda",
+            "perwako":         "Perwako",
+            "perwali":         "Perwali",
+            "pergub":          "Pergub",
+            "perbup":          "Perbup",
+        }
+        return mapping.get(slug_type, fallback)
