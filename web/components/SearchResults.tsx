@@ -1,17 +1,27 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import LawTable from "./LawTable";
 import type { Law, LawCategory, LawStatus } from "@/lib/meta";
 import { CATEGORY_META } from "@/lib/meta";
+import { HIERARCHIES, classify, getHierarchy, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
 const STATUSES: LawStatus[] = [
   "berlaku", "diubah", "dicabut", "dicabut_sebagian",
   "belum_berlaku", "tidak_diketahui",
 ];
-const ERAS = ["modern", "lama", "kolonial"] as const;
+
+const HIERARCHY_SLUG: Record<string, HierarchyKey> = {
+  uud: "UUD", tap: "TAP", uu: "UU", pp: "PP",
+  perpres: "Perpres", permen: "Permen", kepmen: "Kepmen",
+  perda_prov: "Perda_Prov", perda_kab: "Perda_Kab", lainnya: "Lainnya",
+};
+
+const SLUG_OF: Record<HierarchyKey, string> = Object.fromEntries(
+  Object.entries(HIERARCHY_SLUG).map(([slug, key]) => [key, slug])
+) as Record<HierarchyKey, string>;
 
 type Ministry = { code: string; name_ko: string; count: number };
 
@@ -26,9 +36,12 @@ export default function SearchResults({
   const q = (sp.get("q") ?? "").trim();
   const category = sp.get("category");
   const ministry = sp.get("ministry");
-  const status = sp.get("status");
-  const era = sp.get("era");
+  const statusParam = sp.get("status");
+  const hierarchySlug = sp.get("hierarchy");
   const recent = sp.get("recent");
+
+  // local UI state: grouping mode (default ON when no query, OFF when searching)
+  const [grouped, setGrouped] = useState(true);
 
   const filtered = useMemo(() => {
     let out = laws;
@@ -55,57 +68,70 @@ export default function SearchResults({
     if (ministry) {
       out = out.filter((law) => law.ministry_code === ministry);
     }
-    if (status && (STATUSES as string[]).includes(status)) {
-      out = out.filter((law) => law.status === status);
+    if (statusParam && (STATUSES as string[]).includes(statusParam)) {
+      out = out.filter((law) => law.status === statusParam);
     }
-    if (era && (ERAS as readonly string[]).includes(era)) {
-      out = out.filter((law) => law.era === era);
+    if (hierarchySlug && hierarchySlug in HIERARCHY_SLUG) {
+      const target = HIERARCHY_SLUG[hierarchySlug];
+      out = out.filter((law) => classify(law) === target);
     }
     if (recent) {
-      const n = Math.max(1, Math.min(200, Number(recent) || 30));
+      const n = Math.max(1, Math.min(500, Number(recent) || 30));
       out = [...out]
         .sort((a, b) => (b.promulgation_date ?? "").localeCompare(a.promulgation_date ?? ""))
         .slice(0, n);
     }
 
     return out;
-  }, [laws, q, category, ministry, status, era, recent]);
+  }, [laws, q, category, ministry, statusParam, hierarchySlug, recent]);
 
+  // Group by hierarchy (only when grouped mode)
+  const groups = useMemo(() => {
+    const map = new Map<HierarchyKey, Law[]>();
+    for (const law of filtered) {
+      const k = classify(law);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k)!.push(law);
+    }
+    return HIERARCHIES
+      .map((h) => ({ h, items: map.get(h.key) ?? [] }))
+      .filter((g) => g.items.length > 0);
+  }, [filtered]);
+
+  // Filter link helper
   const baseParams = new URLSearchParams();
   if (q) baseParams.set("q", q);
-
   const link = (extra: Record<string, string | undefined>) => {
     const p = new URLSearchParams(baseParams);
     for (const [k, v] of Object.entries(extra)) {
-      if (v) p.set(k, v);
-      else p.delete(k);
+      if (v) p.set(k, v); else p.delete(k);
     }
     return path(`/search/${p.toString() ? "?" + p : ""}`);
   };
 
+  const activeHierarchy = hierarchySlug ? HIERARCHY_SLUG[hierarchySlug] : null;
+
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-[260px_1fr]">
       <aside className="space-y-4 text-sm">
-        <FilterBox title="1차 메뉴">
-          <FilterLink href={link({ category: undefined })} active={!category}>
+        <FilterBox title="법위계">
+          <FilterLink href={link({ hierarchy: undefined })} active={!activeHierarchy}>
             전체
-            <span className="text-xs font-semibold text-slate-400 tabular-nums">
-              {laws.length}
-            </span>
+            <Count n={laws.length} />
           </FilterLink>
-          {(Object.keys(CATEGORY_META) as LawCategory[]).map((c) => {
-            const cnt = laws.filter((l) => l.category === c).length;
+          {HIERARCHIES.map((h) => {
+            const cnt = laws.filter((l) => classify(l) === h.key).length;
             if (cnt === 0) return null;
             return (
               <FilterLink
-                key={c}
-                href={link({ category: c })}
-                active={category === c}
+                key={h.key}
+                href={link({ hierarchy: SLUG_OF[h.key] })}
+                active={activeHierarchy === h.key}
+                accent={h.classes.text}
+                dot={h.classes.bgStrong}
               >
-                {CATEGORY_META[c].name_ko}
-                <span className="text-xs font-semibold text-slate-400 tabular-nums">
-                  {cnt}
-                </span>
+                {h.name_ko}
+                <Count n={cnt} />
               </FilterLink>
             );
           })}
@@ -123,32 +149,28 @@ export default function SearchResults({
                 active={ministry === m.code}
               >
                 {m.name_ko}
-                <span className="text-xs font-semibold text-slate-400 tabular-nums">
-                  {m.count}
-                </span>
+                <Count n={m.count} />
               </FilterLink>
             ))}
           </FilterBox>
         )}
 
         <FilterBox title="상태">
-          <FilterLink href={link({ status: undefined })} active={!status}>
-            전체
-          </FilterLink>
-          <FilterLink href={link({ status: "berlaku" })} active={status === "berlaku"}>
+          <FilterLink href={link({ status: undefined })} active={!statusParam}>전체</FilterLink>
+          <FilterLink href={link({ status: "berlaku" })} active={statusParam === "berlaku"}>
             현행 (Berlaku)
           </FilterLink>
-          <FilterLink href={link({ status: "diubah" })} active={status === "diubah"}>
+          <FilterLink href={link({ status: "diubah" })} active={statusParam === "diubah"}>
             개정 (Diubah)
           </FilterLink>
-          <FilterLink href={link({ status: "dicabut" })} active={status === "dicabut"}>
+          <FilterLink href={link({ status: "dicabut" })} active={statusParam === "dicabut"}>
             폐지 (Dicabut)
           </FilterLink>
         </FilterBox>
       </aside>
 
-      <div className="space-y-4">
-        <header className="flex items-baseline justify-between border-b border-slate-200 pb-3">
+      <div className="space-y-5">
+        <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-slate-200 pb-3">
           <p className="text-base text-slate-700">
             {filtered.length === 0 ? (
               "검색 결과가 없습니다."
@@ -159,14 +181,85 @@ export default function SearchResults({
                 </span>
                 <span className="ml-1 font-semibold text-slate-700">건</span>
                 <span className="ml-1 text-slate-500">의 결과</span>
-                {q ? <span className="ml-2 text-slate-500">· "<span className="font-medium text-slate-800">{q}</span>"</span> : null}
+                {q ? (
+                  <span className="ml-2 text-slate-500">
+                    · "<span className="font-medium text-slate-800">{q}</span>"
+                  </span>
+                ) : null}
               </>
             )}
           </p>
+
+          {filtered.length > 0 && (
+            <div className="inline-flex rounded-md border border-slate-200 bg-white p-0.5 text-xs">
+              <button
+                type="button"
+                onClick={() => setGrouped(true)}
+                className={
+                  "rounded px-3 py-1.5 font-semibold transition " +
+                  (grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
+                }
+              >
+                위계별
+              </button>
+              <button
+                type="button"
+                onClick={() => setGrouped(false)}
+                className={
+                  "rounded px-3 py-1.5 font-semibold transition " +
+                  (!grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
+                }
+              >
+                전체 목록
+              </button>
+            </div>
+          )}
         </header>
-        <LawTable laws={filtered} />
+
+        {filtered.length === 0 ? (
+          <p className="rounded-lg border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
+            검색 결과가 없습니다.
+          </p>
+        ) : grouped ? (
+          <div className="space-y-6">
+            {groups.map(({ h, items }) => (
+              <section
+                key={h.key}
+                className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
+              >
+                <header
+                  className={`flex items-center justify-between border-l-4 ${h.classes.border} ${h.classes.bg} px-5 py-3`}
+                >
+                  <div>
+                    <p className={`text-[11px] font-bold uppercase tracking-wider ${h.classes.text}`}>
+                      Rank {h.rank}
+                    </p>
+                    <h3 className="text-base font-bold text-slate-900">
+                      {h.name_ko}
+                      <span className="ml-2 text-sm font-normal italic text-slate-500">
+                        {h.name_id}
+                      </span>
+                    </h3>
+                  </div>
+                  <p className="text-sm font-semibold text-slate-700 tabular-nums">
+                    {items.length.toLocaleString()}건
+                  </p>
+                </header>
+                <LawTable laws={items} compact />
+              </section>
+            ))}
+          </div>
+        ) : (
+          <LawTable laws={filtered} />
+        )}
       </div>
     </div>
+  );
+}
+
+function Count({ n }: { n: number }) {
+  return (
+    <span className="text-xs font-semibold text-slate-400 tabular-nums">{n}</span>
   );
 }
 
@@ -182,10 +275,16 @@ function FilterBox({ title, children }: { title: string; children: React.ReactNo
 }
 
 function FilterLink({
-  href, active, children,
+  href,
+  active,
+  accent,
+  dot,
+  children,
 }: {
   href: string;
   active: boolean;
+  accent?: string;
+  dot?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -193,13 +292,16 @@ function FilterLink({
       <a
         href={href}
         className={
-          "flex items-center justify-between gap-2 rounded-md px-2 py-1.5 transition-colors " +
+          "flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors " +
           (active
-            ? "bg-blue-50 font-semibold text-brand"
-            : "text-slate-700 hover:bg-slate-50 hover:text-brand")
+            ? "bg-slate-900 font-semibold text-white"
+            : `${accent ?? "text-slate-700"} hover:bg-slate-50 hover:text-slate-900`)
         }
       >
-        {children}
+        {dot && !active && (
+          <span className={`size-2 shrink-0 rounded-full ${dot}`} aria-hidden />
+        )}
+        <span className="flex-1">{children}</span>
       </a>
     </li>
   );

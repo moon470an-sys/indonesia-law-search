@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getById, listAllIds } from "@/lib/db";
 import { CATEGORY_META, STATUS_META, STATUS_CLASSES } from "@/lib/meta";
+import { classify, getHierarchy } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
 const TABS = [
@@ -26,11 +27,14 @@ export default async function LawDetailPage({
   if (!law || !law.title_ko) notFound();
 
   const status = STATUS_META[law.status];
+  const h = getHierarchy(classify(law));
 
   return (
     <article className="space-y-8">
-      {/* 메타정보 박스 */}
-      <header className="rounded-lg border border-slate-200 bg-white p-7 shadow-sm">
+      {/* 메타 박스 — 좌측 위계 색상 막대 */}
+      <header className={`relative overflow-hidden rounded-lg border border-slate-200 bg-white p-7 shadow-sm`}>
+        <span className={`absolute inset-y-0 left-0 w-1.5 ${h.classes.bgStrong}`} aria-hidden />
+
         <nav className="text-xs text-slate-500">
           <a href={path("/")} className="hover:text-brand">홈</a>
           <span className="mx-1.5 text-slate-300">/</span>
@@ -47,6 +51,15 @@ export default async function LawDetailPage({
             </>
           )}
         </nav>
+
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span
+            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ring-1 ${h.classes.badge}`}
+          >
+            Rank {h.rank} · {h.name_ko}
+          </span>
+          <span className="text-xs text-slate-500 italic">{h.name_id}</span>
+        </div>
 
         <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
           <h1 className="text-2xl font-bold leading-snug text-slate-900 sm:text-[26px]">
@@ -67,7 +80,7 @@ export default async function LawDetailPage({
 
         <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-slate-100 pt-5 text-sm sm:grid-cols-4">
           <Field label="법령번호" value={law.law_number} />
-          <Field label="위계" value={law.law_type} />
+          <Field label="위계" value={`${law.law_type} (${h.name_ko})`} />
           <Field label="제정일" value={law.enactment_date} />
           <Field label="공포일" value={law.promulgation_date} />
           <Field label="시행일" value={law.effective_date} />
@@ -77,7 +90,6 @@ export default async function LawDetailPage({
         </dl>
       </header>
 
-      {/* 좌측 탭 + 우측 콘텐츠 */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[200px_1fr]">
         <nav className="space-y-1.5 text-sm">
           {TABS.map((t) => (
@@ -95,9 +107,7 @@ export default async function LawDetailPage({
           <Section id="title" heading="한국어 요약">
             <p className="text-[15px] leading-[1.85] text-slate-800">
               {law.summary_ko ?? (
-                <span className="text-slate-400">
-                  아직 요약이 등록되지 않았습니다.
-                </span>
+                <span className="text-slate-400">아직 요약이 등록되지 않았습니다.</span>
               )}
             </p>
             {law.categories && law.categories.length > 0 && (
@@ -105,7 +115,7 @@ export default async function LawDetailPage({
                 {law.categories.map((c) => (
                   <span
                     key={c}
-                    className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700"
+                    className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700"
                   >
                     {c}
                   </span>

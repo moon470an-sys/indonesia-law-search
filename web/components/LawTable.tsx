@@ -1,7 +1,14 @@
 import { path } from "@/lib/paths";
 import { CATEGORY_META, STATUS_META, STATUS_CLASSES, type Law } from "@/lib/meta";
+import HierarchyBadge from "./HierarchyBadge";
 
-export default function LawTable({ laws }: { laws: Law[] }) {
+type Props = {
+  laws: Law[];
+  /** Compact: drop the hierarchy column (used inside grouped sections where header already names the hierarchy). */
+  compact?: boolean;
+};
+
+export default function LawTable({ laws, compact = false }: Props) {
   if (laws.length === 0) {
     return (
       <p className="rounded-lg border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
@@ -11,12 +18,14 @@ export default function LawTable({ laws }: { laws: Law[] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div className={compact ? "overflow-x-auto" : "overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm"}>
       <table className="w-full text-[15px]">
         <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500">
           <tr>
             <th className="px-5 py-3 text-left">법령명</th>
-            <th className="px-3 py-3 text-left whitespace-nowrap">위계</th>
+            {!compact && (
+              <th className="px-3 py-3 text-left whitespace-nowrap">위계</th>
+            )}
             <th className="px-3 py-3 text-left whitespace-nowrap">법령번호</th>
             <th className="px-3 py-3 text-left whitespace-nowrap">소관</th>
             <th className="px-3 py-3 text-left whitespace-nowrap">공포일</th>
@@ -41,7 +50,7 @@ export default function LawTable({ laws }: { laws: Law[] }) {
                     </p>
                   )}
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <span className="rounded bg-blue-50 px-2 py-0.5 text-[11px] font-semibold text-blue-700">
+                    <span className="rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">
                       {CATEGORY_META[law.category]?.name_ko ?? law.category}
                     </span>
                     {law.categories?.slice(0, 4).map((c) => (
@@ -54,10 +63,12 @@ export default function LawTable({ laws }: { laws: Law[] }) {
                     ))}
                   </div>
                 </td>
-                <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap">
-                  {law.law_type}
-                </td>
-                <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap">
+                {!compact && (
+                  <td className="px-3 py-4 align-top whitespace-nowrap">
+                    <HierarchyBadge law={law} />
+                  </td>
+                )}
+                <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap tabular-nums">
                   {law.law_number}
                 </td>
                 <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap">
