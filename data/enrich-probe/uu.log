@@ -1,16 +1,350 @@
-=== probing 5 uu rows ===
+=== probing 5 uu rows (newest first) ===
 
---- id=24400 https://peraturan.go.id/id/uu-no-1-tahun-1945 ---
-  parsed: {}
+=== id=58 https://peraturan.go.id/id/uu-no-1-tahun-2026 ===
+parsed: {}
+  hit div.col-lg-7 (n=1): 
+  TEXT 'Status': Status | Undang-undang Nomor 1 Tahun 2026 Tentang Penyesuaian Pidana | Jenis/Bentuk Peraturan | UNDANG-UND
+  TEXT 'Bentuk': Bentuk Peraturan | UNDANG-UNDANG | Pemrakarsa | PEMERINTAH PUSAT | Nomor | 1 | Tahun | 2026 | Tentang | PENYESUAIAN PI
+  TEXT 'Pemrakarsa': Pemrakarsa | PEMERINTAH PUSAT | Nomor | 1 | Tahun | 2026 | Tentang | PENYESUAIAN PIDANA | Tempat Penetapan | Jakarta | D
+  BODY[:2500]: <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-TX5KR6W" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="theia-exception" id="page">
+<header class="header_in">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 col-12">
+<div id="logo">
+<img alt="logo header" class="logo_sticky" height="35" src="/img/master-baru2.png" width="228"/> </div>
+</div>
+<div class="col-lg-9 col-12">
+<ul id="top_menu">
+<div class="mt-2" id="google_translate_element"></div>
+<script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'id',
+                            // includedLanguages: 'en,ja,ko,fr,de,nl,ar',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<!-- <li><a href="account.html" class="btn_add">Add Listing</a></li> -->
+<!-- <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li> -->
+<!-- <li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li> -->
+</ul>
+<a class="btn_mobile" href="#menu">
+<div class="hamburger hamburger--spin" id="hamburger">
+<div class="hamburger-box">
+<div class="hamburger-inner"></div>
+</div>
+</div>
+</a>
+<nav class="main-menu" id="menu">
+<ul><li> <span><a href="/"> <span>Beranda</span></a></span></li>
+<li><span><a href="#">Perencanaan PUU</a></span>
+<ul>
+<li><a href="/prolegnas">Program Legislasi</a></li>
+<li><a href="/progsun">Program Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">NA</a></span>
+<ul>
+<li><a href="/napenyelarasan">penyelarasan</a></li>
+<li><a href="/napenyusunan">Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">Peraturan</a></span>
+<ul>
+<li><a href="/tapmpr">TAP MPR</a></li>
+<li><a href="/uu">UU</a></li>
+<li><a href="/perppu">PERPPU</a></li>
+<li><a href="/pp">PP</a></li>
+<li><a href="/perpres">PERPRES</a></li>
+<li><a href="/permen">PERMEN</a></li>
+<li><a href="/permenkumham">PERMENKUMHAM</a></li>
+<li><a href="/permenkum">PERMENKUM</a></li>
+<li><a href="/perban">PERBAN</a></li>
+<li><a href
 
---- id=24376 https://peraturan.go.id/id/uu-no-1-tahun-1946 ---
-  parsed: {"relasi": ["https://peraturan.go.id/id/uu-no-21-tahun-2007", "https://peraturan.go.id/id/uu-no-1-tahun-2023", "https://peraturan.go.id/id/uu-no-73-tahun-1958", "https://peraturan.go.id/id/uu-no-1-tahun-1960", "https://peraturan.go.id/id/uu-no-4-tahun-1976", "https://peraturan.go.id/id/uu-no-27-tahun-1999"]}
+=== id=79 https://peraturan.go.id/id/uu-no-21-tahun-2025 ===
+parsed: {"promulgation_date": "2025-12-24"}
+  hit div.col-lg-7 (n=1): 
+  TEXT 'Tanggal Pengundangan': Tanggal Pengundangan | 24 Desember 2025 | Pejabat Pengundangan | PRASETYO HADI | Tentang Website | Website Dir
+  TEXT 'Status': Status | Undang-undang Nomor 21 Tahun 2025 Tentang Pengelolaan Ruang Udara | Jenis/Bentuk Peraturan | UNDA
+  TEXT 'Bentuk': Bentuk Peraturan | UNDANG-UNDANG | Pemrakarsa | PEMERINTAH PUSAT | Nomor | 21 | Tahun | 2025 | Tentang | Pengelolaan R
+  TEXT 'Pemrakarsa': Pemrakarsa | PEMERINTAH PUSAT | Nomor | 21 | Tahun | 2025 | Tentang | Pengelolaan Ruang Udara | Tempat Penetapan | Jak
+  BODY[:2500]: <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-TX5KR6W" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="theia-exception" id="page">
+<header class="header_in">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 col-12">
+<div id="logo">
+<img alt="logo header" class="logo_sticky" height="35" src="/img/master-baru2.png" width="228"/> </div>
+</div>
+<div class="col-lg-9 col-12">
+<ul id="top_menu">
+<div class="mt-2" id="google_translate_element"></div>
+<script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'id',
+                            // includedLanguages: 'en,ja,ko,fr,de,nl,ar',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<!-- <li><a href="account.html" class="btn_add">Add Listing</a></li> -->
+<!-- <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li> -->
+<!-- <li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li> -->
+</ul>
+<a class="btn_mobile" href="#menu">
+<div class="hamburger hamburger--spin" id="hamburger">
+<div class="hamburger-box">
+<div class="hamburger-inner"></div>
+</div>
+</div>
+</a>
+<nav class="main-menu" id="menu">
+<ul><li> <span><a href="/"> <span>Beranda</span></a></span></li>
+<li><span><a href="#">Perencanaan PUU</a></span>
+<ul>
+<li><a href="/prolegnas">Program Legislasi</a></li>
+<li><a href="/progsun">Program Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">NA</a></span>
+<ul>
+<li><a href="/napenyelarasan">penyelarasan</a></li>
+<li><a href="/napenyusunan">Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">Peraturan</a></span>
+<ul>
+<li><a href="/tapmpr">TAP MPR</a></li>
+<li><a href="/uu">UU</a></li>
+<li><a href="/perppu">PERPPU</a></li>
+<li><a href="/pp">PP</a></li>
+<li><a href="/perpres">PERPRES</a></li>
+<li><a href="/permen">PERMEN</a></li>
+<li><a href="/permenkumham">PERMENKUMHAM</a></li>
+<li><a href="/permenkum">PERMENKUM</a></li>
+<li><a href="/perban">PERBAN</a></li>
+<li><a href
 
---- id=24335 https://peraturan.go.id/id/uu-no-1-tahun-1947 ---
-  parsed: {}
+=== id=78 https://peraturan.go.id/id/uu-no-10-tahun-2025 ===
+parsed: {"promulgation_date": "2025-08-20"}
+  hit div.col-lg-7 (n=1): 
+  TEXT 'Tanggal Pengundangan': Tanggal Pengundangan | 20 Agustus 2025 | Pejabat Pengundangan | PRASETYO HADI | Tentang Website | Website Dire
+  TEXT 'Status': Status | Undang-undang Nomor 10 Tahun 2025 Tentang Kabupaten Bolaang Mongondow di Provinsi Sulawesi Ut
+  TEXT 'Bentuk': Bentuk Peraturan | UNDANG-UNDANG | Pemrakarsa | PEMERINTAH PUSAT | Nomor | 10 | Tahun | 2025 | Tentang | Kabupaten Bol
+  TEXT 'Pemrakarsa': Pemrakarsa | PEMERINTAH PUSAT | Nomor | 10 | Tahun | 2025 | Tentang | Kabupaten Bolaang Mongondow di Provinsi Sula
+  BODY[:2500]: <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-TX5KR6W" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="theia-exception" id="page">
+<header class="header_in">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 col-12">
+<div id="logo">
+<img alt="logo header" class="logo_sticky" height="35" src="/img/master-baru2.png" width="228"/> </div>
+</div>
+<div class="col-lg-9 col-12">
+<ul id="top_menu">
+<div class="mt-2" id="google_translate_element"></div>
+<script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'id',
+                            // includedLanguages: 'en,ja,ko,fr,de,nl,ar',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<!-- <li><a href="account.html" class="btn_add">Add Listing</a></li> -->
+<!-- <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li> -->
+<!-- <li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li> -->
+</ul>
+<a class="btn_mobile" href="#menu">
+<div class="hamburger hamburger--spin" id="hamburger">
+<div class="hamburger-box">
+<div class="hamburger-inner"></div>
+</div>
+</div>
+</a>
+<nav class="main-menu" id="menu">
+<ul><li> <span><a href="/"> <span>Beranda</span></a></span></li>
+<li><span><a href="#">Perencanaan PUU</a></span>
+<ul>
+<li><a href="/prolegnas">Program Legislasi</a></li>
+<li><a href="/progsun">Program Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">NA</a></span>
+<ul>
+<li><a href="/napenyelarasan">penyelarasan</a></li>
+<li><a href="/napenyusunan">Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">Peraturan</a></span>
+<ul>
+<li><a href="/tapmpr">TAP MPR</a></li>
+<li><a href="/uu">UU</a></li>
+<li><a href="/perppu">PERPPU</a></li>
+<li><a href="/pp">PP</a></li>
+<li><a href="/perpres">PERPRES</a></li>
+<li><a href="/permen">PERMEN</a></li>
+<li><a href="/permenkumham">PERMENKUMHAM</a></li>
+<li><a href="/permenkum">PERMENKUM</a></li>
+<li><a href="/perban">PERBAN</a></li>
+<li><a href
 
---- id=24300 https://peraturan.go.id/id/uu-no-1-tahun-1948 ---
-  parsed: {}
+=== id=77 https://peraturan.go.id/id/uu-no-19-tahun-2025 ===
+parsed: {"promulgation_date": "2025-10-29"}
+  hit div.col-lg-7 (n=1): 
+  TEXT 'Tanggal Pengundangan': Tanggal Pengundangan | 29 Oktober 2025 | Pejabat Pengundangan | PRASETYO HADI | Tentang Website | Website Dire
+  TEXT 'Status': Status | Undang-undang Nomor 19 Tahun 2025 Tentang Pengesahan Perjanjian Antara Republik Indonesia dan
+  TEXT 'Bentuk': Bentuk Peraturan | UNDANG-UNDANG | Pemrakarsa | PEMERINTAH PUSAT | Nomor | 19 | Tahun | 2025 | Tentang | Pengesahan Pe
+  TEXT 'Pemrakarsa': Pemrakarsa | PEMERINTAH PUSAT | Nomor | 19 | Tahun | 2025 | Tentang | Pengesahan Perjanjian Antara Republik Indone
+  BODY[:2500]: <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-TX5KR6W" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="theia-exception" id="page">
+<header class="header_in">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 col-12">
+<div id="logo">
+<img alt="logo header" class="logo_sticky" height="35" src="/img/master-baru2.png" width="228"/> </div>
+</div>
+<div class="col-lg-9 col-12">
+<ul id="top_menu">
+<div class="mt-2" id="google_translate_element"></div>
+<script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'id',
+                            // includedLanguages: 'en,ja,ko,fr,de,nl,ar',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<!-- <li><a href="account.html" class="btn_add">Add Listing</a></li> -->
+<!-- <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li> -->
+<!-- <li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li> -->
+</ul>
+<a class="btn_mobile" href="#menu">
+<div class="hamburger hamburger--spin" id="hamburger">
+<div class="hamburger-box">
+<div class="hamburger-inner"></div>
+</div>
+</div>
+</a>
+<nav class="main-menu" id="menu">
+<ul><li> <span><a href="/"> <span>Beranda</span></a></span></li>
+<li><span><a href="#">Perencanaan PUU</a></span>
+<ul>
+<li><a href="/prolegnas">Program Legislasi</a></li>
+<li><a href="/progsun">Program Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">NA</a></span>
+<ul>
+<li><a href="/napenyelarasan">penyelarasan</a></li>
+<li><a href="/napenyusunan">Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">Peraturan</a></span>
+<ul>
+<li><a href="/tapmpr">TAP MPR</a></li>
+<li><a href="/uu">UU</a></li>
+<li><a href="/perppu">PERPPU</a></li>
+<li><a href="/pp">PP</a></li>
+<li><a href="/perpres">PERPRES</a></li>
+<li><a href="/permen">PERMEN</a></li>
+<li><a href="/permenkumham">PERMENKUMHAM</a></li>
+<li><a href="/permenkum">PERMENKUM</a></li>
+<li><a href="/perban">PERBAN</a></li>
+<li><a href
 
---- id=24288 https://peraturan.go.id/id/uu-no-1-tahun-1949 ---
-  parsed: {"relasi": ["https://peraturan.go.id/id/uu-no-14-tahun-1951"]}
+=== id=76 https://peraturan.go.id/id/uu-no-11-tahun-2025 ===
+parsed: {"promulgation_date": "2025-08-20"}
+  hit div.col-lg-7 (n=1): 
+  TEXT 'Tanggal Pengundangan': Tanggal Pengundangan | 20 Agustus 2025 | Pejabat Pengundangan | PRASETYO HADI | Tentang Website | Website Dire
+  TEXT 'Status': Status | Undang-undang Nomor 11 Tahun 2025 Tentang Kabupaten Kepulauan Sangihe di Provinsi Sulawesi Ut
+  TEXT 'Bentuk': Bentuk Peraturan | UNDANG-UNDANG | Pemrakarsa | PEMERINTAH PUSAT | Nomor | 11 | Tahun | 2025 | Tentang | Kabupaten Kep
+  TEXT 'Pemrakarsa': Pemrakarsa | PEMERINTAH PUSAT | Nomor | 11 | Tahun | 2025 | Tentang | Kabupaten Kepulauan Sangihe di Provinsi Sula
+  BODY[:2500]: <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-TX5KR6W" style="display:none;visibility:hidden" width="0"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="theia-exception" id="page">
+<header class="header_in">
+<div class="container">
+<div class="row">
+<div class="col-lg-3 col-12">
+<div id="logo">
+<img alt="logo header" class="logo_sticky" height="35" src="/img/master-baru2.png" width="228"/> </div>
+</div>
+<div class="col-lg-9 col-12">
+<ul id="top_menu">
+<div class="mt-2" id="google_translate_element"></div>
+<script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'id',
+                            // includedLanguages: 'en,ja,ko,fr,de,nl,ar',
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<!-- <li><a href="account.html" class="btn_add">Add Listing</a></li> -->
+<!-- <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li> -->
+<!-- <li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li> -->
+</ul>
+<a class="btn_mobile" href="#menu">
+<div class="hamburger hamburger--spin" id="hamburger">
+<div class="hamburger-box">
+<div class="hamburger-inner"></div>
+</div>
+</div>
+</a>
+<nav class="main-menu" id="menu">
+<ul><li> <span><a href="/"> <span>Beranda</span></a></span></li>
+<li><span><a href="#">Perencanaan PUU</a></span>
+<ul>
+<li><a href="/prolegnas">Program Legislasi</a></li>
+<li><a href="/progsun">Program Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">NA</a></span>
+<ul>
+<li><a href="/napenyelarasan">penyelarasan</a></li>
+<li><a href="/napenyusunan">Penyusunan</a></li>
+</ul>
+</li>
+<li><span><a href="#">Peraturan</a></span>
+<ul>
+<li><a href="/tapmpr">TAP MPR</a></li>
+<li><a href="/uu">UU</a></li>
+<li><a href="/perppu">PERPPU</a></li>
+<li><a href="/pp">PP</a></li>
+<li><a href="/perpres">PERPRES</a></li>
+<li><a href="/permen">PERMEN</a></li>
+<li><a href="/permenkumham">PERMENKUMHAM</a></li>
+<li><a href="/permenkum">PERMENKUM</a></li>
+<li><a href="/perban">PERBAN</a></li>
+<li><a href
