@@ -69,16 +69,35 @@ jobs:
         run: python -m crawler.export_pending
 
       - name: Commit DB + pending markdown + probe log
+        shell: bash
         run: |
+          set -x
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          shopt -s nullglob
-          git add data/laws.db 2>/dev/null || true
-          for f in data/pending/*.md; do git add "$f"; done
-          for f in data/probe/*.log; do git add -f "$f"; done
+
+          # what do we actually have?
+          ls -la data/ 2>/dev/null || true
+          ls -la data/pending/ 2>/dev/null || true
+          ls -la data/probe/ 2>/dev/null || true
+
+          # add files defensively — any single failure is non-fatal
+          git add data/laws.db || true
+
+          mkdir -p data/pending
+          find data/pending -type f -name '*.md' -print0 \
+            | xargs -0 -r git add || true
+
+          mkdir -p data/probe
+          find data/probe -type f -name '*.log' -print0 \
+            | xargs -0 -r git add -f || true
+
+          git status --short
+
           if git diff --cached --quiet; then
-            echo "No changes."
-          else
-            git commit -m "chore: crawl run $(date -u +%FT%TZ)"
-            git push
+            echo "No staged changes; nothing to commit."
+            exit 0
           fi
+
+          git commit -m "chore: crawl run $(date -u +%FT%TZ)"
+          # one retry on transient push failure
+          git push || (sleep 5 && git pull --rebase origin main && git push)
