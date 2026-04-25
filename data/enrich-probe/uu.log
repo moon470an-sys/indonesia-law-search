@@ -1,0 +1,16 @@
+=== probing 5 uu rows ===
+
+--- id=24400 https://peraturan.go.id/id/uu-no-1-tahun-1945 ---
+  parsed: {}
+
+--- id=24376 https://peraturan.go.id/id/uu-no-1-tahun-1946 ---
+  parsed: {"relasi": ["https://peraturan.go.id/id/uu-no-21-tahun-2007", "https://peraturan.go.id/id/uu-no-1-tahun-2023", "https://peraturan.go.id/id/uu-no-73-tahun-1958", "https://peraturan.go.id/id/uu-no-1-tahun-1960", "https://peraturan.go.id/id/uu-no-4-tahun-1976", "https://peraturan.go.id/id/uu-no-27-tahun-1999"]}
+
+--- id=24335 https://peraturan.go.id/id/uu-no-1-tahun-1947 ---
+  parsed: {}
+
+--- id=24300 https://peraturan.go.id/id/uu-no-1-tahun-1948 ---
+  parsed: {}
+
+--- id=24288 https://peraturan.go.id/id/uu-no-1-tahun-1949 ---
+  parsed: {"relasi": ["https://peraturan.go.id/id/uu-no-14-tahun-1951"]}
