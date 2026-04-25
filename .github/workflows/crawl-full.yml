@@ -155,22 +155,25 @@ jobs:
           done
 
       - name: DB stats
+        continue-on-error: true
         run: |
           python - <<'PY'
-          import sqlite3
-          c = sqlite3.connect("data/laws.db")
-          for src, n in c.execute("SELECT source, COUNT(*) FROM laws GROUP BY source ORDER BY n DESC"):
-              print(f"  {src:20} {n}")
-          print()
-          for cat, n in c.execute("SELECT category, COUNT(*) FROM laws GROUP BY category ORDER BY n DESC"):
-              print(f"  {cat:15} {n}")
-          print()
-          total = c.execute("SELECT COUNT(*) FROM laws").fetchone()[0]
-          translated = c.execute("SELECT COUNT(*) FROM laws WHERE title_ko IS NOT NULL").fetchone()[0]
-          print(f"total: {total}; translated: {translated}; pending: {total-translated}")
+          import sqlite3, sys
+          try:
+              c = sqlite3.connect("data/laws.db")
+              for src, n in c.execute("SELECT source, COUNT(*) FROM laws GROUP BY source ORDER BY 2 DESC"):
+                  print(f"  source={src!r}: {n}")
+              for cat, n in c.execute("SELECT category, COUNT(*) FROM laws GROUP BY category ORDER BY 2 DESC"):
+                  print(f"  category={cat!r}: {n}")
+              total = c.execute("SELECT COUNT(*) FROM laws").fetchone()[0]
+              tr = c.execute("SELECT COUNT(*) FROM laws WHERE title_ko IS NOT NULL").fetchone()[0]
+              print(f"total={total}; translated={tr}; pending={total-tr}")
+          except Exception as e:
+              print(f"stats failed (non-fatal): {e}", file=sys.stderr)
           PY
 
       - name: Commit DB
+        if: always()
         shell: bash
         run: |
           set -x
