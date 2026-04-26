@@ -31,8 +31,6 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-        with:
-          lfs: true
 
       - uses: actions/setup-python@v5
         with:
@@ -49,6 +47,9 @@ jobs:
       - name: Install Playwright (chromium only)
         run: |
           python -m playwright install --with-deps chromium
+
+      - name: Materialize laws.db from JSONL + translations
+        run: python -m crawler.build_db
 
       - name: Run incremental crawl
         run: |
@@ -71,7 +72,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/laws.db data/pending/today.summary.json data/pending/chunks
+          git add data/laws data/pending/today.summary.json data/pending/chunks
           if git diff --cached --quiet; then
             echo "nothing to commit"
             exit 0

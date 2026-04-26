@@ -17,13 +17,16 @@ web/out/
 !data/enrich-probe/*.log
 tmp_*.html
 
-# Data — laws.db는 git에 커밋(GitHub Pages 배포용 단일 소스).
-# 트랜잭션 임시 파일만 무시.
+# Data — laws.db is a build artifact (rebuilt from data/laws/*.jsonl +
+# translations/*.json by crawler/build_db.py). Do not commit.
+data/laws.db
 data/laws.db-journal
 data/laws.db-wal
 data/laws.db-shm
 data/pending/*.md
 !data/pending/.gitkeep
+# Probe outputs (one-off diagnostic artifacts)
+data/probe_*.json
 
 # OS
 .DS_Store

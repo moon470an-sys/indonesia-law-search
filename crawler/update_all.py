@@ -196,6 +196,19 @@ async def main(argv: list[str]) -> int:
     )
     log.info("summary written → %s (total_new=%d, chunks=%d)",
              SUMMARY_PATH.relative_to(ROOT), summary["total_new"], len(summary["chunk_files"]))
+
+    # Re-dump JSONL for sources whose row count changed. We dump unconditionally
+    # for any source that ran, since updated_at also drifts even when no new
+    # rows arrive — keeps `data/laws/*.jsonl` faithful to the live DB.
+    if summary["total_new"] > 0 or args.full:
+        from . import dump_jsonl
+        sources_touched = []
+        for cls in targets:
+            code = getattr(cls, "ministry_code", "") or ""
+            src = f"jdih_{code}" if code else "peraturan_go_id"
+            sources_touched.append(src)
+        log.info("re-dumping JSONL for: %s", sources_touched)
+        dump_jsonl.main(sources_touched)
     return 0
 
 
