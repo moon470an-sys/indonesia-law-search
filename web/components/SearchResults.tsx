@@ -160,15 +160,6 @@ export default function SearchResults({
           </FilterBox>
         )}
 
-        <FilterBox title="번역 상태">
-          <FilterLink href={link({ translated: undefined })} active={!onlyTranslated}>
-            전체
-          </FilterLink>
-          <FilterLink href={link({ translated: "1" })} active={onlyTranslated}>
-            한국어 번역만 <Count n={transCount} />
-          </FilterLink>
-        </FilterBox>
-
         <FilterBox title="상태">
           <FilterLink href={link({ status: undefined })} active={!statusParam}>전체</FilterLink>
           <FilterLink href={link({ status: "berlaku" })} active={statusParam === "berlaku"}>
