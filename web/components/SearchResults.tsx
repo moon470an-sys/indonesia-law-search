@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import LawTable from "./LawTable";
 import type { LawStatus } from "@/lib/meta";
 import { HIERARCHIES, classify, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
+
+const PER_PAGE = 50;
 
 const STATUSES: LawStatus[] = [
   "berlaku", "diubah", "dicabut", "dicabut_sebagian",
@@ -41,7 +43,6 @@ type Ministry = { code: string; name_ko: string; count: number };
 export default function SearchResults({
   laws,
   ministries,
-  // when set, the page is already scoped to one hierarchy and we hide that facet
   fixedHierarchy,
 }: {
   laws: Row[];
@@ -56,7 +57,8 @@ export default function SearchResults({
   const onlyTranslated = sp.get("translated") === "1";
   const recent = sp.get("recent");
 
-  const [grouped, setGrouped] = useState(true);
+  const [grouped, setGrouped] = useState(false);
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     let out = laws;
@@ -96,9 +98,19 @@ export default function SearchResults({
     }
 
     return out;
-  }, [laws, q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, fixedHierarchy, ministries]);
+  }, [laws, q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, fixedHierarchy]);
+
+  // Reset to page 1 whenever the filter / mode set changes
+  useEffect(() => {
+    setPage(1);
+  }, [q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, grouped]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const pageRows = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
 
   const groups = useMemo(() => {
+    if (!grouped) return [];
     const map = new Map<HierarchyKey, Row[]>();
     for (const law of filtered) {
       const k = classify(law);
@@ -108,7 +120,7 @@ export default function SearchResults({
     return HIERARCHIES
       .map((h) => ({ h, items: map.get(h.key) ?? [] }))
       .filter((g) => g.items.length > 0);
-  }, [filtered]);
+  }, [filtered, grouped]);
 
   const baseParams = new URLSearchParams();
   if (q) baseParams.set("q", q);
@@ -150,7 +162,7 @@ export default function SearchResults({
 
         <FilterBox title="번역 상태">
           <FilterLink href={link({ translated: undefined })} active={!onlyTranslated}>
-            전체 (번역+미번역)
+            전체
           </FilterLink>
           <FilterLink href={link({ translated: "1" })} active={onlyTranslated}>
             한국어 번역만 <Count n={transCount} />
@@ -196,16 +208,6 @@ export default function SearchResults({
             <div className="inline-flex rounded-md border border-slate-200 bg-white p-0.5 text-xs">
               <button
                 type="button"
-                onClick={() => setGrouped(true)}
-                className={
-                  "rounded px-3 py-1.5 font-semibold transition " +
-                  (grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
-                }
-              >
-                위계별
-              </button>
-              <button
-                type="button"
                 onClick={() => setGrouped(false)}
                 className={
                   "rounded px-3 py-1.5 font-semibold transition " +
@@ -213,6 +215,16 @@ export default function SearchResults({
                 }
               >
                 전체 목록
+              </button>
+              <button
+                type="button"
+                onClick={() => setGrouped(true)}
+                className={
+                  "rounded px-3 py-1.5 font-semibold transition " +
+                  (grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
+                }
+              >
+                위계별
               </button>
             </div>
           )}
@@ -247,10 +259,10 @@ export default function SearchResults({
                     {items.length.toLocaleString()}건
                   </p>
                 </header>
-                <LawTable laws={items.slice(0, 200)} compact />
-                {items.length > 200 && (
+                <LawTable laws={items.slice(0, 50)} compact />
+                {items.length > 50 && (
                   <div className="border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-xs text-slate-500">
-                    상위 200건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
+                    상위 50건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
                     <a
                       href={path(`/search/${SLUG_OF[h.key]}/`)}
                       className="font-semibold text-brand hover:underline"
@@ -263,10 +275,105 @@ export default function SearchResults({
             ))}
           </div>
         ) : (
-          <LawTable laws={filtered.slice(0, 500)} />
+          <>
+            <PageInfo
+              page={safePage}
+              perPage={PER_PAGE}
+              total={filtered.length}
+            />
+            <LawTable laws={pageRows} />
+            <Pager
+              page={safePage}
+              totalPages={totalPages}
+              onChange={setPage}
+            />
+          </>
         )}
       </div>
     </div>
+  );
+}
+
+function PageInfo({ page, perPage, total }: { page: number; perPage: number; total: number }) {
+  const from = (page - 1) * perPage + 1;
+  const to = Math.min(page * perPage, total);
+  return (
+    <p className="text-xs text-slate-500 tabular-nums">
+      {from.toLocaleString()}–{to.toLocaleString()} / {total.toLocaleString()}건 (페이지 {page})
+    </p>
+  );
+}
+
+function Pager({
+  page, totalPages, onChange,
+}: {
+  page: number;
+  totalPages: number;
+  onChange: (p: number) => void;
+}) {
+  if (totalPages <= 1) return null;
+
+  // Build a compact page-number window around the current page.
+  const window = 2;
+  const pages: (number | "…")[] = [];
+  const push = (n: number) => {
+    if (pages[pages.length - 1] !== n) pages.push(n);
+  };
+  push(1);
+  if (page - window > 2) pages.push("…");
+  for (let n = Math.max(2, page - window); n <= Math.min(totalPages - 1, page + window); n++) {
+    push(n);
+  }
+  if (page + window < totalPages - 1) pages.push("…");
+  if (totalPages > 1) push(totalPages);
+
+  const go = (n: number) => () => {
+    onChange(n);
+    if (typeof window !== "undefined" && typeof globalThis !== "undefined") {
+      // scroll to top of results so users see the new page
+      try { (globalThis as { scrollTo?: (o: ScrollToOptions) => void }).scrollTo?.({ top: 0, behavior: "smooth" }); }
+      catch { /* ignore */ }
+    }
+  };
+
+  return (
+    <nav className="flex flex-wrap items-center justify-center gap-1 pt-2">
+      <button
+        type="button"
+        onClick={go(Math.max(1, page - 1))}
+        disabled={page === 1}
+        className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-400 disabled:opacity-40"
+      >
+        ← 이전
+      </button>
+      {pages.map((p, i) =>
+        p === "…" ? (
+          <span key={`e${i}`} className="px-1 text-xs text-slate-400">…</span>
+        ) : (
+          <button
+            key={p}
+            type="button"
+            onClick={go(p)}
+            className={
+              "min-w-[36px] rounded-md border px-2.5 py-1.5 text-xs font-semibold tabular-nums transition " +
+              (p === page
+                ? "border-slate-900 bg-slate-900 text-white"
+                : "border-slate-200 bg-white text-slate-700 hover:border-slate-400")
+            }
+          >
+            {p}
+          </button>
+        )
+      )}
+      <button
+        type="button"
+        onClick={go(Math.min(totalPages, page + 1))}
+        disabled={page === totalPages}
+        className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-400 disabled:opacity-40"
+      >
+        다음 →
+      </button>
+    </nav>
   );
 }
 
