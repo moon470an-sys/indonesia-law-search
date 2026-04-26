@@ -129,42 +129,11 @@ export default async function LawDetailPage({
           </Section>
 
           <Section id="links" heading="원문 자료">
-            <ul className="space-y-2 text-[15px]">
-              <li>
-                <a
-                  href={law.source_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium text-brand hover:underline"
-                >
-                  → 원본 페이지 ({prettySource(law.source)})
-                </a>
-              </li>
-              {law.pdf_url_id && (
-                <li>
-                  <a
-                    href={law.pdf_url_id}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium text-brand hover:underline"
-                  >
-                    → PDF 원문 다운로드 (인니어)
-                  </a>
-                </li>
-              )}
-              {law.pdf_url_en && (
-                <li>
-                  <a
-                    href={law.pdf_url_en}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium text-brand hover:underline"
-                  >
-                    → 공식 영문 번역본 (Terjemahresmi)
-                  </a>
-                </li>
-              )}
-            </ul>
+            <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
+              <strong>안내</strong> · peraturan.go.id 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
+              직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine 또는 Google 번역 프록시)를 이용하세요.
+            </p>
+            <SourceLinks law={law} />
           </Section>
         </div>
       </div>
@@ -202,6 +171,64 @@ function Field({ label, value }: { label: string; value: string | null | undefin
         {value ?? "—"}
       </dd>
     </div>
+  );
+}
+
+function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | null; pdf_url_en: string | null; source: string } }) {
+  const items: { label: string; url: string }[] = [
+    { label: `원본 페이지 (${prettySource(law.source)})`, url: law.source_url },
+  ];
+  if (law.pdf_url_id) items.push({ label: "PDF 원문 (인니어)", url: law.pdf_url_id });
+  if (law.pdf_url_en) items.push({ label: "공식 영문 번역본 (Terjemahresmi)", url: law.pdf_url_en });
+
+  return (
+    <ul className="space-y-3 text-[14px]">
+      {items.map((it) => (
+        <li key={it.url} className="rounded-md border border-slate-200 bg-slate-50/60 p-3">
+          <p className="mb-1.5 text-xs font-bold text-slate-700">{it.label}</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+            <a
+              href={it.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+              title="원본 사이트로 직접 이동 (한국에서 차단될 수 있음)"
+            >
+              ↗ 직접 열기
+            </a>
+            <a
+              href={`https://web.archive.org/web/${encodeURIComponent(it.url)}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+              title="Wayback Machine 캐시본"
+            >
+              📦 Wayback Machine
+            </a>
+            <a
+              href={`https://translate.google.com/translate?sl=id&tl=ko&u=${encodeURIComponent(it.url)}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+              title="Google 번역 프록시 (한국어 자동 번역 + 우회 효과)"
+            >
+              🌐 Google 번역 프록시
+            </a>
+            {it.url.endsWith(".pdf") && (
+              <a
+                href={`https://docs.google.com/viewer?url=${encodeURIComponent(it.url)}&embedded=false`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-brand hover:underline"
+                title="Google Docs Viewer로 PDF 보기"
+              >
+                📄 Google Viewer
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 
