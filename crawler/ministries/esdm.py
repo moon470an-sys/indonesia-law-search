@@ -33,11 +33,23 @@ class EsdmScraper(BaseScraper):
     # Site forces 5 results/page regardless of per-page query string.
     per_page = 5
 
-    def __init__(self, headless: bool = True, max_pages: int = 600):
+    def __init__(
+        self,
+        headless: bool = True,
+        max_pages: int = 600,
+        known_source_urls: set[str] | None = None,
+        stop_after_known: int = 5,
+    ):
         # Default ceiling = 600 pages × 5 = 3,000 records, which comfortably
         # covers the current site total (~2,493). The scrape loop tightens
         # this down to the actual needed_pages parsed from the summary text.
         super().__init__(headless=headless, max_pages=max_pages)
+        # Incremental mode: when known_source_urls is provided, stop after we
+        # see `stop_after_known` consecutive records that are already in DB.
+        # Listing is newest-first, so a contiguous run of known URLs means we
+        # have caught up.
+        self.known_source_urls = known_source_urls or set()
+        self.stop_after_known = stop_after_known
 
     async def scrape(self) -> AsyncIterator[LawRecord]:
         page = await self.new_page()
@@ -47,6 +59,7 @@ class EsdmScraper(BaseScraper):
         # effective page count is min(ceil(total / per_page), max_pages).
         page_limit = self.max_pages
         seen_total = False
+        consecutive_known = 0
 
         for page_no in range(1, self.max_pages + 1):
             if page_no > page_limit:
@@ -113,6 +126,11 @@ class EsdmScraper(BaseScraper):
                     m = re.search(r"id=(\d+)", source_url)
                     law_number = f"esdm-detail-{m.group(1)}" if m else title_id[:64]
 
+                if source_url in self.known_source_urls:
+                    consecutive_known += 1
+                else:
+                    consecutive_known = 0
+
                 yield LawRecord(
                     category="keputusan",            # ESDM Kepmen은 행정규칙 메뉴
                     law_type=law_type or "Kepmen",
@@ -127,6 +145,14 @@ class EsdmScraper(BaseScraper):
                     pdf_url_id=pdf_url,
                 )
                 yielded += 1
+
+                if (self.known_source_urls
+                        and consecutive_known >= self.stop_after_known):
+                    log.info(
+                        "[esdm] stopping early: %d consecutive known URLs (incremental mode)",
+                        consecutive_known,
+                    )
+                    return
 
             if yielded == 0:
                 break
