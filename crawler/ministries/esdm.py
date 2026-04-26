@@ -22,6 +22,7 @@ from ..base_scraper import BaseScraper, LawRecord
 log = logging.getLogger(__name__)
 
 NUMBER_RE = re.compile(r"Nomor\s+(\S+(?:\s+\S+)*?)\s+(?:Tahun|tentang|Tentang)", re.IGNORECASE)
+TOTAL_RE = re.compile(r"dari\s+(\d+)\s+Data", re.IGNORECASE)
 
 
 class EsdmScraper(BaseScraper):
@@ -29,21 +30,53 @@ class EsdmScraper(BaseScraper):
     ministry_name_ko = "에너지광물자원부"
     base_url = "https://jdih.esdm.go.id"
     list_path = "/dokumen/peraturan"
-    per_page = 50
+    # Site forces 5 results/page regardless of per-page query string.
+    per_page = 5
+
+    def __init__(self, headless: bool = True, max_pages: int = 600):
+        # Default ceiling = 600 pages × 5 = 3,000 records, which comfortably
+        # covers the current site total (~2,493). The scrape loop tightens
+        # this down to the actual needed_pages parsed from the summary text.
+        super().__init__(headless=headless, max_pages=max_pages)
 
     async def scrape(self) -> AsyncIterator[LawRecord]:
         page = await self.new_page()
 
+        # Determine actual total from the first page summary text and cap pages.
+        # max_pages on the instance is treated as a *user-supplied ceiling*; the
+        # effective page count is min(ceil(total / per_page), max_pages).
+        page_limit = self.max_pages
+        seen_total = False
+
         for page_no in range(1, self.max_pages + 1):
-            url = f"{self.base_url}{self.list_path}?page={page_no}&per-page={self.per_page}"
+            if page_no > page_limit:
+                # Total parsed from first-page summary already capped iterations.
+                # Without this, range() keeps going up to max_pages (600) since
+                # the in-loop reassignment of page_limit does not change range's
+                # bounds, which were evaluated once at loop entry.
+                break
+            url = f"{self.base_url}{self.list_path}?page={page_no}"
             await self.goto(page, url)
             await page.wait_for_load_state("networkidle")
+
+            if not seen_total:
+                summary = await page.evaluate(
+                    "() => { const e = document.querySelector('.summary'); return e ? e.textContent.trim() : ''; }"
+                )
+                m = TOTAL_RE.search(summary or "")
+                if m:
+                    total = int(m.group(1))
+                    needed_pages = (total + self.per_page - 1) // self.per_page
+                    page_limit = min(self.max_pages, needed_pages)
+                    log.info("[esdm] total=%d → crawling %d pages (cap=%d)",
+                             total, page_limit, self.max_pages)
+                seen_total = True
 
             cards = await page.query_selector_all(".card-body.no-padding-tb")
             if not cards:
                 log.warning("[esdm] no cards on page %d (%s)", page_no, url)
                 break
-            log.info("[esdm] page %d: %d cards", page_no, len(cards))
+            log.info("[esdm] page %d/%d: %d cards", page_no, page_limit, len(cards))
 
             yielded = 0
             for card in cards:
@@ -96,9 +129,6 @@ class EsdmScraper(BaseScraper):
                 yielded += 1
 
             if yielded == 0:
-                break
-            if len(cards) < self.per_page:
-                # 마지막 페이지
                 break
 
     @staticmethod
