@@ -380,6 +380,183 @@ def parse_bnpt(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     return out
 
 
+def parse_atrbpn(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """atrbpn (토지관리청): card with /peraturan/detail/{id}/{slug} link + h2."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/peraturan/detail/"]'):
+        href = a.get("href") or ""
+        m = re.search(r"/peraturan/detail/(\d+)/", href)
+        if not m:
+            continue
+        rid = m.group(1)
+        if rid in seen:
+            continue
+        # Title is the inner <h2> if present, else a.text
+        h = a.find(["h2", "h3", "h4"])
+        title = h.get_text(" ", strip=True) if h else a.get_text(" ", strip=True)
+        if not title or len(title) < 15:
+            continue
+        seen.add(rid)
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Peraturan ATR/BPN",
+            law_number=_extract_number(title) or f"atrbpn-{rid}",
+            title_id=title[:512],
+            source="jdih_atrbpn",
+            source_url=urljoin(page_url, href),
+            ministry_code="atrbpn",
+            ministry_name_ko="토지·공간행정부",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kemendag(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kemendag (무역부): /peraturan/detail/{id}/{groupreg}, title in inner <a>."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/peraturan/detail/"]'):
+        href = a.get("href") or ""
+        m = re.search(r"/peraturan/detail/(\d+)/(\d+)", href)
+        if not m:
+            continue
+        key = (m.group(1), m.group(2))
+        if key in seen:
+            continue
+        # Title text on landing is short like "3 Tahun 2026"; nearby <p> often has full title
+        title = a.get_text(" ", strip=True)
+        # Look for fuller description in surrounding card
+        card = a.find_parent("div")
+        for _ in range(4):
+            if not card:
+                break
+            ps = card.find_all("p")
+            for p in ps:
+                t = p.get_text(" ", strip=True)
+                if len(t) > 30 and "tentang" in t.lower():
+                    title = t
+                    break
+            if "tentang" in title.lower() and len(title) > 30:
+                break
+            card = card.find_parent("div")
+        if not title or len(title) < 8:
+            continue
+        seen.add(key)
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permendag",
+            law_number=_extract_number(title) or f"kemendag-{m.group(1)}",
+            title_id=title[:512],
+            source="jdih_kemendag",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemendag",
+            ministry_name_ko="무역부",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kejaksaan(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kejaksaan (검찰청): card with `<h6><a href="/produk-hukum/detail?id=N">number</a></h6>` and <p> body."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/produk-hukum/detail?id="]'):
+        href = a.get("href") or ""
+        m = re.search(r"/produk-hukum/detail\?id=(\d+)", href)
+        if not m:
+            continue
+        rid = m.group(1)
+        if rid in seen:
+            continue
+        # Build title from card: type (small.font-weight-bold) + number (h6) + body (p.card-text)
+        card = a.find_parent("div", class_="card-body") or a.find_parent("div", class_="card")
+        type_el = card.select_one("small p") if card else None
+        type_txt = type_el.get_text(" ", strip=True) if type_el else ""
+        nomor_txt = a.get_text(" ", strip=True)
+        body_p = card.select_one("p.card-text") if card else None
+        body_txt = body_p.get_text(" ", strip=True) if body_p else ""
+        title_parts = [p for p in (type_txt, nomor_txt, body_txt) if p]
+        title = " — ".join(title_parts) if title_parts else nomor_txt
+        if not title:
+            continue
+        seen.add(rid)
+        out.append(LawRecord(
+            category="keputusan",
+            law_type=type_txt or "Produk Hukum Kejaksaan",
+            law_number=nomor_txt[:60] or f"kejaksaan-{rid}",
+            title_id=title[:512],
+            source="jdih_kejaksaan",
+            source_url=urljoin(page_url, href),
+            ministry_code="kejaksaan",
+            ministry_name_ko="검찰청",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kpu(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kpu (선거관리위): /peraturan-kpu/detail/{base64} or /keputusan-kpu/detail/{base64}."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/peraturan-kpu/detail/"], a[href*="/keputusan-kpu/detail/"]'):
+        href = a.get("href") or ""
+        if href in seen:
+            continue
+        # Title: closest <h4> or <h3>
+        h = a.find_parent().find(["h4", "h3", "h5"]) if a.find_parent() else None
+        title = h.get_text(" ", strip=True) if h else a.get_text(" ", strip=True)
+        # Description: nearest <p>
+        desc_el = a.find_next("p")
+        desc = desc_el.get_text(" ", strip=True) if desc_el else ""
+        full = f"{title} — {desc}".strip(" — ") if desc else title
+        if not full:
+            continue
+        seen.add(href)
+        is_keputusan = "/keputusan-kpu/" in href
+        out.append(LawRecord(
+            category="keputusan" if is_keputusan else "peraturan",
+            law_type="Keputusan KPU" if is_keputusan else "Peraturan KPU",
+            law_number=_extract_number(full) or "kpu-?",
+            title_id=full[:512],
+            source="jdih_kpu",
+            source_url=urljoin(page_url, href),
+            ministry_code="kpu",
+            ministry_name_ko="선거관리위",
+            year=_extract_year(full),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_bkpm(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """bkpm (투자청): card.produk-card with h3.produk-title > a."""
+    out, seen = [], set()
+    for h3 in soup.select("h3.produk-title"):
+        a = h3.find("a", href=True)
+        if not a:
+            continue
+        href = a.get("href") or ""
+        if href in seen:
+            continue
+        title = a.get_text(" ", strip=True)
+        if not title:
+            continue
+        seen.add(href)
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Dokumen BKPM",
+            law_number=_extract_number(title) or "bkpm-?",
+            title_id=title[:512],
+            source="jdih_bkpm",
+            source_url=urljoin(page_url, href),
+            ministry_code="bkpm",
+            ministry_name_ko="투자조정청",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
 def parse_pkp(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     out = []
     for actions in soup.select(".doc-actions"):
@@ -490,6 +667,32 @@ ADAPTERS: dict[str, dict] = {
     "bnpt": {
         "list_template": "https://jdih.bnpt.go.id/id/peraturan-perundang-undangan?page={page}",
         "parser": parse_bnpt,
+        "use_playwright": False,
+    },
+    # ── Phase 1B-8 (Tier 1 + adjacent) ─────────────────────────
+    "atrbpn": {
+        "list_template": "https://jdih.atrbpn.go.id/?page={page}",
+        "parser": parse_atrbpn,
+        "use_playwright": False,
+    },
+    "kemendag": {
+        "list_template": "https://jdih.kemendag.go.id/peraturan?page={page}",
+        "parser": parse_kemendag,
+        "use_playwright": False,
+    },
+    "kejaksaan": {
+        "list_template": "https://jdih.kejaksaan.go.id/produk-hukum?page={page}",
+        "parser": parse_kejaksaan,
+        "use_playwright": False,
+    },
+    "kpu": {
+        "list_template": "https://jdih.kpu.go.id/peraturan-kpu?page={page}",
+        "parser": parse_kpu,
+        "use_playwright": False,
+    },
+    "bkpm": {
+        "list_template": "https://jdih.bkpm.go.id/id?page={page}",
+        "parser": parse_bkpm,
         "use_playwright": False,
     },
 }

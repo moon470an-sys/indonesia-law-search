@@ -6,7 +6,7 @@ on:
       sites:
         description: "Site keys (space-separated). Empty = all."
         required: false
-        default: "kemhan kemenpora kemkes kemenag bnpt"
+        default: "atrbpn kemendag kejaksaan kpu bkpm"
       max_pages:
         description: "Max pages per site"
         required: false
