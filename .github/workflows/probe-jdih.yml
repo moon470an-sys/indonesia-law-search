@@ -40,6 +40,10 @@ jobs:
         run: python -m crawler.probe_central
         continue-on-error: true
 
+      - name: Attempt BPK Cloudflare bypass
+        run: python -m crawler.probe_bpk_bypass
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,6 +53,7 @@ jobs:
             data/probe_jdih_pw.json
             data/probe_jdihn.json
             data/probe_central.json
+            data/probe_bpk.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
