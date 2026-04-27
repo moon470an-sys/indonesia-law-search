@@ -171,7 +171,12 @@ def parse_brin(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
 
 
 def parse_kemhan(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
-    """kemhan: /documents/regulations/{numeric_id} → next.js dynamic list."""
+    """kemhan: /documents/regulations/{numeric_id}. Each card structure is:
+        <h3 class="...font-semibold...">TITLE</h3>
+        <div>...<a href="/documents/regulations/{id}">...</a>...</div>
+    Title is the closest preceding h3 ancestor sibling, NOT the parent text
+    (which contains the action button label "Lihat Detail Abstrak Unduh").
+    """
     out, seen = [], set()
     for a in soup.select('a[href*="/documents/regulations/"]'):
         href = a.get("href") or ""
@@ -181,22 +186,38 @@ def parse_kemhan(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
         rid = m.group(1)
         if rid in seen:
             continue
-        seen.add(rid)
-        # Title = ancestor text (up to ~250 chars)
-        card = a
-        for _ in range(5):
-            if card.parent is None:
-                break
-            card = card.parent
-            txt = card.get_text(" ", strip=True)
-            if 20 <= len(txt) <= 400:
-                break
-        title = card.get_text(" ", strip=True)[:400]
-        if not title or "Beranda" in title or "Login" in title:
+        # Title: nearest preceding <h3> in document order
+        h3 = a.find_previous("h3")
+        if not h3:
             continue
+        title = h3.get_text(" ", strip=True)
+        if not title or len(title) < 15:
+            continue
+        # Determine law_type from title prefix
+        prefix = title.split(" Nomor")[0].strip() if "Nomor" in title else title.split()[0:4]
+        if isinstance(prefix, list):
+            prefix = " ".join(prefix)
+        # Map common prefixes
+        if title.startswith("Peraturan Menteri Pertahanan"):
+            law_type = "Permenhan"
+        elif title.startswith("Keputusan Menteri Pertahanan"):
+            law_type = "Kepmenhan"
+        elif title.startswith("Peraturan Pemerintah"):
+            law_type = "PP"
+        elif title.startswith("Peraturan Presiden"):
+            law_type = "Perpres"
+        elif title.startswith("Keputusan Presiden"):
+            law_type = "Keppres"
+        elif title.startswith("Undang-Undang") or title.startswith("Undang-undang"):
+            law_type = "UU"
+        elif title.startswith("Surat Edaran"):
+            law_type = "Surat Edaran"
+        else:
+            law_type = "Peraturan Pertahanan"
+        seen.add(rid)
         out.append(LawRecord(
             category="peraturan",
-            law_type="Permen Pertahanan",
+            law_type=law_type,
             law_number=_extract_number(title) or f"kemhan-{rid}",
             title_id=title[:512],
             source="jdih_kemhan",
