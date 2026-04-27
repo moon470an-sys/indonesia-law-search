@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-04-27T06:00:00Z",
+  "date": "2026-04-27",
+  "full": false,
+  "ministries": {
+    "bnn": {
+      "ministry_code": "bnn",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": [
+        "data\\pending\\chunks\\bnn_2026-04-27_01.json",
+        "data\\pending\\chunks\\bnn_2026-04-27_02.json"
+      ]
+    },
+    "bmkg": {
+      "ministry_code": "bmkg",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": [
+        "data\\pending\\chunks\\bmkg_2026-04-27_01.json"
+      ]
+    },
+    "polri": {
+      "ministry_code": "polri",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": [
+        "data\\pending\\chunks\\polri_2026-04-27_01.json",
+        "data\\pending\\chunks\\polri_2026-04-27_02.json",
+        "data\\pending\\chunks\\polri_2026-04-27_03.json",
+        "data\\pending\\chunks\\polri_2026-04-27_04.json",
+        "data\\pending\\chunks\\polri_2026-04-27_05.json",
+        "data\\pending\\chunks\\polri_2026-04-27_06.json",
+        "data\\pending\\chunks\\polri_2026-04-27_07.json",
+        "data\\pending\\chunks\\polri_2026-04-27_08.json",
+        "data\\pending\\chunks\\polri_2026-04-27_09.json",
+        "data\\pending\\chunks\\polri_2026-04-27_10.json"
+      ]
+    }
+  },
+  "total_new": 3173,
+  "chunk_files": [
+    "data\\pending\\chunks\\bnn_2026-04-27_01.json",
+    "data\\pending\\chunks\\bnn_2026-04-27_02.json",
+    "data\\pending\\chunks\\bmkg_2026-04-27_01.json",
+    "data\\pending\\chunks\\polri_2026-04-27_01.json",
+    "data\\pending\\chunks\\polri_2026-04-27_02.json",
+    "data\\pending\\chunks\\polri_2026-04-27_03.json",
+    "data\\pending\\chunks\\polri_2026-04-27_04.json",
+    "data\\pending\\chunks\\polri_2026-04-27_05.json",
+    "data\\pending\\chunks\\polri_2026-04-27_06.json",
+    "data\\pending\\chunks\\polri_2026-04-27_07.json",
+    "data\\pending\\chunks\\polri_2026-04-27_08.json",
+    "data\\pending\\chunks\\polri_2026-04-27_09.json",
+    "data\\pending\\chunks\\polri_2026-04-27_10.json"
+  ]
+}
