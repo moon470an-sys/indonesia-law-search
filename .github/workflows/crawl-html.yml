@@ -38,6 +38,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Playwright chromium
+        run: python -m playwright install --with-deps chromium
+
       - name: Run HTML scrapers
         run: |
           python -m crawler.html_scrapers ${{ inputs.sites }} --max-pages ${{ inputs.max_pages }}

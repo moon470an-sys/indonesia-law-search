@@ -236,18 +236,22 @@ ADAPTERS: dict[str, dict] = {
     "kemnaker": {
         "list_template": "https://jdih.kemnaker.go.id/peraturan?page={page}",
         "parser": parse_kemnaker,
+        "use_playwright": True,  # server returns 502/timeout to plain httpx
     },
     "kemenpppa": {
         "list_template": "https://jdih.kemenpppa.go.id/dokumen-hukum/produk-hukum?page={page}",
         "parser": parse_kemenpppa,
+        "use_playwright": False,
     },
     "brin": {
         "list_template": "https://jdih.brin.go.id/dokumen-hukum/peraturan?page={page}",
         "parser": parse_brin,
+        "use_playwright": True,  # Next.js SPA — content loads via JS
     },
     "pkp": {
         "list_template": "https://jdih.pkp.go.id/produk-hukum?page={page}",
         "parser": parse_pkp,
+        "use_playwright": False,
     },
 }
 
@@ -256,17 +260,32 @@ ADAPTERS: dict[str, dict] = {
 # Runner
 # ────────────────────────────────────────────────────────────────────────────
 
-async def fetch(client: httpx.AsyncClient, url: str, retries: int = 3) -> str | None:
+async def fetch_httpx(client: httpx.AsyncClient, url: str, retries: int = 3) -> str | None:
     last_err = None
     for attempt in range(retries):
         try:
-            r = await client.get(url, timeout=30.0, follow_redirects=True)
+            r = await client.get(url, timeout=45.0, follow_redirects=True)
             r.raise_for_status()
             return r.text
         except Exception as e:
             last_err = str(e)
             await asyncio.sleep(2 + attempt)
-    log.error("[fetch] all retries failed for %s: %s", url, last_err)
+    log.error("[fetch_httpx] all retries failed for %s: %s", url, last_err)
+    return None
+
+
+async def fetch_playwright(page, url: str, retries: int = 3) -> str | None:
+    last_err = None
+    for attempt in range(retries):
+        try:
+            await page.goto(url, wait_until="domcontentloaded", timeout=60_000)
+            # Let JS-rendered content settle
+            await page.wait_for_timeout(4000)
+            return await page.content()
+        except Exception as e:
+            last_err = str(e)
+            await asyncio.sleep(3 + attempt * 2)
+    log.error("[fetch_playwright] all retries failed for %s: %s", url, last_err)
     return None
 
 
@@ -276,32 +295,65 @@ async def scrape_site(site: str, max_pages: int) -> tuple[int, int, Path]:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     yielded = 0
     seen_urls: set[str] = set()
-    async with httpx.AsyncClient(headers={"User-Agent": UA, "Accept-Language": "id-ID,en;q=0.5"}) as client:
-        with out_path.open("w", encoding="utf-8") as f:
-            zero_pages = 0
-            for page in range(1, max_pages + 1):
-                url = adapter["list_template"].format(page=page)
-                html = await fetch(client, url)
-                if html is None:
-                    log.warning("[%s] page %d fetch failed → stop", site, page)
-                    break
-                soup = BeautifulSoup(html, "lxml")
-                records = adapter["parser"](soup, url)
-                # Dedupe within site
-                new_recs = [r for r in records if r.source_url not in seen_urls]
-                for r in new_recs:
-                    seen_urls.add(r.source_url)
-                    f.write(json.dumps(asdict(r), ensure_ascii=False) + "\n")
-                    yielded += 1
-                log.info("[%s] page %d → %d items (%d new, cum=%d)",
-                         site, page, len(records), len(new_recs), yielded)
-                if not new_recs:
-                    zero_pages += 1
-                    if zero_pages >= 2:
-                        log.info("[%s] 2 consecutive empty pages → done", site)
+
+    if adapter.get("use_playwright"):
+        from playwright.async_api import async_playwright
+        async with async_playwright() as pw:
+            browser = await pw.chromium.launch(headless=True)
+            ctx = await browser.new_context(user_agent=UA, locale="id-ID")
+            page = await ctx.new_page()
+            page.set_default_timeout(60_000)
+            with out_path.open("w", encoding="utf-8") as f:
+                zero_pages = 0
+                for pn in range(1, max_pages + 1):
+                    url = adapter["list_template"].format(page=pn)
+                    html = await fetch_playwright(page, url)
+                    if html is None:
+                        log.warning("[%s] page %d fetch failed → stop", site, pn)
                         break
-                else:
-                    zero_pages = 0
+                    soup = BeautifulSoup(html, "lxml")
+                    records = adapter["parser"](soup, url)
+                    new_recs = [r for r in records if r.source_url not in seen_urls]
+                    for r in new_recs:
+                        seen_urls.add(r.source_url)
+                        f.write(json.dumps(asdict(r), ensure_ascii=False) + "\n")
+                        yielded += 1
+                    log.info("[%s] page %d → %d items (%d new, cum=%d) [pw]",
+                             site, pn, len(records), len(new_recs), yielded)
+                    if not new_recs:
+                        zero_pages += 1
+                        if zero_pages >= 2:
+                            log.info("[%s] 2 consecutive empty pages → done", site)
+                            break
+                    else:
+                        zero_pages = 0
+            await browser.close()
+    else:
+        async with httpx.AsyncClient(headers={"User-Agent": UA, "Accept-Language": "id-ID,en;q=0.5"}) as client:
+            with out_path.open("w", encoding="utf-8") as f:
+                zero_pages = 0
+                for pn in range(1, max_pages + 1):
+                    url = adapter["list_template"].format(page=pn)
+                    html = await fetch_httpx(client, url)
+                    if html is None:
+                        log.warning("[%s] page %d fetch failed → stop", site, pn)
+                        break
+                    soup = BeautifulSoup(html, "lxml")
+                    records = adapter["parser"](soup, url)
+                    new_recs = [r for r in records if r.source_url not in seen_urls]
+                    for r in new_recs:
+                        seen_urls.add(r.source_url)
+                        f.write(json.dumps(asdict(r), ensure_ascii=False) + "\n")
+                        yielded += 1
+                    log.info("[%s] page %d → %d items (%d new, cum=%d)",
+                             site, pn, len(records), len(new_recs), yielded)
+                    if not new_recs:
+                        zero_pages += 1
+                        if zero_pages >= 2:
+                            log.info("[%s] 2 consecutive empty pages → done", site)
+                            break
+                    else:
+                        zero_pages = 0
     log.info("[%s] DONE yielded=%d → %s", site, yielded, out_path)
     return yielded, 0, out_path
 
