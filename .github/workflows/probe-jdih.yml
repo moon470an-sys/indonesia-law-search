@@ -68,6 +68,10 @@ jobs:
         run: python -m crawler.probe_kemnaker_bypass
         continue-on-error: true
 
+      - name: kemnaker pagination probe
+        run: python -m crawler.probe_kemnaker_pag
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -84,6 +88,7 @@ jobs:
             data/probe_kemenpora_pag.json
             data/probe_bmkg_pag.json
             data/probe_kemnaker_bypass.json
+            data/probe_kemnaker_pag.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
