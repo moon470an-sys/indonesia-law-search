@@ -29,6 +29,9 @@ jobs:
       - name: Run batch DOM probe (22 newly-reachable hosts)
         run: python -m crawler.probe_batch_dom
         continue-on-error: true
+      - name: Run deeper list-URL probe (12 partial sites)
+        run: python -m crawler.probe_deeper
+        continue-on-error: true
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -37,6 +40,8 @@ jobs:
           path: |
             data/probe_l3l5_recheck.json
             data/probe_batch_dom.json
+            data/probe_deeper.json
             data/probe/batch_*.html
+            data/probe/deep_*.html
           retention-days: 14
           if-no-files-found: ignore
