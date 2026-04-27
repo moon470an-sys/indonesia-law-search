@@ -11,19 +11,22 @@ import httpx
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/121.0 Safari/537.36"
 
 URLS = [
-    "https://jdih.kemnaker.go.id/peraturan",
-    "https://jdih.kemnaker.go.id/peraturan?page=2",
-    "https://jdih.kemnaker.go.id/peraturan?p=2",
-    "https://jdih.kemnaker.go.id/peraturan?halaman=2",
-    "https://jdih.kemnaker.go.id/peraturan/page/2",
-    "https://jdih.kemnaker.go.id/peraturan/2",
-    "https://jdih.kemnaker.go.id/peraturan?offset=15",
-    "https://jdih.kemnaker.go.id/peraturan?per_page=100",
-    "https://jdih.kemnaker.go.id/peraturan?limit=100",
-    "https://jdih.kemnaker.go.id/peraturan?per_page=100&page=1",
-    "https://jdih.kemnaker.go.id/peraturan?sort=terbaru",
-    "https://jdih.kemnaker.go.id/peraturan?sort=terbaru&page=2",
-    "https://jdih.kemnaker.go.id/peraturan?keyword=&nomor=&tahun=&status=&terjemahan=tersedia&sort=terbaru&page=2",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2025",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2025&page=2",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2020",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2020&page=2",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2010",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=1990",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2024&sort=terbaru&page=2",
+    "https://jdih.kemnaker.go.id/peraturan?tahun=2024&sort=terbaru&page=3",
+    # search keyword
+    "https://jdih.kemnaker.go.id/peraturan?keyword=a",
+    "https://jdih.kemnaker.go.id/peraturan?keyword=2024",
+    # tag filter
+    "https://jdih.kemnaker.go.id/peraturan?tag%5B%5D=hukum",
+    # status filter
+    "https://jdih.kemnaker.go.id/peraturan?status=Berlaku",
+    "https://jdih.kemnaker.go.id/peraturan?status=Berlaku&page=2",
 ]
 
 
