@@ -56,6 +56,10 @@ jobs:
         run: python -m crawler.probe_jdih_retry
         continue-on-error: true
 
+      - name: kemenpora pagination probe
+        run: python -m crawler.probe_kemenpora_pag
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -69,6 +73,7 @@ jobs:
             data/probe_layers.json
             data/probe_l2.json
             data/probe_jdih_retry.json
+            data/probe_kemenpora_pag.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
