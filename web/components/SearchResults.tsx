@@ -135,26 +135,80 @@ export default function SearchResults({
   const activeHierarchy = fixedHierarchy ?? (hierarchySlug ? HIERARCHY_SLUG[hierarchySlug] : null);
   const transCount = laws.filter((l) => l.title_ko != null).length;
 
+  // Sub-buckets for hierarchies that benefit from a 2nd-level breakdown:
+  //   Permen / Kepmen → by ministry (장관별)
+  //   Perda_Prov / Perda_Kab → by ministry (지역 코드 역할)
+  const subBucketKeys: HierarchyKey[] = ["Permen", "Kepmen", "Perda_Prov", "Perda_Kab"];
+  const subBuckets = useMemo(() => {
+    const out: Record<string, { code: string; label: string; count: number }[]> = {};
+    for (const key of subBucketKeys) {
+      const counts = new Map<string, { label: string; count: number }>();
+      for (const law of laws) {
+        if (classify(law) !== key) continue;
+        const code = law.ministry_code || "__none__";
+        const label = law.ministry_name_ko || (code === "__none__" ? "(미분류)" : code);
+        const cur = counts.get(code) ?? { label, count: 0 };
+        cur.count += 1;
+        counts.set(code, cur);
+      }
+      out[key] = Array.from(counts.entries())
+        .map(([code, v]) => ({ code, label: v.label, count: v.count }))
+        .sort((a, b) => b.count - a.count);
+    }
+    return out;
+  }, [laws]);
+
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-[260px_1fr]">
       <aside className="space-y-4 text-sm">
         {!fixedHierarchy && (
           <FilterBox title="법위계">
-            <FilterLink href={link({ hierarchy: undefined })} active={!activeHierarchy}>
+            <FilterLink
+              href={link({ hierarchy: undefined, ministry: undefined })}
+              active={!activeHierarchy}
+            >
               전체 <Count n={laws.length} />
             </FilterLink>
             {HIERARCHIES.map((h) => {
               const cnt = laws.filter((l) => classify(l) === h.key).length;
               if (cnt === 0) return null;
+              const isActive = activeHierarchy === h.key;
+              const buckets = subBuckets[h.key as string];
+              const expanded =
+                isActive && Array.isArray(buckets) && buckets.length > 0;
               return (
-                <FilterLink
-                  key={h.key}
-                  href={link({ hierarchy: SLUG_OF[h.key] })}
-                  active={activeHierarchy === h.key}
-                  dot={h.classes.bgStrong}
-                >
-                  {h.name_ko} <Count n={cnt} />
-                </FilterLink>
+                <li key={h.key}>
+                  <FilterLink
+                    href={link({ hierarchy: SLUG_OF[h.key], ministry: undefined })}
+                    active={isActive && !ministry}
+                    dot={h.classes.bgStrong}
+                    nested={false}
+                  >
+                    {h.name_ko} <Count n={cnt} />
+                  </FilterLink>
+                  {expanded && (
+                    <ul className="mb-1 ml-4 mt-0.5 space-y-0.5 border-l border-slate-200 pl-2">
+                      {buckets.map((b) => {
+                        const codeForLink =
+                          b.code === "__none__" ? undefined : b.code;
+                        const subActive = ministry === codeForLink;
+                        return (
+                          <FilterLink
+                            key={b.code}
+                            href={link({
+                              hierarchy: SLUG_OF[h.key],
+                              ministry: codeForLink,
+                            })}
+                            active={subActive}
+                            nested
+                          >
+                            {b.label} <Count n={b.count} />
+                          </FilterLink>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
               );
             })}
           </FilterBox>
@@ -374,29 +428,32 @@ function FilterBox({ title, children }: { title: string; children: React.ReactNo
 }
 
 function FilterLink({
-  href, active, dot, children,
+  href, active, dot, children, nested,
 }: {
   href: string;
   active: boolean;
   dot?: string;
   children: React.ReactNode;
+  /** when true, render the link directly without wrapping <li> (parent already provides one) */
+  nested?: boolean;
 }) {
-  return (
-    <li>
-      <a
-        href={href}
-        className={
-          "flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors " +
-          (active
-            ? "bg-slate-900 font-semibold text-white"
-            : "text-slate-700 hover:bg-slate-50 hover:text-slate-900")
-        }
-      >
-        {dot && !active && (
-          <span className={`size-2 shrink-0 rounded-full ${dot}`} aria-hidden />
-        )}
-        <span className="flex-1">{children}</span>
-      </a>
-    </li>
+  const anchor = (
+    <a
+      href={href}
+      className={
+        "flex items-center gap-2 rounded-md transition-colors " +
+        (nested ? "px-1.5 py-1 text-[13px] " : "px-2 py-1.5 ") +
+        (active
+          ? "bg-slate-900 font-semibold text-white"
+          : "text-slate-700 hover:bg-slate-50 hover:text-slate-900")
+      }
+    >
+      {dot && !active && (
+        <span className={`size-2 shrink-0 rounded-full ${dot}`} aria-hidden />
+      )}
+      <span className="flex-1">{children}</span>
+    </a>
   );
+  if (nested) return <li>{anchor}</li>;
+  return <li>{anchor}</li>;
 }
