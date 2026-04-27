@@ -52,6 +52,10 @@ jobs:
         run: python -m crawler.probe_l2_main
         continue-on-error: true
 
+      - name: jdih.* retry probe (90s timeout, 3 retries)
+        run: python -m crawler.probe_jdih_retry
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -64,6 +68,7 @@ jobs:
             data/probe_bpk.json
             data/probe_layers.json
             data/probe_l2.json
+            data/probe_jdih_retry.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
