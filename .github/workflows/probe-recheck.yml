@@ -1,0 +1,35 @@
+name: Probe L3/L5 re-check (focused)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: crawler/requirements.txt
+      - name: Install deps
+        working-directory: crawler
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run L3/L5 re-check
+        run: python -m crawler.probe_l3_l5_recheck
+        timeout-minutes: 50
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-recheck
+          path: data/probe_l3l5_recheck.json
+          retention-days: 14
+          if-no-files-found: ignore
