@@ -125,86 +125,40 @@ function Field({ label, value }: { label: string; value: string | null | undefin
   );
 }
 
-/** Convert https://peraturan.go.id/foo into the *.translate.goog mirror form
- *  that Google's translate frontend actually serves.
- *  Rule: in the host, "-" → "--" first, then "." → "-".
- */
-function googleTranslate(url: string): string | null {
-  try {
-    const u = new URL(url);
-    const host = u.host.replace(/-/g, "--").replace(/\./g, "-");
-    const search = u.search
-      ? u.search + "&_x_tr_sl=id&_x_tr_tl=ko&_x_tr_hl=ko"
-      : "?_x_tr_sl=id&_x_tr_tl=ko&_x_tr_hl=ko";
-    return `https://${host}.translate.goog${u.pathname}${search}`;
-  } catch {
-    return null;
-  }
-}
-
-function isPdf(u: string): boolean {
-  return /\.pdf(?:$|\?)/i.test(u);
-}
-
 function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | null; pdf_url_en: string | null; source: string } }) {
-  const items: { label: string; url: string; pdf: boolean }[] = [
-    { label: `원본 페이지 (${prettySource(law.source)})`, url: law.source_url, pdf: false },
+  const items: { label: string; url: string }[] = [
+    { label: `원본 페이지 (${prettySource(law.source)})`, url: law.source_url },
   ];
-  if (law.pdf_url_id) items.push({ label: "PDF 원문 (인니어)", url: law.pdf_url_id, pdf: true });
-  if (law.pdf_url_en) items.push({ label: "공식 영문 번역본 (Terjemahresmi)", url: law.pdf_url_en, pdf: true });
+  if (law.pdf_url_id) items.push({ label: "PDF 원문 (인니어)", url: law.pdf_url_id });
+  if (law.pdf_url_en) items.push({ label: "공식 영문 번역본 (Terjemahresmi)", url: law.pdf_url_en });
 
   return (
     <ul className="space-y-3 text-[14px]">
-      {items.map((it) => {
-        const gt = googleTranslate(it.url);
-        return (
-          <li key={it.url} className="rounded-md border border-slate-200 bg-slate-50/60 p-3">
-            <p className="mb-1.5 text-xs font-bold text-slate-700">{it.label}</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-              <a
-                href={it.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand hover:underline"
-                title="원본 사이트로 직접 이동 (한국에서 차단될 수 있음)"
-              >
-                ↗ 직접 열기
-              </a>
-              <a
-                href={`https://web.archive.org/web/${encodeURIComponent(it.url)}`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand hover:underline"
-                title="Wayback Machine 캐시본 (한국에서 접속 가능)"
-              >
-                📦 Wayback Machine
-              </a>
-              {!it.pdf && gt && (
-                <a
-                  href={gt}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-brand hover:underline"
-                  title="Google 번역 미러 (host.translate.goog) — 한국에서 접속 가능 + 한국어 자동 번역"
-                >
-                  🌐 Google 번역
-                </a>
-              )}
-              {it.pdf && (
-                <a
-                  href={`https://r.jina.ai/${it.url}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-brand hover:underline"
-                  title="Jina Reader로 PDF의 텍스트만 추출해서 보기"
-                >
-                  📄 텍스트로 보기
-                </a>
-              )}
-            </div>
-          </li>
-        );
-      })}
+      {items.map((it) => (
+        <li key={it.url} className="rounded-md border border-slate-200 bg-slate-50/60 p-3">
+          <p className="mb-1.5 text-xs font-bold text-slate-700">{it.label}</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+            <a
+              href={it.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+              title="원본 사이트로 직접 이동 (한국에서 차단될 수 있음)"
+            >
+              ↗ 직접 열기
+            </a>
+            <a
+              href={`https://web.archive.org/web/${encodeURIComponent(it.url)}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+              title="Wayback Machine 캐시본 (한국에서 접속 가능)"
+            >
+              📦 Wayback Machine
+            </a>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 }
