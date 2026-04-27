@@ -4,12 +4,6 @@ import { CATEGORY_META, STATUS_META, STATUS_CLASSES } from "@/lib/meta";
 import { classify, getHierarchy } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
-const TABS = [
-  { code: "title", label: "한국어 요약" },
-  { code: "body",  label: "인니어 원문" },
-  { code: "links", label: "원문 자료" },
-];
-
 export function generateStaticParams() {
   return listAllIds().map((id) => ({ id: String(id) }));
 }
@@ -87,56 +81,13 @@ export default async function LawDetailPage({
         </dl>
       </header>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-[200px_1fr]">
-        <nav className="space-y-1.5 text-sm">
-          {TABS.map((t) => (
-            <a
-              key={t.code}
-              href={`#${t.code}`}
-              className="block rounded-md border border-slate-200 bg-white px-4 py-2.5 font-medium text-slate-700 transition-colors hover:border-brand hover:text-brand"
-            >
-              {t.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="space-y-6">
-          <Section id="title" heading="한국어 요약">
-            <p className="text-[15px] leading-[1.85] text-slate-800">
-              {law.summary_ko ?? (
-                <span className="text-slate-400">아직 요약이 등록되지 않았습니다.</span>
-              )}
-            </p>
-            {law.categories && law.categories.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {law.categories.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
-            )}
-          </Section>
-
-          <Section id="body" heading="인니어 원문">
-            <p className="text-[15px] leading-[1.85] text-slate-700">{law.title_id}</p>
-            <p className="mt-3 text-xs text-slate-400">
-              조문 단위 본문은 후속 enrich 단계에서 채워집니다.
-            </p>
-          </Section>
-
-          <Section id="links" heading="원문 자료">
-            <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
-              <strong>안내</strong> · peraturan.go.id 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-              직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine 또는 Google 번역 프록시)를 이용하세요.
-            </p>
-            <SourceLinks law={law} />
-          </Section>
-        </div>
-      </div>
+      <Section id="links" heading="원문 자료">
+        <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
+          <strong>안내</strong> · peraturan.go.id 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
+          직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine 또는 Google 번역 프록시)를 이용하세요.
+        </p>
+        <SourceLinks law={law} />
+      </Section>
     </article>
   );
 }
