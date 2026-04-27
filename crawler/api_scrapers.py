@@ -165,9 +165,10 @@ ADAPTERS: dict[str, dict] = {
         "list_key": "data",
         "total_key": "dataCount",
         "page_param": "page",
-        # bmkg's perPage convention; will fall back if 1st response has fewer than asked-for
-        "limit_param": "perPage",
-        "limit": 100,
+        # bmkg ignores limit-style params and serves a fixed ~5/page; rely on
+        # dataCount to know when to stop instead of the short-page heuristic.
+        "limit_param": None,
+        "limit": 5,
         "mapper": _map_bmkg,
     },
     "polri": {
@@ -235,14 +236,16 @@ async def scrape_site(site: str, max_pages: int) -> tuple[int, int, Path]:
                         errors += 1
                 log.info("[%s] page %d → %d rows (cum=%d/%s)", site, page, len(rows),
                          yielded, total or "?")
-                # Heuristic stop: got fewer rows than requested limit ⇒ last page
-                if len(rows) < adapter["limit"]:
-                    log.info("[%s] short page (%d < %d) → assumed last", site, len(rows), adapter["limit"])
-                    break
-                # If total known and we hit it, stop
-                if total is not None and yielded >= total:
-                    log.info("[%s] reached reported total %d", site, total)
-                    break
+                # If total known, ignore short-page heuristic and paginate to total
+                if total is not None:
+                    if yielded >= total:
+                        log.info("[%s] reached reported total %d", site, total)
+                        break
+                else:
+                    # No total reported → use short-page heuristic
+                    if len(rows) < adapter["limit"]:
+                        log.info("[%s] short page (%d < %d) → assumed last", site, len(rows), adapter["limit"])
+                        break
     log.info("[%s] DONE yielded=%d errors=%d → %s", site, yielded, errors, out_path)
     return yielded, errors, out_path
 
