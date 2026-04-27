@@ -1,0 +1,2102 @@
+[
+ {
+  "id": 56370,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제48호 — 항만청과 항만사업체 간 양허 및 기타 형태의 협력",
+  "summary_ko": "항만청(Penyelenggara Pelabuhan)과 항만사업체(BUP) 간의 양허 계약 및 기타 형태의 협력 방식과 절차를 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항만", "양허", "협력", "BUP"]
+ },
+ {
+  "id": 56371,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제45호 — 선박 측정",
+  "summary_ko": "선박의 톤수 측정 절차와 기준을 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["선박", "측정", "톤수"]
+ },
+ {
+  "id": 56372,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제44호 — 선박 복원성",
+  "summary_ko": "선박의 복원성(Stabilitas) 요건과 검사 기준을 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["선박", "복원성", "안전"]
+ },
+ {
+  "id": 56373,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제43호 — 선박 조달 절차",
+  "summary_ko": "선박 조달의 절차와 요건을 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["선박", "조달"]
+ },
+ {
+  "id": 56374,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제40호 — 해상 항로에 관한 교통부 장관령 제129호(2016년) 개정",
+  "summary_ko": "해상 항로(Alur-Pelayaran di Laut) 관련 2016년 제129호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "해상", "개정"]
+ },
+ {
+  "id": 56375,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제39호 — 해양 오염 대응에 관한 교통부 장관령 제58호(2013년) 개정",
+  "summary_ko": "해양 오염 대응(Penanggulangan Pencemaran) 관련 2013년 제58호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "환경"],
+  "keywords": ["해양오염", "대응", "개정"]
+ },
+ {
+  "id": 56376,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제38호 — 일반 철도 인프라 운영 사업체 조달",
+  "summary_ko": "일반 철도(Perkeretaapian Umum) 인프라 운영을 위한 사업체(Badan Usaha) 조달 절차를 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도", "인프라", "조달"]
+ },
+ {
+  "id": 56377,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제37호 — 공항 인력",
+  "summary_ko": "공항 운영 인력의 자격, 교육, 면허 등에 관한 사항을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "인력", "자격"]
+ },
+ {
+  "id": 56378,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제36호 — 공항 시설 표준화",
+  "summary_ko": "공항 시설(Fasilitas Bandar Udara)의 표준화 기준을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "시설", "표준"]
+ },
+ {
+  "id": 56379,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제35호 — 항공 운송 운영",
+  "summary_ko": "항공 운송(Angkutan Udara) 운영의 절차와 요건을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공운송", "운영"]
+ },
+ {
+  "id": 56380,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제34호 — 민간 항공 안전 규정 제22편: 항공기 시스템 감항 표준",
+  "summary_ko": "항공기 시스템(Sistem Pesawat)의 감항 표준에 관한 민간 항공 안전 규정(CASR) 제22편을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공안전", "감항", "CASR"]
+ },
+ {
+  "id": 56381,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제33호 — 공항 사업 활동",
+  "summary_ko": "공항 내 사업 활동(Kegiatan Pengusahaan)의 운영 절차와 요건을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "사업"]
+ },
+ {
+  "id": 56382,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제32호 — 공항 및 헬리콥터 이착륙장 건설 표준",
+  "summary_ko": "공항 및 헬리콥터 이착륙장(Tempat Pendaratan dan Lepas Landas Helikopter)의 건설 표준을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "헬리콥터", "건설표준"]
+ },
+ {
+  "id": 56383,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제31호 — 공항 인증 및 등록",
+  "summary_ko": "공항(Bandar Udara)의 인증과 등록 절차를 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "인증", "등록"]
+ },
+ {
+  "id": 56384,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제30호 — 항공 여객 최소 서비스 표준",
+  "summary_ko": "항공 운송 여객에 대한 최소 서비스 표준(Standar Pelayanan Minimal)을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공여객", "서비스표준"]
+ },
+ {
+  "id": 56385,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제29호 — 민간 항공 안전 규정 제172편: 항공 교통 관리 서비스 제공자",
+  "summary_ko": "항공 교통 관리(Manajemen Lalu Lintas Penerbangan) 서비스 제공자에 관한 민간 항공 안전 규정 제172편을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공교통관리", "ATC", "CASR"]
+ },
+ {
+  "id": 56386,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제28호 — 국가 항공 보안 교육훈련 프로그램",
+  "summary_ko": "국가 항공 보안(Keamanan Penerbangan Nasional) 교육훈련 프로그램을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공보안", "교육훈련"]
+ },
+ {
+  "id": 56387,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제27호 — 교통 분야 법령 위반에 대한 감독 및 행정 제재 절차",
+  "summary_ko": "교통 분야 법령 위반에 대한 감독과 행정 제재(Sanksi Administratif) 부과 절차를 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["감독", "행정제재", "위반"]
+ },
+ {
+  "id": 56388,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제26호 — 민간 항공 안전 규정에 관한 교통부 장관령 제52호(2018년) 개정",
+  "summary_ko": "민간 항공 안전 규정(Peraturan Keselamatan Penerbangan)에 관한 2018년 제52호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공안전", "CASR", "개정"]
+ },
+ {
+  "id": 56389,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제25호 — 도로 운송 분야 운영",
+  "summary_ko": "도로 운송(Angkutan Jalan) 분야의 운영 절차와 요건을 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["도로운송", "운영"]
+ },
+ {
+  "id": 56390,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제24호 — 도로 여객 운송 터미널 운영",
+  "summary_ko": "도로 여객 운송 터미널(Terminal Penumpang)의 운영 절차와 요건을 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["터미널", "여객운송"]
+ },
+ {
+  "id": 56391,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제23호 — 자동차 형식 시험에 관한 교통부 장관령 제33호(2018년) 2차 개정",
+  "summary_ko": "자동차 형식 시험(Pengujian Tipe Kendaraan)에 관한 2018년 제33호 장관령의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["자동차", "형식시험", "개정"]
+ },
+ {
+  "id": 56392,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제22호 — 일반 철도 인프라 운영 인허가",
+  "summary_ko": "일반 철도(Perkeretaapian Umum) 인프라 운영을 위한 인허가(Perizinan) 절차를 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도", "인프라", "인허가"]
+ },
+ {
+  "id": 56393,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제21호 — 철도 운영에 관한 교통부 장관령 제91호(2011년) 2차 개정",
+  "summary_ko": "철도 운영(Penyelenggaraan Perkeretaapian)에 관한 2011년 제91호 장관령의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도", "운영", "개정"]
+ },
+ {
+  "id": 56394,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제20호 — 철도 운영 인허가에 관한 교통부 장관령 제31호(2012년) 2차 개정",
+  "summary_ko": "철도 운영 인허가(Perizinan Penyelenggaraan)에 관한 2012년 제31호 장관령의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도", "인허가", "개정"]
+ },
+ {
+  "id": 56395,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제19호 — 자동차 정기 검사",
+  "summary_ko": "자동차 정기 검사(Pengujian Berkala Kendaraan Bermotor)의 절차와 기준을 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["자동차", "정기검사"]
+ },
+ {
+  "id": 56396,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제18호 — 화물 운송 자동차 적재량 감독 및 도로 차량 계량 운영",
+  "summary_ko": "화물 운송 자동차의 적재량 감독과 도로 계량(Penimbangan Kendaraan)의 운영 절차를 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["화물운송", "적재량", "계량"]
+ },
+ {
+  "id": 56397,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제17호 — 교통영향분석 운영",
+  "summary_ko": "교통영향분석(Analisis Dampak Lalu Lintas, Andalalin)의 운영 절차와 기준을 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["교통영향분석", "Andalalin"]
+ },
+ {
+  "id": 56398,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제16호 — 항만 위험물 취급 및 운송 절차",
+  "summary_ko": "항만에서 위험물(Barang Berbahaya)을 취급하고 운송하는 절차를 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항만", "위험물", "운송"]
+ },
+ {
+  "id": 56399,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제15호 — 민간 항공 안전 규정 제34편: 폐기 연료 및 배기가스 요건",
+  "summary_ko": "항공기 폐기 연료(Bahan Bakar Terbuang) 및 배기가스 요건에 관한 민간 항공 안전 규정 제34편을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공", "배기가스", "환경"]
+ },
+ {
+  "id": 56400,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제14호 — 도로 교통 통제 및 안전 장치에 관한 교통부 장관령 제82호(2018년) 개정",
+  "summary_ko": "도로 교통 통제 및 안전 장치(Alat Pengendali dan Pengaman)에 관한 2018년 제82호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["교통통제", "안전장치", "개정"]
+ },
+ {
+  "id": 56401,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제13호 — 코로나19 확산 방지를 위한 1442년 헤지라(이둘피트리) 기간 교통 통제",
+  "summary_ko": "코로나19 확산 방지를 위해 1442년 헤지라 이둘피트리(Idul Fitri) 기간의 교통(Transportasi)을 통제한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["코로나19", "이둘피트리", "교통통제"]
+ },
+ {
+  "id": 56402,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제12호 — 교통 분야 위험기반 사업 인허가의 사업 활동 및 제품 표준",
+  "summary_ko": "교통 분야 위험기반 사업 인허가(Perizinan Berusaha Berbasis Resiko)의 사업 활동과 제품 표준을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["사업인허가", "위험기반", "표준"]
+ },
+ {
+  "id": 56403,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제11호 — 남수마트라 경전철(LRT) 관리청 조직 및 운영",
+  "summary_ko": "남수마트라(Sumatera Selatan) 경전철(LRT) 관리청(Balai Pengelola)의 조직과 운영 체계를 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["LRT", "남수마트라", "조직"]
+ },
+ {
+  "id": 56404,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제10호 — 비용 구성요소 및 수입에 관한 교통부 장관령 제2호(2019년) 개정",
+  "summary_ko": "비용 구성요소 및 수입(Komponen Biaya dan Pendapatan)에 관한 2019년 제2호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "재정"],
+  "keywords": ["비용", "수입", "개정"]
+ },
+ {
+  "id": 56405,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제9호 — 운영 절차에 관한 교통부 장관령 제1호(2019년) 개정",
+  "summary_ko": "교통 사업 운영 절차에 관한 2019년 제1호 장관령의 일부 내용을 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["운영절차", "개정"]
+ },
+ {
+  "id": 56406,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제8호 — 오지 항공 여객 운임 산정 및 책정 절차",
+  "summary_ko": "오지 항공(Angkutan Udara Perintis) 여객 운임의 산정과 책정 절차를 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["오지항공", "운임"]
+ },
+ {
+  "id": 56407,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제7호 — 등급 조정에 관한 교통부 장관령 제199호(2015년) 3차 개정",
+  "summary_ko": "등급 조정(Penyesuaian Kelas)에 관한 2015년 제199호 장관령의 일부 내용을 세 번째로 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["등급조정", "개정"]
+ },
+ {
+  "id": 56408,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제6호 — 항만 고체 산적화물 취급 및 운송 절차",
+  "summary_ko": "항만에서 고체 산적화물(Barang Curah Padat)을 취급하고 운송하는 절차를 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항만", "산적화물", "운송"]
+ },
+ {
+  "id": 56409,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제5호 — 사무행정 시스템에 관한 교통부 장관령 제95호(2016년) 폐지",
+  "summary_ko": "사무행정 시스템(Sistem Administrasi Perkantoran)에 관한 2016년 제95호 장관령을 폐지한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["사무행정", "폐지"]
+ },
+ {
+  "id": 56410,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제4호 — 국가 행정 시행 지침에 관한 교통부 장관령 제7호(2014년) 폐지",
+  "summary_ko": "국가 행정(Tata Naskah) 시행 지침에 관한 2014년 제7호 장관령을 폐지한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["국가행정", "폐지"]
+ },
+ {
+  "id": 56411,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제3호 — 해사 법원 조직 및 운영",
+  "summary_ko": "해사 법원(Mahkamah Pelayaran)의 조직과 운영 체계를 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["해사법원", "조직"]
+ },
+ {
+  "id": 56412,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제2호 — 인도네시아 영해 내 기타 활동에 대한 외국 선박 사용 승인 절차 및 요건",
+  "summary_ko": "인도네시아 영해 내 기타 활동에 외국 선박(Kapal Asing) 사용을 승인하기 위한 절차와 요건을 규정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["외국선박", "영해", "승인"]
+ },
+ {
+  "id": 56413,
+  "title_ko": "교통부 장관령(Permenhub) 2021년 제1호 — 감독위원 임명 지침에 관한 교통부 장관령 제23호(2012년) 폐지",
+  "summary_ko": "감독위원(Dewan Pengawas) 임명 지침에 관한 2012년 제23호 장관령을 폐지한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["감독위원", "폐지"]
+ },
+ {
+  "id": 56414,
+  "title_ko": "육상교통총국장 규정(Perdirjen DRJD) 2021년 제1호 — 도로 동적 자동차 계량 장치 운용 기술 지침",
+  "summary_ko": "도로의 동적 자동차 계량 장치(Alat Penimbangan Metode Dinamis) 운용에 관한 기술 지침을 규정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["계량장치", "동적", "기술지침"]
+ },
+ {
+  "id": 56415,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제262호 — 항공교통총국장 규정 KP 제576호(2015년) 시행 지침 개정",
+  "summary_ko": "항공교통총국장(Direktur Jenderal Perhubungan Udara) 규정 KP 제576호(2015년)의 시행 지침 일부 내용을 개정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공", "총국장규정", "개정"]
+ },
+ {
+  "id": 56416,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제184호 — 항공교통총국장 규정 KP 제244호(2017년) 시행 지침 개정",
+  "summary_ko": "항공교통총국장 규정 KP 제244호(2017년)의 시행 지침 일부 내용을 개정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공", "총국장규정", "개정"]
+ },
+ {
+  "id": 56417,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제47호 — 항공교통총국장 규정 KP 제565호(2015년) 지침 개정",
+  "summary_ko": "항공교통총국장 규정 KP 제565호(2015년)의 지침 일부 내용을 개정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공", "총국장규정", "개정"]
+ },
+ {
+  "id": 56418,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제8호 — 항공교통총국장 규정 KP 제171호(2017년) 시행 지침 개정",
+  "summary_ko": "항공교통총국장 규정 KP 제171호(2017년)의 시행 지침 일부 내용을 개정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공", "총국장규정", "개정"]
+ },
+ {
+  "id": 56419,
+  "title_ko": "교통인적자원개발청장 규정(PK BPSDMP) 2021년 제5호 — 교통인적자원개발청장 규정 폐지",
+  "summary_ko": "교통인적자원개발청(BPSDMP)의 기존 규정을 폐지한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["BPSDMP", "폐지", "인적자원"]
+ },
+ {
+  "id": 56420,
+  "title_ko": "교통인적자원개발청장 규정(PK BPSDMP) 2021년 제4호 — 교통인적자원개발청장 규정 폐지",
+  "summary_ko": "교통인적자원개발청(BPSDMP)의 기존 규정을 폐지한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["BPSDMP", "폐지"]
+ },
+ {
+  "id": 56421,
+  "title_ko": "교통인적자원개발청장 규정(PK BPSDMP) 2021년 제3호 — 교통부 산하 대학 생도 선발 지침",
+  "summary_ko": "교통부 산하 대학(Perguruan Tinggi Kementerian Perhubungan)의 생도(Taruna/Taruni) 선발에 관한 지침을 규정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["생도", "대학", "선발"]
+ },
+ {
+  "id": 56422,
+  "title_ko": "교통인적자원개발청장 규정(PK BPSDMP) 2021년 제2호 — 교통인적자원개발청장 규정 PK.2/ 2차 개정",
+  "summary_ko": "교통인적자원개발청장(BPSDMP) 규정 PK.2/의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["BPSDMP", "개정"]
+ },
+ {
+  "id": 56423,
+  "title_ko": "교통인적자원개발청장 규정(PK BPSDMP) 2021년 제1호 — 원격 교육",
+  "summary_ko": "교통인적자원개발청 산하 교육기관의 원격 교육(Pembelajaran Jarak Jauh) 운영을 규정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["원격교육", "BPSDMP"]
+ },
+ {
+  "id": 56424,
+  "title_ko": "교통부 결정(KP) 2021년 제757호 — 2021년 교통부 기록물 폐기",
+  "summary_ko": "교통부의 2021년 기록물(Arsip)을 폐기한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기록물", "폐기"]
+ },
+ {
+  "id": 56425,
+  "title_ko": "교통부 결정(KP) 2021년 제737호 — 2021년 인도네시아 항해 교육 활성화 100주년 기념행사 추진단",
+  "summary_ko": "2021년 인도네시아 항해 교육(Pendidikan Kepelautan) 활성화 100주년(Satu Abad) 기념행사 추진단을 구성한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["항해교육", "100주년", "기념행사"]
+ },
+ {
+  "id": 56426,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제260호 — Damri 공기업에 대한 도시 간 공공서비스 의무 운송 위임",
+  "summary_ko": "Damri(공기업)에 도시 간 공공서비스 의무(Kewajiban Pelayanan Publik) 운송 운영을 위임한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["Damri", "PSO", "공공서비스"]
+ },
+ {
+  "id": 56427,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제259호 — 교통 사업체 환경관리 정보시스템(SIPINTAR) 전자화",
+  "summary_ko": "교통 사업체 대상 환경관리 정보시스템(SIPINTAR)을 전자 기반으로 운영한다.",
+  "categories": ["교통", "환경"],
+  "keywords": ["SIPINTAR", "환경관리", "전자화"]
+ },
+ {
+  "id": 56428,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제258호 — PT Emas Pillar Irja에 대한 복합운송 사업 면허 부여",
+  "summary_ko": "PT Emas Pillar Irja에 복합운송(Angkutan Multimoda) 사업 면허를 부여한다.",
+  "categories": ["교통", "물류"],
+  "keywords": ["복합운송", "사업면허"]
+ },
+ {
+  "id": 56429,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제256호 — 파푸아 제20회 국민체육대회(PON XX) 사용 소형버스 활용 결정",
+  "summary_ko": "파푸아(Papua)에서 개최된 제20회 국민체육대회(PON XX) 사용 소형버스(Bus Ukuran Kecil)의 활용을 결정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["PON", "소형버스", "파푸아"]
+ },
+ {
+  "id": 56430,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제255호 — 파푸아 제20회 국민체육대회(PON XX) 사용 소형버스 활용 결정",
+  "summary_ko": "파푸아 제20회 국민체육대회 사용 소형버스의 활용을 결정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["PON", "소형버스", "파푸아"]
+ },
+ {
+  "id": 56431,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제250호 — PT KAI에 대한 철도 부문 공공서비스 의무 운영 위임",
+  "summary_ko": "PT Kereta Api Indonesia(KAI)에 철도 부문 공공서비스 의무(PSO) 운영을 위임한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["KAI", "PSO", "철도"]
+ },
+ {
+  "id": 56432,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제249호 — PT KAI에 대한 철도 오지 운송 운영 위임",
+  "summary_ko": "PT KAI에 철도 부문 오지(Perintis) 운송 운영을 위임한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["KAI", "오지운송", "철도"]
+ },
+ {
+  "id": 56433,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제248호 — 오지 철도 여객 운송 운임",
+  "summary_ko": "오지(Perintis) 철도 여객 운송의 운임을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["오지철도", "운임"]
+ },
+ {
+  "id": 56434,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제247호 — 철도 부문 오지 운송 노선 지정",
+  "summary_ko": "철도 부문(Bidang Perkeretaapian) 오지 운송 노선을 지정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["오지노선", "철도"]
+ },
+ {
+  "id": 56435,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제246호 — 2021년 성탄절 및 신년 기간 교통 조정 및 통제 통합 추진단",
+  "summary_ko": "2021년 성탄절(Natal) 및 신년 기간 교통 조정 및 통제 통합 추진단(Tim Koordinasi)을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["성탄절", "신년", "교통통제"]
+ },
+ {
+  "id": 56436,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제245호 — 교통부 장관결정 KM 제186호(2020년) 작성 기술 지침 개정",
+  "summary_ko": "교통부 장관결정 KM 제186호(2020년)의 작성(Penyusunan) 기술 지침 일부 내용을 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기술지침", "개정"]
+ },
+ {
+  "id": 56437,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제244호 — Samarinda - Muara Muntai 사마린다 항만 1급 도선구역 지정",
+  "summary_ko": "Samarinda 항만에서 Muara Muntai에 이르는 1급 도선구역(Perairan Wajib Pandu Kelas I)을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["도선구역", "사마린다"]
+ },
+ {
+  "id": 56438,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제243호 — 아체주 Meulaboh 항만 2급 도선구역 지정",
+  "summary_ko": "아체(Aceh)주 Meulaboh 항만 수역에 2급 도선구역(Perairan Wajib Pandu Kelas II)을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["도선구역", "Meulaboh", "아체"]
+ },
+ {
+  "id": 56439,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제241호 — 통학버스 부문 전자 카탈로그 제품 검토 결정",
+  "summary_ko": "통학버스(Bus Sekolah) 부문의 전자 카탈로그(Katalog Elektronik) 제품 검토를 결정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["통학버스", "전자카탈로그"]
+ },
+ {
+  "id": 56440,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제240호 — 마디운 인도네시아 철도 폴리테크닉 인증",
+  "summary_ko": "마디운(Madiun) 소재 인도네시아 철도 폴리테크닉(Politeknik Perkeretaapian Indonesia)의 교육 기관 인증을 부여한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["폴리테크닉", "철도", "인증"]
+ },
+ {
+  "id": 56441,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제239호 — 도로교통안전 폴리테크닉 직제 및 직무 활동 분류",
+  "summary_ko": "도로교통안전 폴리테크닉(Politeknik Keselamatan Transportasi Jalan)의 직제(Peta Jabatan)와 직무 활동을 규정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["폴리테크닉", "직제", "도로안전"]
+ },
+ {
+  "id": 56442,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제237호 — 교통부 퇴직자 지원 기구(BP-3) 2021-2024년 임원진",
+  "summary_ko": "교통부 퇴직자 지원 기구(BP-3 Perhubungan)의 2021-2024년 임원진을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["BP-3", "퇴직자", "임원진"]
+ },
+ {
+  "id": 56443,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제236호 — 교통 부문 위기 커뮤니케이션 추진단 및 기술 지침",
+  "summary_ko": "교통 부문 위기 커뮤니케이션(Komunikasi Krisis) 추진단을 구성하고 관리 기술 지침을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["위기커뮤니케이션", "추진단"]
+ },
+ {
+  "id": 56444,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제234호 — 2020-2024년 교통부 관료개혁 로드맵",
+  "summary_ko": "2020-2024년 교통부 관료개혁(Reformasi Birokrasi) 로드맵을 수립한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["관료개혁", "로드맵"]
+ },
+ {
+  "id": 56445,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제233호 — 남술라웨시주 PT Semen Tonasa Biringkassi 전용 터미널 2급 도선구역 지정",
+  "summary_ko": "남술라웨시(Sulawesi Selatan)주 PT Semen Tonasa Biringkassi 전용 터미널(Terminal Khusus) 수역의 2급 도선구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["도선구역", "Semen Tonasa", "남술라웨시"]
+ },
+ {
+  "id": 56446,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제232호 — 기술 운영 단위 입지 지정에 관한 교통부 결정 KP 제529호(2017년) 폐지",
+  "summary_ko": "기술 운영 단위(Unit Pelaksana Teknis) 입지 지정에 관한 교통부 결정 KP 제529호(2017년)를 폐지한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["UPT", "입지", "폐지"]
+ },
+ {
+  "id": 56447,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제230호 — 'Protocol 6 Rail' 비준 대통령령안 부처합동 위원회",
+  "summary_ko": "Protocol 6 Rail의 비준(Pengesahan)을 위한 대통령령안 작성 부처합동 위원회를 구성한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["Protocol 6", "비준", "철도"]
+ },
+ {
+  "id": 56448,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제229호 — 북수마트라주 Toba 군 Sibisa 공항 마스터플랜",
+  "summary_ko": "북수마트라(Sumatera Utara)주 Toba 군 소재 Sibisa 공항(Bandar Udara)의 마스터플랜(Rencana Induk)을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Sibisa", "공항", "마스터플랜"]
+ },
+ {
+  "id": 56449,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제228호 — 리아우 제도주 바탐(Batam) 항만 2급 도선구역 지정",
+  "summary_ko": "리아우 제도(Kepulauan Riau)주 바탐(Batam) 항만 수역에 2급 도선구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["바탐", "도선구역", "리아우"]
+ },
+ {
+  "id": 56450,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제227호 — Damri 공기업에 대한 여객 운송 서비스 운영 위임",
+  "summary_ko": "Damri 공기업에 일반 여객 운송 서비스(Pelayanan Angkutan Penumpang Umum) 운영을 위임한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["Damri", "여객운송"]
+ },
+ {
+  "id": 56451,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제226호 — 공기업 운송 위임에 관한 교통부 결정 KM 제359호(2020년) 개정",
+  "summary_ko": "공기업(Perusahaan Umum)에 대한 운송 위임에 관한 교통부 결정 KM 제359호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["공기업", "위임", "개정"]
+ },
+ {
+  "id": 56452,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제225호 — 운송 위임에 관한 교통부 결정 KM 제302호(2020년) 2차 개정",
+  "summary_ko": "운송 위임에 관한 교통부 결정 KM 제302호(2020년)의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["위임", "개정"]
+ },
+ {
+  "id": 56453,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제224호 — 교통부 국유재산 활용 최적화",
+  "summary_ko": "교통부 국유재산(Barang Milik Negara, BMN) 활용을 최적화한다.",
+  "categories": ["교통", "재정"],
+  "keywords": ["BMN", "국유재산", "최적화"]
+ },
+ {
+  "id": 56454,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제223호 — 동누사뜽가라주 Sumba Timur 군 Umbu Mehang Kunda 공항 마스터플랜",
+  "summary_ko": "동누사뜽가라(NTT)주 Sumba Timur 군 소재 Umbu Mehang Kunda 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Umbu Mehang Kunda", "공항", "마스터플랜"]
+ },
+ {
+  "id": 56455,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제222호 — 북칼리만탄주 Tarakan/Malundung 항만 마스터플랜",
+  "summary_ko": "북칼리만탄(Kalimantan Utara)주 Tarakan/Malundung 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Tarakan", "Malundung", "항만"]
+ },
+ {
+  "id": 56456,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제221호 — Yensawai 마을 Batanta 항만 입지 지정 (페리 운송)",
+  "summary_ko": "페리 운송 운영을 위한 Yensawai 마을 소재 Batanta 항만의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Batanta", "페리", "입지"]
+ },
+ {
+  "id": 56457,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제220호 — Sakabu 마을 Salawati 항만 입지 지정 (페리 운송)",
+  "summary_ko": "페리 운송 운영을 위한 Sakabu 마을 소재 Salawati 항만의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Salawati", "페리", "입지"]
+ },
+ {
+  "id": 56458,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제219호 — 서칼리만탄주 Sanggau 군 Entikong 공공 화물 터미널 코드 지정",
+  "summary_ko": "서칼리만탄(Kalimantan Barat)주 Sanggau 군 Entikong 면(Kecamatan) 소재 공공 화물 터미널의 코드를 지정한다.",
+  "categories": ["교통", "물류"],
+  "keywords": ["Entikong", "터미널", "코드"]
+ },
+ {
+  "id": 56459,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제218호 — 결정문 서명 권한을 위임받은 직원 서명 견본",
+  "summary_ko": "교통부 결정문(Keputusan) 서명 권한을 위임받은 직원의 서명(Spesimen Tanda Tangan)과 약식서명 견본을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["서명견본", "위임"]
+ },
+ {
+  "id": 56460,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제217호 — 철도총국 철도기술센터 직제 및 직무 활동 분류",
+  "summary_ko": "철도총국(Direktorat Jenderal Perkeretaapian) 산하 철도기술센터(Balai Teknik Perkeretaapian)의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도기술센터", "직제"]
+ },
+ {
+  "id": 56461,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제216호 — 남술라웨시 철도 관리청 직제 및 직무 활동 분류",
+  "summary_ko": "남술라웨시(Sulawesi Selatan) 철도 관리청(Balai Pengelola Kereta Api)의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["남술라웨시", "철도", "직제"]
+ },
+ {
+  "id": 56462,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제215호 — 철도 정비 센터 직제 및 직무 활동 분류",
+  "summary_ko": "철도 정비 센터(Balai Perawatan Perkeretaapian)의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도정비", "직제"]
+ },
+ {
+  "id": 56463,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제214호 — 남수마트라 경전철(LRT) 관리청 직제 및 직무 활동 분류",
+  "summary_ko": "남수마트라 경전철(LRT) 관리청의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["LRT", "남수마트라", "직제"]
+ },
+ {
+  "id": 56464,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제213호 — 철도 시험 센터 직제 및 직무 활동 분류",
+  "summary_ko": "철도 시험 센터(Balai Pengujian Perkeretaapian)의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도시험", "직제"]
+ },
+ {
+  "id": 56465,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제212호 — 국유재산 활용 협력 파트너 선정 지침",
+  "summary_ko": "국유재산(BMN) 활용 협력(Kerja Sama Pemanfaatan) 파트너 선정 지침을 규정한다.",
+  "categories": ["교통", "재정"],
+  "keywords": ["BMN", "협력", "파트너"]
+ },
+ {
+  "id": 56466,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제211호 — Antoni Arif Priadi 박사 직무대행 권한 부여",
+  "summary_ko": "Dr. Capt. Antoni Arif Priadi(NIP 19730808 199903 1 003)에게 직무대행(Pelaksana Tugas) 권한을 부여한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["직무대행", "권한위임"]
+ },
+ {
+  "id": 56467,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제210호 — Arif Toha Tjahjagama 박사 직무대행 권한 부여",
+  "summary_ko": "Ir. Arif Toha Tjahjagama, DEA(NIP 19670320 199203 1 003)에게 직무대행(Pelaksana Tugas) 권한을 부여한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["직무대행", "권한위임"]
+ },
+ {
+  "id": 56468,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제207호 — 서칼리만탄주 Kapuas Hulu 군 Pangsuma 공항 마스터플랜",
+  "summary_ko": "서칼리만탄주 Kapuas Hulu 군 소재 Pangsuma 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Pangsuma", "공항", "마스터플랜"]
+ },
+ {
+  "id": 56469,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제206호 — 부처 단위 통합 정부 내부통제시스템(SPIP) 자체 평가팀",
+  "summary_ko": "부처 단위(Tingkat Kementerian) 통합 정부 내부통제시스템(SPIP) 운영을 위한 자체 평가팀(Tim Penilai Mandiri)을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["SPIP", "내부통제", "평가팀"]
+ },
+ {
+  "id": 56470,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제205호 — 교통부 정부 내부통제시스템(SPIP) 성숙도 평가 지침",
+  "summary_ko": "교통부의 정부 내부통제시스템(SPIP) 성숙도(Maturitas) 평가 지침을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["SPIP", "성숙도", "평가"]
+ },
+ {
+  "id": 56471,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제204호 — 교통 분야 정부 업무 기술 역량 사전",
+  "summary_ko": "교통 분야 정부 업무의 기술 역량(Kompetensi Teknis) 사전(Kamus)을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["역량사전", "교통"]
+ },
+ {
+  "id": 56472,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제203호 — 여객 운송 운임에 관한 교통부 결정 KM 제354호(2020년) 개정",
+  "summary_ko": "여객 운송 운임(Tarif Angkutan Orang)에 관한 교통부 결정 KM 제354호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["여객운임", "개정"]
+ },
+ {
+  "id": 56473,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제201호 — 서칼리만탄주 Kayong Utara 군 공항 입지 지정",
+  "summary_ko": "서칼리만탄주 Kayong Utara 군 소재 공항(Bandar Udara)의 입지를 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Kayong Utara", "공항", "입지"]
+ },
+ {
+  "id": 56474,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제199호 — 아체주 Nagan Raya 군 Cut Nyak Dhien 공항 마스터플랜",
+  "summary_ko": "아체(Aceh)주 Nagan Raya 군 소재 Cut Nyak Dhien 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Cut Nyak Dhien", "공항", "마스터플랜"]
+ },
+ {
+  "id": 56475,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제197호 — PT Angkasa Pura I 공항사업체 지정",
+  "summary_ko": "PT Angkasa Pura I (Persero)를 공항사업체(Badan Usaha Bandar Udara)로 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Angkasa Pura I", "공항사업체"]
+ },
+ {
+  "id": 56476,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제195호 — 2021년 국가 교통의 날 중앙 위원장 임명",
+  "summary_ko": "2021년 국가 교통의 날(Hari Perhubungan Nasional) 중앙 위원장을 임명한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["교통의 날", "위원장"]
+ },
+ {
+  "id": 56477,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제194호 — 행정 절차에 관한 교통부 결정 KM 제219호(2020년) 개정",
+  "summary_ko": "행정 절차(Tata Cara Administrasi)에 관한 교통부 결정 KM 제219호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["행정절차", "개정"]
+ },
+ {
+  "id": 56478,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제193호 — 결정문 서명 권한을 위임받은 직원 서명 견본",
+  "summary_ko": "교통부 결정문 서명 권한을 위임받은 직원의 서명과 약식서명 견본을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["서명견본", "위임"]
+ },
+ {
+  "id": 56479,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제192호 — PT Multi Tambang Jaya Utama 전용 터미널 임시 사용 면허",
+  "summary_ko": "PT Multi Tambang Jaya Utama의 전용 터미널(Terminal Khusus) 임시 운영 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56480,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제192호 — PT Multi Tambang Jaya Utama 전용 터미널 임시 사용 면허(중복)",
+  "summary_ko": "PT Multi Tambang Jaya Utama의 전용 터미널 임시 운영 사용을 면허한다(중복 항목).",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56481,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제189호 — 북말루쿠 Halmahera Tengah 군 Lelilef 항만 입지 지정",
+  "summary_ko": "북말루쿠(Maluku Utara)주 Halmahera Tengah 군 Weda Tengah 면 Lelilef Sawai 마을 소재 Lelilef 해상 항만의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Lelilef", "항만", "북말루쿠"]
+ },
+ {
+  "id": 56482,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제188호 — 결정문 서명 권한을 위임받은 직원 서명 견본",
+  "summary_ko": "교통부 결정문 서명 권한을 위임받은 직원의 서명과 약식서명 견본을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["서명견본", "위임"]
+ },
+ {
+  "id": 56483,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제186호 — 교통부 인트라넷 미디어(Mitra) 운영",
+  "summary_ko": "교통부의 인트라넷 미디어(Intraweb Media Antar Kita, Mitra)의 운영을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["인트라넷", "Mitra"]
+ },
+ {
+  "id": 56484,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제183호 — Nur Weda 마을 Weda 항만 입지 지정 (페리 운송)",
+  "summary_ko": "페리 운송 운영을 위한 Nur Weda 마을 소재 Weda 항만의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Weda", "페리", "입지"]
+ },
+ {
+  "id": 56485,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제178호 — ASEAN 협정 비준 대통령령안 부처합동 위원회 구성",
+  "summary_ko": "ASEAN 협정 비준 대통령령안 작성을 위한 부처합동 위원회(Panitia Antarkementerian)를 구성한다.",
+  "categories": ["교통", "외교"],
+  "keywords": ["ASEAN", "비준", "부처합동위원회"]
+ },
+ {
+  "id": 56486,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제177호 — 운영 운임에 관한 교통부 결정 KM 제92호(2020년) 3차 개정",
+  "summary_ko": "운영 운임(Tarif Penyelenggaraan)에 관한 교통부 결정 KM 제92호(2020년)의 일부 내용을 세 번째로 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["운임", "개정"]
+ },
+ {
+  "id": 56487,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제176호 — PT Van Oord Indonesia 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Van Oord Indonesia에 준설 및 매립(Pengerukan dan Reklamasi) 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56488,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제175호 — Medan 항공 폴리테크닉 서비스 표준",
+  "summary_ko": "Medan 항공 폴리테크닉(Politeknik Penerbangan Medan)의 서비스 표준(Standar Pelayanan)을 규정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["폴리테크닉", "Medan", "항공"]
+ },
+ {
+  "id": 56489,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제172호 — 항만 마스터플랜에 관한 교통부 결정 KP 제432호(2017년) 2차 개정",
+  "summary_ko": "항만 마스터플랜(Rencana Induk Pelabuhan)에 관한 교통부 결정 KP 제432호(2017년)의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항만", "마스터플랜", "개정"]
+ },
+ {
+  "id": 56490,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제168호 — 발리 및 NTB BPTD 12지구 협력 활동 승인",
+  "summary_ko": "발리(Bali) 및 서누사뜽가라(NTB) BPTD 12지구(Wilayah XII)의 협력(Kerja Sama) 활동을 승인한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["BPTD", "협력", "발리"]
+ },
+ {
+  "id": 56491,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제166호 — PT ASDP Indonesia Ferry에 대한 페리 운송 공공서비스 의무 위임",
+  "summary_ko": "PT ASDP Indonesia Ferry (Persero)에 페리(Angkutan Penyeberangan) 공공서비스 의무 운영을 위임한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["ASDP", "페리", "PSO"]
+ },
+ {
+  "id": 56492,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제165호 — 페리 노선 지정에 관한 교통부 결정 KM 제4호(2021년) 개정",
+  "summary_ko": "페리 노선(Lintas Penyeberangan) 지정에 관한 교통부 결정 KM 제4호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["페리", "노선", "개정"]
+ },
+ {
+  "id": 56493,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제151호 — PT Bumi Karunia Pertiwi 전용 터미널 임시 사용 면허",
+  "summary_ko": "Buntok Baru 마을 소재 PT Bumi Karunia Pertiwi의 전용 터미널 임시 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56494,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제150호 — 교통부 데이터 거버넌스",
+  "summary_ko": "교통부 내 데이터 거버넌스(Tata Kelola Data)를 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["데이터", "거버넌스"]
+ },
+ {
+  "id": 56495,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제148호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로(Alur-Pelayaran), 항로 시스템, 통항 절차 및 정박 구역(Daerah Labuh Kapal)을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56496,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제147호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56497,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제146호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56498,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제143호 — PT Kawasan Industri 전용 터미널 임시 사용 면허",
+  "summary_ko": "PT Kawasan Industri 전용 터미널의 공공 이용을 위한 임시 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56499,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제141호 — 2021년 교통부 관료개혁 변화 주체 지정",
+  "summary_ko": "2021년 교통부 관료개혁(Reformasi Birokrasi) 변화 주체(Agen Perubahan)를 지정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["관료개혁", "변화주체"]
+ },
+ {
+  "id": 56500,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제140호 — 2021년 교통부 관료개혁 가속화(Quick Wins) 프로그램",
+  "summary_ko": "2021년 교통부 관료개혁 가속화(Quick Wins) 프로그램을 수립한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["Quick Wins", "관료개혁"]
+ },
+ {
+  "id": 56501,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제139호 — 동누사뜽가라 등 공공 화물 터미널 입지 지정",
+  "summary_ko": "동누사뜽가라(NTT)주 등에 공공 화물 터미널(Terminal Barang Untuk Umum)의 입지를 지정한다.",
+  "categories": ["교통", "물류"],
+  "keywords": ["화물터미널", "NTT"]
+ },
+ {
+  "id": 56502,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제138호 — 방카블리퉁주 Belitung Timur 군 Manggar 항만 3급 도선구역 지정",
+  "summary_ko": "방카블리퉁(Bangka Belitung)주 Belitung Timur 군 Manggar 항만 수역에 3급 도선구역(Perairan Wajib Pandu Kelas III)을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Manggar", "도선구역", "방카블리퉁"]
+ },
+ {
+  "id": 56503,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제137호 — Sinjai 3급 항만청 협력 활동 승인",
+  "summary_ko": "Sinjai 3급 항만 운영청(Kantor Unit Penyelenggara Pelabuhan Kelas III)의 협력 활동을 승인한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Sinjai", "항만청", "협력"]
+ },
+ {
+  "id": 56504,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제133호 — 잠비주 Muara Sabak 항만 마스터플랜",
+  "summary_ko": "잠비(Jambi)주 Muara Sabak 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Muara Sabak", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56505,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제132호 — PT Kaltim Prima 전용 터미널 임시 사용 면허",
+  "summary_ko": "PT Kaltim Prima 전용 터미널의 공공 이용을 위한 임시 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56506,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제129호 — 국유재산 임차인 선정 절차",
+  "summary_ko": "국유재산(BMN) 임차인(Penyewa) 선정 절차를 규정한다.",
+  "categories": ["교통", "재정"],
+  "keywords": ["BMN", "임차"]
+ },
+ {
+  "id": 56507,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제128호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56508,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제127호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56509,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제126호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56510,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제125호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56511,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제124호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56512,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제123호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56513,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제121호 — PT Grace Rich Marine 준설 및 매립 활동 승인",
+  "summary_ko": "PT Grace Rich Marine의 준설 및 매립(Keruk dan Reklamasi) 작업 단계 활동을 승인한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "승인"]
+ },
+ {
+  "id": 56514,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제120호 — PT Adyawinsa Dinamika 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Adyawinsa Dinamika에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56515,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제117호 — 동누사뜽가라주 Labuan Bajo 항만 마스터플랜",
+  "summary_ko": "동누사뜽가라(NTT)주 Labuan Bajo 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Labuan Bajo", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56516,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제116호 — 직원의 국유재산 사용 지정 및 반환 지침",
+  "summary_ko": "직원(Pegawai)이 국유재산(BMN)을 사용 지정받고 반환하는 지침을 규정한다.",
+  "categories": ["교통", "재정"],
+  "keywords": ["BMN", "사용", "반환"]
+ },
+ {
+  "id": 56517,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제113호 — 교통부 조달업무 직원 윤리강령",
+  "summary_ko": "교통부 조달업무(Pengadaan Barang/Jasa) 단위 직원의 윤리강령(Kode Etik)을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["조달", "윤리강령"]
+ },
+ {
+  "id": 56518,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제112호 — PT Biro Klasifikasi Indonesia 검사 및 인증 위임",
+  "summary_ko": "PT Biro Klasifikasi Indonesia (BKI, Persero)에 선박 검사 및 인증(Survei dan Sertifikasi) 업무를 위임한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["BKI", "검사", "인증"]
+ },
+ {
+  "id": 56519,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제109호 — 운송·창고 부문 인도네시아 국가 직무능력 표준(SKKNI) 적용",
+  "summary_ko": "운송·창고(Pengangkutan dan Pergudangan) 부문의 인도네시아 국가 직무능력 표준(SKKNI) 적용을 결정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["SKKNI", "직무능력"]
+ },
+ {
+  "id": 56520,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제108호 — 운송·창고 부문 인도네시아 국가 직무능력 표준(SKKNI) 적용",
+  "summary_ko": "운송·창고 부문의 SKKNI 적용을 결정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["SKKNI", "직무능력"]
+ },
+ {
+  "id": 56521,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제107호 — PT Angkasa Pura II 공항사업체 지정",
+  "summary_ko": "PT Angkasa Pura II (Persero)를 공항사업체(Badan Usaha Bandar Udara)로 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Angkasa Pura II", "공항사업체"]
+ },
+ {
+  "id": 56522,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제106호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56523,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제105호 — 협력 사업 책임자로서 교통부 장관 권한 위임",
+  "summary_ko": "협력 사업(Proyek Kerja Sama, KPS) 책임자로서 교통부 장관의 권한을 위임한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["KPS", "권한위임"]
+ },
+ {
+  "id": 56524,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제103호 — 동남술라웨시주 Konawe Utara Molawe 항만 3급 도선구역 지정",
+  "summary_ko": "동남술라웨시(Sulawesi Tenggara)주 Konawe Utara Molawe 항만 수역에 3급 도선구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Molawe", "도선구역"]
+ },
+ {
+  "id": 56525,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제102호 — PT KAI 일반 철도 차량 운영 면허",
+  "summary_ko": "PT Kereta Api Indonesia (KAI)에 일반 철도 차량(Sarana Perkeretaapian Umum) 운영 면허를 부여한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["KAI", "차량", "면허"]
+ },
+ {
+  "id": 56526,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제101호 — PT Hai Yin 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Hai Yin에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56527,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제98호 — PT Pelayaran Salam Bahagia 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Pelayaran Salam Bahagia에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56528,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제96호 — PT Modern Widya Tehnical 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Modern Widya Tehnical에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56529,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제93호 — 발리주 Badung 군 응우라라이 공항 마스터플랜",
+  "summary_ko": "발리(Bali)주 Badung 군 소재 I Gusti Ngurah Rai(응우라라이) 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Ngurah Rai", "공항", "발리"]
+ },
+ {
+  "id": 56530,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제92호 — PT P 승인에 관한 교통부 결정 KM 제193호(2020년) 개정",
+  "summary_ko": "PT P 승인에 관한 교통부 결정 KM 제193호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["승인", "개정"]
+ },
+ {
+  "id": 56531,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제90호 — PT Putra Mekongga Sejahtera 전용 터미널 임시 사용 면허",
+  "summary_ko": "Hakatutoba 마을 소재 PT Putra Mekongga Sejahtera 전용 터미널의 임시 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56532,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제89호 — 동누사뜽가라주 Reo 항만 마스터플랜",
+  "summary_ko": "동누사뜽가라(NTT)주 Reo 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Reo", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56533,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제88호 — 아체주 Kuala Langsa 항만 마스터플랜",
+  "summary_ko": "아체(Aceh)주 Kuala Langsa 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Kuala Langsa", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56534,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제87호 — 인력·재정·시설 이관 가속화 통합 추진단 구성",
+  "summary_ko": "인력·재정·시설(Personel, Pendanaan, Sarana dan Prasarana) 이관 가속화 통합 추진단(Tim Terpadu)을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["P3D", "이관", "통합추진단"]
+ },
+ {
+  "id": 56535,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제85호 — 2021년(1442년 헤지라) 라마단 운송 통합 조정 추진단",
+  "summary_ko": "2021년(1442 헤지라) 라마단(Lebaran) 운송 운영을 위한 통합 조정 추진단(Tim Koordinasi Terpadu)을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["라마단", "운송", "조정"]
+ },
+ {
+  "id": 56536,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제84호 — 교통인적자원개발청(BPSDMP) 직제 및 직무 활동 분류",
+  "summary_ko": "교통인적자원개발청(BPSDMP)의 직제와 직무 활동을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["BPSDMP", "직제"]
+ },
+ {
+  "id": 56537,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제83호 — 2021년 철도 노선 평가 추진단",
+  "summary_ko": "2021년 철도 노선(Trase Jalur Kereta Api) 평가 추진단을 구성한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도노선", "평가"]
+ },
+ {
+  "id": 56538,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제82호 — PT Kaltim Batumanunggal 전용 터미널 임시 사용 면허",
+  "summary_ko": "Teluk Dalam 마을 소재 PT Kaltim Batumanunggal 전용 터미널의 임시 사용을 면허한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["전용터미널", "임시사용"]
+ },
+ {
+  "id": 56539,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제80호 — 협력 사업 책임자 권한 위임",
+  "summary_ko": "협력 사업(Proyek Kerjasama) 책임자로서 교통부 장관 권한을 위임한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["KPS", "권한위임"]
+ },
+ {
+  "id": 56540,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제77호 — PT Kereta Api Logistik 복합운송 사업 면허 부여",
+  "summary_ko": "PT Kereta Api Logistik에 복합운송(Angkutan Multimoda) 사업 면허를 부여한다.",
+  "categories": ["교통", "물류"],
+  "keywords": ["KALOG", "복합운송"]
+ },
+ {
+  "id": 56541,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제76호 — 파푸아주 Biak Numfor 군 Frans Kaisiepo 공항 마스터플랜",
+  "summary_ko": "파푸아(Papua)주 Biak Numfor 군 소재 Frans Kaisiepo 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Frans Kaisiepo", "공항", "파푸아"]
+ },
+ {
+  "id": 56542,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제73호 — 서파푸아주 Fakfak 군 Karas 항만 입지 지정",
+  "summary_ko": "서파푸아(Papua Barat)주 Fakfak 군 Karas 면 Malakuli 마을 소재 Karas 항만의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Karas", "항만", "Fakfak"]
+ },
+ {
+  "id": 56543,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제71호 — 말루쿠주 Seram Bagian Timur 군 Gorom 섬 신공항 입지 지정",
+  "summary_ko": "말루쿠(Maluku)주 Seram Bagian Timur 군 Gorom 섬에 신공항 입지를 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Gorom", "신공항", "말루쿠"]
+ },
+ {
+  "id": 56544,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제70호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56545,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제69호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56546,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제68호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56547,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제67호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56548,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제66호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56549,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제65호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56550,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제64호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56551,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제63호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56552,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제62호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56553,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제61호 — PT Maritim Infrastruktur Indonesia 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Maritim Infrastruktur Indonesia에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56554,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제60호 — PT Awak Samudera Transportasi 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Awak Samudera Transportasi에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56555,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제59호 — Djalaluddin 고론탈로 1급 공항청 회계 시스템",
+  "summary_ko": "고론탈로(Gorontalo) Djalaluddin 1급 공항청(Kantor Unit Penyelenggara Bandar Udara)의 회계 시스템(Sistem Akuntansi)을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Djalaluddin", "공항", "회계"]
+ },
+ {
+  "id": 56556,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제58호 — 동남술라웨시주 Kolaka Utara 군 공항 입지 지정",
+  "summary_ko": "동남술라웨시(Sulawesi Tenggara)주 Kolaka Utara 군의 공항 입지를 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Kolaka Utara", "공항", "입지"]
+ },
+ {
+  "id": 56557,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제54호 — 2021년 교통 도서 제작 추진단",
+  "summary_ko": "2021년 교통 도서(Buku Transportasi) 제작 추진단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["도서", "제작"]
+ },
+ {
+  "id": 56558,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제52호 — Djakarta 여객운송 공기업(PPD) 운송 위임",
+  "summary_ko": "자카르타(Djakarta) 여객운송 공기업(PPD)에 여객 운송 서비스 운영을 위임한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["PPD", "여객운송"]
+ },
+ {
+  "id": 56559,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제51호 — Damri 공기업 여객 운송 서비스 운영 위임",
+  "summary_ko": "Damri 공기업에 일반 여객 운송 서비스 운영을 위임한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["Damri", "여객운송"]
+ },
+ {
+  "id": 56560,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제49호 — PT Berlian Manyar Sejahtera 매립 활동 승인",
+  "summary_ko": "PT Berlian Manyar Sejahtera의 매립(Reklamasi) 작업 활동을 승인한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["매립", "승인"]
+ },
+ {
+  "id": 56561,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제48호 — 교통부 기록물 관리",
+  "summary_ko": "교통부의 기록물 관리(Tata Kearsipan)를 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기록물", "관리"]
+ },
+ {
+  "id": 56562,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제46호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56563,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제45호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56564,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제44호 — 서누사뜽가라주 Lembar 항만 마스터플랜",
+  "summary_ko": "서누사뜽가라(NTB)주 Lembar 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Lembar", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56565,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제43호 — 리아우주 Rokan Hulu 군 Pasir Pangaraian 공항 명칭 변경",
+  "summary_ko": "리아우(Riau)주 Rokan Hulu 군 소재 Pasir Pangaraian 공항의 명칭을 변경한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["공항", "명칭변경"]
+ },
+ {
+  "id": 56566,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제42호 — PT Bintan Alumina Indonesia 준설 및 매립 활동 승인",
+  "summary_ko": "PT Bintan Alumina Indonesia의 준설 및 매립(Keruk dan Reklamasi) 작업 활동을 승인한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "Bintan"]
+ },
+ {
+  "id": 56567,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제41호 — 교통부 공문서 작성 규범",
+  "summary_ko": "교통부의 공문서 작성 규범(Tata Naskah Dinas)을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["공문서", "규범"]
+ },
+ {
+  "id": 56568,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제40호 — 철도 차량 운영 면허에 관한 교통부 결정 KM 제134호(2020년) 개정",
+  "summary_ko": "철도 차량(Sarana Perkeretaapian) 운영 면허에 관한 교통부 결정 KM 제134호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도차량", "면허", "개정"]
+ },
+ {
+  "id": 56569,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제39호 — 철도 차량 운영 면허에 관한 교통부 결정 KM 제124호(2019년) 개정",
+  "summary_ko": "철도 차량 운영 면허에 관한 교통부 결정 KM 제124호(2019년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도차량", "면허", "개정"]
+ },
+ {
+  "id": 56570,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제38호 — 철도 차량 운영 면허에 관한 교통부 결정 KP 제431호(2017년) 개정",
+  "summary_ko": "철도 차량 운영 면허에 관한 교통부 결정 KP 제431호(2017년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도차량", "면허", "개정"]
+ },
+ {
+  "id": 56571,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제37호 — 철도 차량 운영 면허에 관한 교통부 결정 KM 제158호(2020년) 개정",
+  "summary_ko": "철도 차량 운영 면허에 관한 교통부 결정 KM 제158호(2020년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "철도"],
+  "keywords": ["철도차량", "면허", "개정"]
+ },
+ {
+  "id": 56572,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제36호 — 남수마트라주 Palembang 항만 마스터플랜",
+  "summary_ko": "남수마트라(Sumatera Selatan)주 Palembang 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Palembang", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56573,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제35호 — 인사 결정문 서명 권한 위임 직원 약식서명 견본",
+  "summary_ko": "인사 결정문(Keputusan Mutasi Kepegawaian) 서명 권한을 위임받은 직원의 견본 및 약식서명(Spesimen dan Paraf)을 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["인사", "서명견본"]
+ },
+ {
+  "id": 56574,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제33호 — 중술라웨시주 Luwuk 항만 마스터플랜",
+  "summary_ko": "중술라웨시(Sulawesi Tengah)주 Luwuk 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Luwuk", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56575,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제31호 — 서칼리만탄주 Sintete 항만 마스터플랜",
+  "summary_ko": "서칼리만탄(Kalimantan Barat)주 Sintete 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Sintete", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56576,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제30호 — 항만 작업/이용 구역 외부 특정 해역 입지 지정",
+  "summary_ko": "항만의 작업·이용 구역(Daerah Lingkungan Kerja dan Lingkungan Kepentingan) 외 특정 해역의 입지를 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항만", "특정해역", "입지"]
+ },
+ {
+  "id": 56577,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제27호 — Pertamina Fuel Terminal 전용 터미널 3급 도선구역 지정",
+  "summary_ko": "PT Pertamina (Persero) Fuel Terminal 전용 터미널 수역에 3급 도선구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Pertamina", "도선구역"]
+ },
+ {
+  "id": 56578,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제25호 — 운송·창고 부문 SKKNI 적용",
+  "summary_ko": "운송·창고 부문의 인도네시아 국가 직무능력 표준(SKKNI) 적용을 결정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["SKKNI", "직무능력"]
+ },
+ {
+  "id": 56579,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제24호 — 운송·창고 부문 SKKNI 적용",
+  "summary_ko": "운송·창고 부문의 SKKNI 적용을 결정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["SKKNI", "직무능력"]
+ },
+ {
+  "id": 56580,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제23호 — 남술라웨시주 Luwu Utara 군 Seko 공항 마스터플랜",
+  "summary_ko": "남술라웨시(Sulawesi Selatan)주 Luwu Utara 군 소재 Seko 공항의 마스터플랜을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Seko", "공항", "마스터플랜"]
+ },
+ {
+  "id": 56581,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제22호 — 동자바주 Tanjung Perak 항만 통합 마스터플랜",
+  "summary_ko": "동자바(Jawa Timur)주 Tanjung Perak 및 인근 항만의 통합(Terintegrasi) 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Tanjung Perak", "항만", "마스터플랜"]
+ },
+ {
+  "id": 56582,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제21호 — Damri 공기업 공공서비스 의무 운송 위임",
+  "summary_ko": "Damri 공기업에 공공서비스 의무(Kewajiban Pelayanan Publik, PSO) 운송 운영을 위임한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["Damri", "PSO"]
+ },
+ {
+  "id": 56583,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제19호 — 운송·창고 부문 SKKNI 적용",
+  "summary_ko": "운송·창고 부문의 SKKNI 적용을 결정한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["SKKNI", "직무능력"]
+ },
+ {
+  "id": 56584,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제17호 — 잠비주 Talang Duku 항만 마스터플랜",
+  "summary_ko": "잠비(Jambi)주 Talang Duku 항만의 마스터플랜을 수립한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Talang Duku", "항만"]
+ },
+ {
+  "id": 56585,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제16호 — PT Natalindo Eka Sejahtera 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Natalindo Eka Sejahtera에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56586,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제15호 — 기술 운영 단위 감독위원 임면 및 사임 절차",
+  "summary_ko": "기술 운영 단위(Unit Pelaksana Teknis)의 감독위원(Dewan Pengawas) 임명, 해임, 사임 절차를 규정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["감독위원", "임면", "UPT"]
+ },
+ {
+  "id": 56587,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제12호 — PT Wilmar Nabati Indonesia 매립 활동 승인",
+  "summary_ko": "PT Wilmar Nabati Indonesia의 매립(Reklamasi) 작업 활동을 승인한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["매립", "Wilmar"]
+ },
+ {
+  "id": 56588,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제11호 — PT Tektonindo Pratama 준설 및 매립 사업 면허 부여",
+  "summary_ko": "PT Tektonindo Pratama에 준설 및 매립 사업체 면허를 부여한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["준설", "매립", "사업면허"]
+ },
+ {
+  "id": 56589,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제7호 — 항로, 항로 시스템, 통항 절차 및 정박 구역 지정",
+  "summary_ko": "특정 해역의 항로, 항로 시스템, 통항 절차 및 정박 구역을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["항로", "정박", "통항"]
+ },
+ {
+  "id": 56590,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제6호 — PT ASDP Indonesia Ferry 운송 공공서비스 위임",
+  "summary_ko": "PT ASDP Indonesia Ferry (Persero)에 운송 공공서비스 의무(PSO) 운영을 위임한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["ASDP", "PSO"]
+ },
+ {
+  "id": 56591,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제5호 — 운영 운임에 관한 교통부 결정 KM 제92호(2020년) 2차 개정",
+  "summary_ko": "운영 운임(Tarif Penyelenggaraan)에 관한 교통부 결정 KM 제92호(2020년)의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["운임", "개정"]
+ },
+ {
+  "id": 56592,
+  "title_ko": "교통부 장관결정(Kepmenhub) 2021년 제4호 — 서자바주 Subang 군 Patimban 항만 주간 페리 노선 지정",
+  "summary_ko": "서자바(Jawa Barat)주 Subang 군 Patimban 항만의 주간(Antarprovinsi) 페리 노선을 지정한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["Patimban", "페리", "노선"]
+ },
+ {
+  "id": 56593,
+  "title_ko": "교통부 결정(KP) 2021년 제949호 — 2021-2022년 교통 부문 공공서비스 우수 기관 평가단",
+  "summary_ko": "2021-2022년 교통 부문 공공서비스 우수 기관(Pelayanan Prima) 평가단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["공공서비스", "우수기관", "평가단"]
+ },
+ {
+  "id": 56594,
+  "title_ko": "교통부 결정(KP) 2021년 제462호 — 협정 비준 대통령령안 부처합동 위원회 구성",
+  "summary_ko": "특정 협정의 비준(Pengesahan)을 위한 대통령령안 작성 부처합동 위원회를 구성한다.",
+  "categories": ["교통", "외교"],
+  "keywords": ["비준", "부처합동위원회"]
+ },
+ {
+  "id": 56595,
+  "title_ko": "교통부 결정(KP) 2021년 제461호 — 협정 비준 대통령령안 부처합동 위원회 구성",
+  "summary_ko": "특정 협정의 비준을 위한 대통령령안 작성 부처합동 위원회를 구성한다.",
+  "categories": ["교통", "외교"],
+  "keywords": ["비준", "부처합동위원회"]
+ },
+ {
+  "id": 56596,
+  "title_ko": "교통부 결정(KP) 2021년 제384호 — 교통부 코로나19 대응 가속화 태스크포스",
+  "summary_ko": "교통부의 코로나19 대응 가속화 태스크포스(Satuan Tugas)를 구성한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["코로나19", "태스크포스"]
+ },
+ {
+  "id": 56597,
+  "title_ko": "교통부 결정(KP) 2021년 제358호 — 교통부 기획 직무 평가단",
+  "summary_ko": "교통부 내 기획(Perencana) 직무에 대한 단위 업무 평가단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기획", "평가단"]
+ },
+ {
+  "id": 56598,
+  "title_ko": "교통부 결정(KP) 2021년 제61호 — 교통부 코로나19 대응 가속화 태스크포스",
+  "summary_ko": "교통부의 코로나19 대응 가속화 태스크포스를 구성한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["코로나19", "태스크포스"]
+ },
+ {
+  "id": 56599,
+  "title_ko": "교통부 결정(KP) 2021년 제758호 — 2021년 교통부 영구 보존 기록물 인계 위원단",
+  "summary_ko": "2021년 교통부의 영구 보존(Statis) 기록물 인계(Penyerahan) 위원단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기록물", "영구보존"]
+ },
+ {
+  "id": 56600,
+  "title_ko": "교통부 결정(KP) 2021년 제537호 — 사무국 정부 내부통제시스템(SPIP) 자체 평가단",
+  "summary_ko": "교통부 사무국(Sekretariat) 정부 내부통제시스템(SPIP) 자체 평가단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["SPIP", "내부통제", "평가단"]
+ },
+ {
+  "id": 56601,
+  "title_ko": "교통부 결정(KP) 2021년 제326호 — Protocol 비준 법률안 부처합동 위원회 구성",
+  "summary_ko": "Protocol 비준을 위한 법률안(Rancangan Undang-Undang) 작성 부처합동 위원회를 구성한다.",
+  "categories": ["교통", "외교"],
+  "keywords": ["비준", "법률안", "부처합동위원회"]
+ },
+ {
+  "id": 56602,
+  "title_ko": "교통부 결정(KP) 2021년 제304호 — 2021년 교통부 내부 기록물 감독단 구성",
+  "summary_ko": "2021년 교통부의 내부 기록물 감독단(Tim Pengawas Kearsipan Internal)을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["기록물", "감독단"]
+ },
+ {
+  "id": 56603,
+  "title_ko": "교통부 결정(KP) 2021년 제303호 — 교통부 산하 대학 생도 선발 중앙·지방 추진단",
+  "summary_ko": "교통부 산하 대학(Perguruan Tinggi) 생도(Taruna/Taruni) 선발의 중앙 및 지방 추진단을 구성한다.",
+  "categories": ["교통", "교육"],
+  "keywords": ["생도선발", "Pembibitan"]
+ },
+ {
+  "id": 56604,
+  "title_ko": "교통부 결정(KP) 2021년 제258호 — 법령 입안관 직무 점수 평가단",
+  "summary_ko": "교통부 법령 입안관(Perancang Peraturan Perundang-undangan)의 직무 점수(Angka Kredit) 평가단을 구성한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["법령입안", "평가단"]
+ },
+ {
+  "id": 56605,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제261호 — 민간 항공 안전 규정 8900-5.5 직원 지침",
+  "summary_ko": "민간 항공 안전 규정 8900-5.5(Staff Instructions 8900-5.5) 기술 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["CASR", "8900-5.5"]
+ },
+ {
+  "id": 56606,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제237호 — 고론탈로주 Pohuwato 군 Pohuwato 공항 운영팀",
+  "summary_ko": "고론탈로(Gorontalo)주 Pohuwato 군 소재 Pohuwato 공항(Satuan Pelayanan Bandar Udara) 운영팀을 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Pohuwato", "공항"]
+ },
+ {
+  "id": 56607,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제223호 — 항공운송 통합 인허가 정보시스템(SIP-TAU) 사용",
+  "summary_ko": "OSS와 통합된 항공운송 통합 인허가 정보시스템(SIP-TAU) 사용을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["SIP-TAU", "OSS", "인허가"]
+ },
+ {
+  "id": 56608,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제207호 — 핵심 항공 데이터 및 전자 시스템 식별 지침",
+  "summary_ko": "핵심(Kritis) 항공 데이터 및 전자 시스템(Sistem Elektronik Penerbangan)에 대한 식별 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공데이터", "전자시스템"]
+ },
+ {
+  "id": 56609,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제196호 — PT Angkasa Pura I 운영 공항 지정",
+  "summary_ko": "PT Angkasa Pura I (Persero)이 운영하는 공항을 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Angkasa Pura I", "공항"]
+ },
+ {
+  "id": 56610,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제180호 — 2021-2023년 국가 항공 안전 계획",
+  "summary_ko": "2021-2023년 국가 항공 안전 계획(Rencana Keselamatan Penerbangan Nasional)을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공안전", "계획"]
+ },
+ {
+  "id": 56611,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제177호 — 민간 항공 안전 규정 8900-5.14 직원 지침",
+  "summary_ko": "민간 항공 안전 규정 8900-5.14(Staff Instruction 8900-5.14)에 따른 관리(Pengujian) 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["CASR", "8900-5.14"]
+ },
+ {
+  "id": 56612,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제131호 — 항공 항법 서비스 감독 프로토콜(체크리스트)",
+  "summary_ko": "항공 항법 서비스(Pelayanan Navigasi Penerbangan)에 대한 감독 프로토콜(Checklist)을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항법", "감독"]
+ },
+ {
+  "id": 56613,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제126호 — 2021년 북타파눌리 Raja Sisingamangaraja XII 국제공항 협조 위원회(FAL)",
+  "summary_ko": "북타파눌리(Tapanuli Utara) Raja Sisingamangaraja XII 국제공항의 2021년 협조 위원회(FAL)를 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["FAL", "Tapanuli", "국제공항"]
+ },
+ {
+  "id": 56614,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제110호 — ICAO State Letter 배포·대응·모니터링 작업단",
+  "summary_ko": "ICAO State Letter의 배포(Pendistribusian), 대응(Tanggapan), 모니터링 작업단을 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["ICAO", "작업단"]
+ },
+ {
+  "id": 56615,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제105호 — 이둘피트리 기간 항공 운송 통제 모니터링·평가 본부 구성",
+  "summary_ko": "이둘피트리(Idul Fitri) 기간 항공 운송(Transportasi Udara) 통제 모니터링·평가 본부(Posko)를 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["이둘피트리", "Posko"]
+ },
+ {
+  "id": 56616,
+  "title_ko": "항공교통총국장 결정(KP) 제104호 — (제목 없음)",
+  "summary_ko": "원문 데이터에 제목이 누락된 결정문이다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["KP104"]
+ },
+ {
+  "id": 56617,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제104호 — 인도네시아 공항 슬롯 관리(IASM) 운영 담당자",
+  "summary_ko": "인도네시아 공항 슬롯 관리(Indonesia Airport Slot Management, IASM) 슬롯 시간 운영 담당자를 임명한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["슬롯", "IASM"]
+ },
+ {
+  "id": 56618,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제99호 — 인도네시아 ICAO 이사국 후보 작업단",
+  "summary_ko": "인도네시아의 국제민간항공기구(ICAO) 이사국(Anggota Dewan) 후보 추진 작업단을 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["ICAO", "이사국"]
+ },
+ {
+  "id": 56619,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제98호 — PT Angkasa Pura II 운영 공항 지정",
+  "summary_ko": "PT Angkasa Pura II (Persero)이 운영하는 공항을 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["Angkasa Pura II", "공항"]
+ },
+ {
+  "id": 56620,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제88호 — 민간 항공 안전 규정 120-05 운영 기술 지침",
+  "summary_ko": "민간 항공 안전 규정 120-05(Advisory Circular)에 따른 운영 기술 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["CASR", "120-05"]
+ },
+ {
+  "id": 56621,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제82호 — 항공 인력 건강검진의(AME) 지정",
+  "summary_ko": "항공 인력 건강검진의(Aviation Medical Examiner, AME)를 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["AME", "항공의료"]
+ },
+ {
+  "id": 56622,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제63호 — 2021-2024년 Kualanamu-Deli Serdang 국제공항 협조 위원회(FAL)",
+  "summary_ko": "Kualanamu-Deli Serdang 국제공항의 2021-2024년 협조 위원회(FAL)를 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["FAL", "Kualanamu"]
+ },
+ {
+  "id": 56623,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제57호 — 감항·항공기 운영 보조 검사관 지정",
+  "summary_ko": "감항(Kelaikudaraan) 및 항공기 운영(Pengoperasian Pesawat Udara) 보조 검사관(Inspektur Perbantuan)을 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["감항", "검사관"]
+ },
+ {
+  "id": 56624,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제55호 — 항공 보안 문화 시행 기술 지침",
+  "summary_ko": "항공 보안 문화(Budaya Keamanan Penerbangan)의 시행 기술 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["보안문화", "지침"]
+ },
+ {
+  "id": 56625,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제38호 — 2021년 항공 의료 검사관 지정",
+  "summary_ko": "2021년 항공 의료 검사관(Inspektur Medis Penerbangan)을 지정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["항공의료", "검사관"]
+ },
+ {
+  "id": 56626,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제37호 — ICAO APAC 코로나19 비상계획 그룹(ACCRPG) 작업단",
+  "summary_ko": "ICAO APAC COVID-19 비상·복구 계획 그룹(ACCRPG) 및 코로나19 대응 작업단을 구성한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["ICAO APAC", "COVID-19"]
+ },
+ {
+  "id": 56627,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제14호 — 공항 에어사이드 시설 작업 기술 사양",
+  "summary_ko": "공항 에어사이드(Sisi Udara) 시설 작업의 기술 사양(Spesifikasi Teknis)을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["에어사이드", "기술사양"]
+ },
+ {
+  "id": 56628,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제13호 — 2020-2024년 항공교통총국 전략 계획",
+  "summary_ko": "2020-2024년 항공교통총국(Direktorat Jenderal Perhubungan Udara)의 전략 계획(Renstra)을 수립한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["전략계획", "Renstra"]
+ },
+ {
+  "id": 56629,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제9호 — 민간 항공 안전 규정 8900-2.6 직원 지침",
+  "summary_ko": "민간 항공 안전 규정 8900-2.6(Staff Instructions 8900-2.6)에 따른 항공기 운영 인가 기술 지침을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["CASR", "8900-2.6"]
+ },
+ {
+  "id": 56630,
+  "title_ko": "항공교통총국장 결정(KP) 2021년 제6호 — 민간 항공 안전 규정 170-05 표준 매뉴얼(MOS)",
+  "summary_ko": "민간 항공 안전 규정 170-05(Manual of Standard)의 운영 기술 표준을 규정한다.",
+  "categories": ["교통", "항공"],
+  "keywords": ["CASR", "170-05", "MOS"]
+ },
+ {
+  "id": 56631,
+  "title_ko": "BPTJ 결정(SK-BPTJ) 2021년 제21호 — BPTJ 직무 분석 및 업무량 분석 작업단 임명",
+  "summary_ko": "자보데타벡 교통관리청(BPTJ)의 직무 분석(Analisis Jabatan) 및 업무량 분석 작업단을 임명한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["BPTJ", "직무분석"]
+ },
+ {
+  "id": 56632,
+  "title_ko": "BPTJ 결정(SK-BPTJ) 2021년 제11호 — BPTJ(자보데타벡) 전략 계획",
+  "summary_ko": "자카르타·보고르·데폭·탕에랑·브카시(Jabodetabek) 교통관리청(BPTJ)의 전략 계획(Renstra)을 수립한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["BPTJ", "Renstra", "Jabodetabek"]
+ },
+ {
+  "id": 56633,
+  "title_ko": "교통부 장관 훈령(IM) 2021년 제10호 — 2021년 성탄절 및 신년 기간 교통 모니터링",
+  "summary_ko": "2021년 성탄절(Natal) 및 2022년 신년 기간 교통 조정·통제(Pengaturan dan Pengendalian)를 모니터링한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["성탄절", "신년", "모니터링"]
+ },
+ {
+  "id": 56634,
+  "title_ko": "교통부 장관 훈령(IM) 2021년 제9호 — 교통부 4 No's 원칙 적용",
+  "summary_ko": "교통부 내 4 No's 원칙(반부패·반청탁) 적용에 관한 훈령을 발령한다.",
+  "categories": ["교통", "행정"],
+  "keywords": ["4 No's", "반부패"]
+ },
+ {
+  "id": 56635,
+  "title_ko": "교통부 장관 훈령(IM) 2021년 제8호 — 페리 운송 운영 통합 서비스 시행",
+  "summary_ko": "페리(Penyeberangan) 운송 운영의 통합 서비스(Pelayanan Terpadu)를 시행한다.",
+  "categories": ["교통", "해운"],
+  "keywords": ["페리", "통합서비스"]
+ },
+ {
+  "id": 56636,
+  "title_ko": "교통부 장관 훈령(IM) 2021년 제4호 — 사회활동 제한(PPKM) 기간 교통 통제 모니터링·평가",
+  "summary_ko": "사회활동 제한(PPKM) 기간의 교통 통제(Pengendalian Transportasi)를 모니터링·평가한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["PPKM", "교통통제"]
+ },
+ {
+  "id": 56637,
+  "title_ko": "교통부 장관 훈령(IM) 2021년 제3호 — 1442년 헤지라 이둘피트리 기간 교통 통제 모니터링·평가",
+  "summary_ko": "1442년 헤지라(Hijriah) 이둘피트리 기간 교통 통제를 모니터링·평가한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["이둘피트리", "교통통제"]
+ },
+ {
+  "id": 56638,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제116호 — 화물 차량 과적·과대(ODOL) 단속",
+  "summary_ko": "화물 운송 차량의 과대(Over Dimension) 및 과적(Over Loading, ODOL) 위반에 대한 감독·단속을 시행한다.",
+  "categories": ["교통", "도로"],
+  "keywords": ["ODOL", "과적"]
+ },
+ {
+  "id": 56639,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제114호 — 코로나19 기간 항공 국제 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 항공 운송(Transportasi Udara)을 통한 국제 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["코로나19", "항공", "국제여행"]
+ },
+ {
+  "id": 56640,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제113호 — 회람 SE 제103호(2021년) 2차 개정",
+  "summary_ko": "교통부 회람 SE 제103호(2021년)의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56641,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제112호 — 코로나19 기간 철도 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 철도(Perkeretaapian) 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["코로나19", "철도", "국내여행"]
+ },
+ {
+  "id": 56642,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제111호 — 성탄절·신년 기간 항공 이동 조정",
+  "summary_ko": "2021년 성탄절 및 신년 기간 항공 운송을 통한 사회 이동(Mobilitas)을 조정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["성탄절", "항공이동"]
+ },
+ {
+  "id": 56643,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제110호 — 성탄절 기간 해상 국내 여행 시행 지침",
+  "summary_ko": "성탄절 기간 해상(Transportasi Laut) 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["성탄절", "해상", "국내여행"]
+ },
+ {
+  "id": 56644,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제109호 — 성탄절 기간 육상 국내 여행 시행 지침",
+  "summary_ko": "성탄절 기간 육상(Transportasi Darat) 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["성탄절", "육상", "국내여행"]
+ },
+ {
+  "id": 56645,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제108호 — 회람 SE 제83호(2021년) 3차 개정",
+  "summary_ko": "교통부 회람 SE 제83호(2021년)의 일부 내용을 세 번째로 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56646,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제107호 — 회람 SE 제103호(2021년) 개정",
+  "summary_ko": "교통부 회람 SE 제103호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56647,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제106호 — 회람 SE 제102호(2021년) 개정",
+  "summary_ko": "교통부 회람 SE 제102호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56648,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제105호 — PPKM 기간 교통부 직원 근무 체계 조정",
+  "summary_ko": "사회활동 제한(PPKM) 기간 교통부 직원의 근무 체계(Sistem Kerja)를 조정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["PPKM", "근무체계"]
+ },
+ {
+  "id": 56649,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제104호 — 회람 SE 제83호(2021년) 2차 개정",
+  "summary_ko": "교통부 회람 SE 제83호(2021년)의 일부 내용을 두 번째로 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56650,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제103호 — 코로나19 기간 해외 입국자 해상 이동 시행 지침",
+  "summary_ko": "코로나19 기간 해외(Luar Negeri)에서 해상 운송으로 입국하는 자에 대한 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["해상", "해외입국"]
+ },
+ {
+  "id": 56651,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제102호 — 코로나19 기간 항공 국제 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 항공 운송을 통한 국제 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["항공", "국제여행"]
+ },
+ {
+  "id": 56652,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제101호 — PPKM 기간 교통부 직원 근무 체계 조정",
+  "summary_ko": "사회활동 제한(PPKM) 기간 교통부 직원의 근무 체계를 조정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["PPKM", "근무체계"]
+ },
+ {
+  "id": 56653,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제100호 — 회람 SE 제85호(2021년) 개정",
+  "summary_ko": "교통부 회람 SE 제85호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56654,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제99호 — 코로나19 기간 해외 입국자 해상 이동 시행 지침",
+  "summary_ko": "코로나19 기간 해외에서 해상 운송으로 입국하는 자에 대한 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["해상", "해외입국"]
+ },
+ {
+  "id": 56655,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제98호 — 회람 SE 제83호(2021년) 개정",
+  "summary_ko": "교통부 회람 SE 제83호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56656,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제97호 — 코로나19 기간 철도 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 철도 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["철도", "국내여행"]
+ },
+ {
+  "id": 56657,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제96호 — 코로나19 기간 항공 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 항공 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["항공", "국내여행"]
+ },
+ {
+  "id": 56658,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제95호 — 코로나19 기간 해상 국내 여행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 해상 운송을 통한 국내 여행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["해상", "국내여행"]
+ },
+ {
+  "id": 56659,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제94호 — 코로나19 기간 육상 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 육상 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["육상", "국내여행"]
+ },
+ {
+  "id": 56660,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제93호 — 회람 제88호(2021년) 개정",
+  "summary_ko": "교통부 회람 제88호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56661,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제92호 — 회람 제89호(2021년) 개정",
+  "summary_ko": "교통부 회람 제89호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56662,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제91호 — 회람 제87호(2021년) 개정",
+  "summary_ko": "교통부 회람 제87호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56663,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제90호 — 회람 제86호(2021년) 개정",
+  "summary_ko": "교통부 회람 제86호(2021년)의 일부 내용을 개정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["회람", "개정"]
+ },
+ {
+  "id": 56664,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제89호 — 코로나19 기간 철도 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 철도 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["철도", "국내여행"]
+ },
+ {
+  "id": 56665,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제88호 — 코로나19 기간 항공 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 항공 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["항공", "국내여행"]
+ },
+ {
+  "id": 56666,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제87호 — 코로나19 기간 해상 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 해상 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["해상", "국내여행"]
+ },
+ {
+  "id": 56667,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제86호 — 코로나19 기간 육상 국내 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 육상 운송을 통한 국내 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["육상", "국내여행"]
+ },
+ {
+  "id": 56668,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제85호 — 코로나19 기간 항공 국제 여행 시행 지침",
+  "summary_ko": "코로나19 팬데믹 기간 항공 운송을 통한 국제 여행 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["항공", "국제여행"]
+ },
+ {
+  "id": 56669,
+  "title_ko": "교통부 장관 회람(SE) 2021년 제84호 — 코로나19 기간 해외 입국자 해상 이동 시행 지침",
+  "summary_ko": "코로나19 기간 해외에서 해상 운송으로 입국하는 자에 대한 시행 지침을 규정한다.",
+  "categories": ["교통", "보건"],
+  "keywords": ["해상", "해외입국"]
+ }
+]
