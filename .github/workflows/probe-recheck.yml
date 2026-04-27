@@ -25,11 +25,18 @@ jobs:
       - name: Run L3/L5 re-check
         run: python -m crawler.probe_l3_l5_recheck
         timeout-minutes: 50
+        continue-on-error: true
+      - name: Run batch DOM probe (22 newly-reachable hosts)
+        run: python -m crawler.probe_batch_dom
+        continue-on-error: true
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: probe-recheck
-          path: data/probe_l3l5_recheck.json
+          path: |
+            data/probe_l3l5_recheck.json
+            data/probe_batch_dom.json
+            data/probe/batch_*.html
           retention-days: 14
           if-no-files-found: ignore
