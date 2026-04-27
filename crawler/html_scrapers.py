@@ -170,6 +170,195 @@ def parse_brin(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     return unique
 
 
+def parse_kemhan(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kemhan: /documents/regulations/{numeric_id} → next.js dynamic list."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/documents/regulations/"]'):
+        href = a.get("href") or ""
+        m = re.search(r"/documents/regulations/(\d+)", href)
+        if not m:
+            continue
+        rid = m.group(1)
+        if rid in seen:
+            continue
+        seen.add(rid)
+        # Title = ancestor text (up to ~250 chars)
+        card = a
+        for _ in range(5):
+            if card.parent is None:
+                break
+            card = card.parent
+            txt = card.get_text(" ", strip=True)
+            if 20 <= len(txt) <= 400:
+                break
+        title = card.get_text(" ", strip=True)[:400]
+        if not title or "Beranda" in title or "Login" in title:
+            continue
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permen Pertahanan",
+            law_number=_extract_number(title) or f"kemhan-{rid}",
+            title_id=title[:512],
+            source="jdih_kemhan",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemenhan",
+            ministry_name_ko="국방부",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kemenpora(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kemenpora: <table> rows; columns: Judul, Nomor, Tahun, Aksi(detail link)."""
+    out = []
+    for tr in soup.select("tr"):
+        judul_td = tr.find("td", attrs={"data-label": "Judul"})
+        if not judul_td:
+            continue
+        title = judul_td.get_text(" ", strip=True)
+        if not title:
+            continue
+        action_td = tr.find("td", attrs={"data-label": "Aksi"})
+        a = action_td.find("a", href=True) if action_td else None
+        if not a:
+            continue
+        href = a.get("href")
+        nomor_td = tr.find("td", attrs={"data-label": "Nomor"})
+        tahun_td = tr.find("td", attrs={"data-label": "Tahun"})
+        nomor = nomor_td.get_text(strip=True) if nomor_td else None
+        tahun = tahun_td.get_text(strip=True) if tahun_td else None
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permen Pemuda dan Olahraga",
+            law_number=nomor or _extract_number(title) or "kemenpora-?",
+            title_id=title[:512],
+            source="jdih_kemenpora",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemenpora",
+            ministry_name_ko="청년체육부",
+            year=int(tahun) if tahun and tahun.isdigit() else _extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kemkes(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kemkes: <h3> headings inside cards, with inner <a href="/documents/{slug}">."""
+    out, seen = [], set()
+    for h3 in soup.select("h3.text-lg, h3.font-semibold, h3"):
+        a = h3.find("a", href=True)
+        if not a:
+            continue
+        href = a.get("href") or ""
+        if "/documents/" not in href:
+            continue
+        # exclude category and pagination links
+        if "/page" in href or "/category" in href:
+            continue
+        if href in seen:
+            continue
+        seen.add(href)
+        title = a.get_text(" ", strip=True)
+        if not title or len(title) < 10:
+            continue
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permen Kesehatan",
+            law_number=_extract_number(title) or "kemkes-?",
+            title_id=title[:512],
+            source="jdih_kemkes",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemenkes",
+            ministry_name_ko="보건부",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_kemenag(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """kemenag: <article class="rz-card-product"> with inner <h3> + <a href="/regulation/{slug}">."""
+    out, seen = [], set()
+    for art in soup.select("article.rz-card-product, article.uk-card, .rz-card-product"):
+        a = art.find("a", href=True)
+        h = art.find(["h3", "h2", "h4"])
+        if not (a and h):
+            continue
+        href = a.get("href") or ""
+        if "/regulation/" not in href:
+            continue
+        if href in seen:
+            continue
+        seen.add(href)
+        title = h.get_text(" ", strip=True)
+        if not title:
+            continue
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permen Agama",
+            law_number=_extract_number(title) or "kemenag-?",
+            title_id=title[:512],
+            source="jdih_kemenag",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemenag",
+            ministry_name_ko="종교부",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
+def parse_bnpt(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """bnpt: detail at /id/dokumen/{base62}; title extracted from neighboring
+    wa.me share button text (?text=<title> <url>)."""
+    out, seen = [], set()
+    # Map detail-href → first share-text title found in the same ancestor
+    detail_anchors = soup.select('a[href*="/id/dokumen/"]')
+    for a in detail_anchors:
+        href = a.get("href") or ""
+        m = re.search(r"/id/dokumen/([\w\-]+)", href)
+        if not m:
+            continue
+        slug = m.group(1)
+        if slug in seen:
+            continue
+        # Find nearest wa.me share-button ancestor sibling
+        title = None
+        ancestor = a
+        for _ in range(8):
+            if ancestor is None:
+                break
+            wa = ancestor.find("a", href=re.compile(r"wa\.me/\?text="))
+            if wa:
+                wa_href = wa.get("href") or ""
+                tm = re.search(r"\?text=([^&]+)", wa_href)
+                if tm:
+                    raw = tm.group(1)
+                    # the text contains "<title> <url>" — strip trailing url
+                    raw = re.sub(r"\s*https?://\S+\s*$", "", raw).strip()
+                    # url-decode roughly (already mostly readable)
+                    title = raw
+                    break
+            ancestor = ancestor.parent
+        if not title or len(title) < 10:
+            continue
+        seen.add(slug)
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Peraturan BNPT",
+            law_number=_extract_number(title) or f"bnpt-{slug}",
+            title_id=title[:512],
+            source="jdih_bnpt",
+            source_url=urljoin(page_url, href),
+            ministry_code="bnpt",
+            ministry_name_ko="국가테러방지청",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
 def parse_pkp(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     out = []
     for actions in soup.select(".doc-actions"):
@@ -251,6 +440,32 @@ ADAPTERS: dict[str, dict] = {
     "pkp": {
         "list_template": "https://jdih.pkp.go.id/produk-hukum?page={page}",
         "parser": parse_pkp,
+        "use_playwright": False,
+    },
+    # ── Phase 1B-2 ──────────────────────────────────────────────
+    "kemhan": {
+        "list_template": "https://jdih.kemhan.go.id/documents/regulations?page={page}",
+        "parser": parse_kemhan,
+        "use_playwright": True,  # SPA — content loads via JS
+    },
+    "kemenpora": {
+        "list_template": "https://jdih.kemenpora.go.id/peraturan?page={page}",
+        "parser": parse_kemenpora,
+        "use_playwright": False,
+    },
+    "kemkes": {
+        "list_template": "https://jdih.kemkes.go.id/documents?page={page}",
+        "parser": parse_kemkes,
+        "use_playwright": False,
+    },
+    "kemenag": {
+        "list_template": "https://jdih.kemenag.go.id/regulation?page={page}",
+        "parser": parse_kemenag,
+        "use_playwright": False,
+    },
+    "bnpt": {
+        "list_template": "https://jdih.bnpt.go.id/id/peraturan-perundang-undangan?page={page}",
+        "parser": parse_bnpt,
         "use_playwright": False,
     },
 }

@@ -114,6 +114,7 @@ CREATE TABLE IF NOT EXISTS laws (
                           'jdih_kemenkeu','jdih_kemendag',
                           'jdih_bnn','jdih_bmkg','jdih_polri',
                           'jdih_kemnaker','jdih_kemenpppa','jdih_brin','jdih_pkp',
+                          'jdih_kemhan','jdih_kemenpora','jdih_kemkes','jdih_kemenag','jdih_bnpt',
                           'mk_go_id','mahkamahagung_go_id',
                           'lainnya'
                       )),
@@ -457,6 +458,7 @@ INSERT OR IGNORE INTO ministries (code, name_id, name_ko, kind) VALUES
     ('bmkg',            'Badan Meteorologi, Klimatologi, dan Geofisika', '기상기후지구물리청',           'lembaga'),
     ('polri',           'Kepolisian Negara Republik Indonesia',          '국가경찰청',                  'lembaga'),
     ('brin',            'Badan Riset dan Inovasi Nasional',              '국가연구혁신청',              'lembaga'),
+    ('bnpt',            'Badan Nasional Penanggulangan Terorisme',       '국가테러방지청',              'lembaga'),
     ('mk',              'Mahkamah Konstitusi',                           '헌법재판소',                  'mahkamah'),
     ('ma',              'Mahkamah Agung',                                '대법원',                     'mahkamah');
 """
