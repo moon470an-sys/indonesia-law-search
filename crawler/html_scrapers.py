@@ -444,9 +444,11 @@ def parse_pkp(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
 
 ADAPTERS: dict[str, dict] = {
     "kemnaker": {
-        "list_template": "https://jdih.kemnaker.go.id/peraturan?page={page}",
+        # Site uses ?hal=N (halaman) for pagination. ?page=N is silently
+        # ignored and always returns the first 15 items.
+        "list_template": "https://jdih.kemnaker.go.id/peraturan?hal={page}",
         "parser": parse_kemnaker,
-        "use_playwright": True,  # server returns 502/timeout to plain httpx
+        "use_playwright": False,
     },
     "kemenpppa": {
         "list_template": "https://jdih.kemenpppa.go.id/dokumen-hukum/produk-hukum?page={page}",
