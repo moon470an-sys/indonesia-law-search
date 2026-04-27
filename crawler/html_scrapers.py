@@ -470,7 +470,8 @@ ADAPTERS: dict[str, dict] = {
         "use_playwright": True,  # SPA — content loads via JS
     },
     "kemenpora": {
-        "list_template": "https://jdih.kemenpora.go.id/peraturan?page={page}",
+        # path-based pagination: /peraturan/{N}; ?page=N is ignored
+        "list_template": "https://jdih.kemenpora.go.id/peraturan/{page}",
         "parser": parse_kemenpora,
         "use_playwright": False,
     },
