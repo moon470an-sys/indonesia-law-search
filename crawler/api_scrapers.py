@@ -161,14 +161,16 @@ ADAPTERS: dict[str, dict] = {
         "mapper": _map_bnn,
     },
     "bmkg": {
-        "list_url": "https://jdih.bmkg.go.id/api/dokumen",
+        # /api/dokumen serves 5/req regardless of params. /api/dokumen/list
+        # returns 1000+ in a single call (dataCount=1225 across the dataset).
+        # We use /list with `skip` for pagination beyond the first 1000.
+        "list_url": "https://jdih.bmkg.go.id/api/dokumen/list",
         "list_key": "data",
         "total_key": "dataCount",
-        "page_param": "page",
-        # bmkg ignores limit-style params and serves a fixed ~5/page; rely on
-        # dataCount to know when to stop instead of the short-page heuristic.
+        "page_param": "skip",     # skip=N skips first N rows
+        "page_zero_based_offset": True,  # interpreted in fetch_page below
         "limit_param": None,
-        "limit": 5,
+        "limit": 1000,             # observed batch size
         "mapper": _map_bmkg,
     },
     "polri": {
@@ -184,11 +186,20 @@ ADAPTERS: dict[str, dict] = {
 
 
 async def fetch_page(client: httpx.AsyncClient, adapter: dict, page: int) -> tuple[list[dict], int | None]:
-    """Returns (rows, total_or_None)."""
-    params = {adapter["page_param"]: page}
+    """Returns (rows, total_or_None).
+
+    `page` is 1-indexed. If page_zero_based_offset is set, we send
+    `(page - 1) * limit` instead so callers can keep using page numbers
+    while the server expects a row offset (e.g. bmkg's `skip`).
+    """
+    if adapter.get("page_zero_based_offset"):
+        param_value = (page - 1) * adapter["limit"]
+    else:
+        param_value = page
+    params = {adapter["page_param"]: param_value}
     if adapter.get("limit_param"):
         params[adapter["limit_param"]] = adapter["limit"]
-    r = await client.get(adapter["list_url"], params=params, timeout=30.0)
+    r = await client.get(adapter["list_url"], params=params, timeout=60.0)
     r.raise_for_status()
     obj = r.json()
     if isinstance(obj, list):
