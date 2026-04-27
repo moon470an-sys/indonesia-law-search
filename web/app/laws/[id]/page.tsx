@@ -148,7 +148,7 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
               ↗ 직접 열기
             </a>
             <a
-              href={`https://web.archive.org/web/*/${it.url}`}
+              href={waybackUrl(it.url)}
               target="_blank"
               rel="noreferrer"
               className="text-brand hover:underline"
@@ -161,6 +161,26 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
       ))}
     </ul>
   );
+}
+
+/**
+ * Wayback indexes peraturan.go.id snapshots under the `www.` host while our
+ * DB stores the bare host. Without canonicalization the calendar page lists
+ * 0 captures even when crawls exist. Rewrite known hosts so the link lands
+ * on a populated calendar.
+ */
+function waybackUrl(rawUrl: string): string {
+  let target = rawUrl;
+  try {
+    const u = new URL(rawUrl);
+    if (u.hostname === "peraturan.go.id") {
+      u.hostname = "www.peraturan.go.id";
+      target = u.toString();
+    }
+  } catch {
+    /* leave as-is on parse failure */
+  }
+  return `https://web.archive.org/web/*/${target}`;
 }
 
 function prettySource(s: string): string {
