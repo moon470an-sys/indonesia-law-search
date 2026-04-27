@@ -1,0 +1,61 @@
+name: Crawl JDIH API sites (bnn / bmkg / polri)
+
+on:
+  workflow_dispatch:
+    inputs:
+      sites:
+        description: "Site keys (space-separated). Empty = all."
+        required: false
+        default: "bnn bmkg polri"
+      max_pages:
+        description: "Max pages per site"
+        required: false
+        default: "200"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crawl-api
+  cancel-in-progress: true
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: crawler/requirements.txt
+
+      - name: Install deps
+        working-directory: crawler
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run API scrapers
+        run: |
+          python -m crawler.api_scrapers ${{ inputs.sites }} --max-pages ${{ inputs.max_pages }}
+
+      - name: List output
+        run: |
+          ls -la data/raw/ || true
+          for f in data/raw/jdih_*.jsonl; do
+            [ -e "$f" ] || continue
+            echo "$f → $(wc -l < "$f") rows  ($(stat -c%s "$f") bytes)"
+            echo "  head:"; head -1 "$f"
+          done
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-jsonl
+          path: data/raw/jdih_*.jsonl
+          retention-days: 14
+          if-no-files-found: ignore
