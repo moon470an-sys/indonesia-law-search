@@ -34,7 +34,7 @@ export type Hierarchy = {
 
 export const HIERARCHIES: Hierarchy[] = [
   {
-    key: "UUD", name_ko: "헌법", name_id: "Undang-Undang Dasar 1945", rank: 1,
+    key: "UUD", name_ko: "헌법 (UUD 1945)", name_id: "Undang-Undang Dasar 1945", rank: 1,
     classes: {
       text:      "text-violet-700",
       bg:        "bg-violet-50",
@@ -45,7 +45,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "TAP", name_ko: "MPR 결의", name_id: "Ketetapan MPR", rank: 2,
+    key: "TAP", name_ko: "MPR 결의 (TAP)", name_id: "Ketetapan MPR", rank: 2,
     classes: {
       text:      "text-fuchsia-700",
       bg:        "bg-fuchsia-50",
@@ -56,7 +56,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "UU", name_ko: "법률", name_id: "Undang-Undang (UU)", rank: 3,
+    key: "UU", name_ko: "법률 (UU)", name_id: "Undang-Undang (UU)", rank: 3,
     classes: {
       text:      "text-indigo-700",
       bg:        "bg-indigo-50",
@@ -67,7 +67,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "PP", name_ko: "정부령", name_id: "Peraturan Pemerintah (PP)", rank: 4,
+    key: "PP", name_ko: "정부령 (PP)", name_id: "Peraturan Pemerintah (PP)", rank: 4,
     classes: {
       text:      "text-blue-700",
       bg:        "bg-blue-50",
@@ -78,7 +78,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Perpres", name_ko: "대통령령", name_id: "Peraturan Presiden (Perpres)", rank: 5,
+    key: "Perpres", name_ko: "대통령령 (Perpres)", name_id: "Peraturan Presiden (Perpres)", rank: 5,
     classes: {
       text:      "text-sky-700",
       bg:        "bg-sky-50",
@@ -89,7 +89,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Permen", name_ko: "부령", name_id: "Peraturan Menteri (Permen)", rank: 6,
+    key: "Permen", name_ko: "부령 (Permen)", name_id: "Peraturan Menteri (Permen)", rank: 6,
     classes: {
       text:      "text-teal-700",
       bg:        "bg-teal-50",
@@ -100,7 +100,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Kepmen", name_ko: "장관결정", name_id: "Keputusan Menteri (Kepmen)", rank: 7,
+    key: "Kepmen", name_ko: "장관결정 (Kepmen)", name_id: "Keputusan Menteri (Kepmen)", rank: 7,
     classes: {
       text:      "text-emerald-700",
       bg:        "bg-emerald-50",
@@ -111,7 +111,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Perda_Prov", name_ko: "도 조례", name_id: "Peraturan Daerah Provinsi", rank: 8,
+    key: "Perda_Prov", name_ko: "도 조례 (Perda Prov)", name_id: "Peraturan Daerah Provinsi", rank: 8,
     classes: {
       text:      "text-amber-700",
       bg:        "bg-amber-50",
@@ -122,7 +122,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Perda_Kab", name_ko: "시·군 조례", name_id: "Peraturan Daerah Kabupaten/Kota", rank: 9,
+    key: "Perda_Kab", name_ko: "시·군 조례 (Perda Kab/Kota)", name_id: "Peraturan Daerah Kabupaten/Kota", rank: 9,
     classes: {
       text:      "text-orange-700",
       bg:        "bg-orange-50",
@@ -133,7 +133,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Lainnya", name_ko: "기타", name_id: "Lainnya", rank: 99,
+    key: "Lainnya", name_ko: "기타 (Lainnya)", name_id: "Lainnya", rank: 99,
     classes: {
       text:      "text-slate-700",
       bg:        "bg-slate-100",

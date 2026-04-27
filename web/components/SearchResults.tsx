@@ -160,18 +160,6 @@ export default function SearchResults({
           </FilterBox>
         )}
 
-        <FilterBox title="상태">
-          <FilterLink href={link({ status: undefined })} active={!statusParam}>전체</FilterLink>
-          <FilterLink href={link({ status: "berlaku" })} active={statusParam === "berlaku"}>
-            현행 (Berlaku)
-          </FilterLink>
-          <FilterLink href={link({ status: "diubah" })} active={statusParam === "diubah"}>
-            개정 (Diubah)
-          </FilterLink>
-          <FilterLink href={link({ status: "dicabut" })} active={statusParam === "dicabut"}>
-            폐지 (Dicabut)
-          </FilterLink>
-        </FilterBox>
       </aside>
 
       <div className="space-y-5">
