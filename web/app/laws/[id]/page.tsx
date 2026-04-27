@@ -148,7 +148,7 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
               ↗ 직접 열기
             </a>
             <a
-              href={`https://web.archive.org/web/2/${it.url}`}
+              href={`https://web.archive.org/web/*/${it.url}`}
               target="_blank"
               rel="noreferrer"
               className="text-brand hover:underline"
