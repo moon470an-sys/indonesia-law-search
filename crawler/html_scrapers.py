@@ -380,6 +380,40 @@ def parse_bnpt(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     return out
 
 
+def parse_dephub(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """dephub (교통부): card.strip with h3 > a (number) + p (description)."""
+    out, seen = [], set()
+    for card in soup.select("div.strip"):
+        a = card.select_one("h3 a[href*='/peraturan/detail']")
+        if not a:
+            continue
+        href = a.get("href") or ""
+        if href in seen:
+            continue
+        nomor = a.get_text(" ", strip=True)
+        # Description: <p> after h3 inside card
+        p_el = card.find("p")
+        desc = p_el.get_text(" ", strip=True) if p_el else ""
+        title = f"{nomor} — {desc}".strip(" — ") if desc else nomor
+        if not title or len(title) < 5:
+            continue
+        seen.add(href)
+        # Detail URL data param
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Permenhub" if nomor.startswith("PM ") else "Peraturan Perhubungan",
+            law_number=_extract_number(nomor) or nomor[:60],
+            title_id=title[:512],
+            source="jdih_dephub",
+            source_url=urljoin(page_url, href),
+            ministry_code="kemenhub",
+            ministry_name_ko="교통부",
+            year=_extract_year(nomor) or _extract_year(desc),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
 def parse_bps(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     """bps (통계청): /public/dokumen-hukum/{laravel-signed-id}, with title in card."""
     out, seen = [], set()
@@ -740,6 +774,11 @@ ADAPTERS: dict[str, dict] = {
     "bps": {
         "list_template": "https://jdih.bps.go.id/public/dokumen-hukum?page={page}",
         "parser": parse_bps,
+        "use_playwright": False,
+    },
+    "dephub": {
+        "list_template": "https://jdih.dephub.go.id/peraturan/index?page={page}&per-page=12",
+        "parser": parse_dephub,
         "use_playwright": False,
     },
 }
