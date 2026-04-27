@@ -174,8 +174,7 @@ export default function SearchResults({
               if (cnt === 0) return null;
               const isActive = activeHierarchy === h.key;
               const buckets = subBuckets[h.key as string];
-              const expanded =
-                isActive && Array.isArray(buckets) && buckets.length > 0;
+              const expanded = Array.isArray(buckets) && buckets.length > 0;
               return (
                 <li key={h.key}>
                   <FilterLink
