@@ -36,6 +36,10 @@ jobs:
         run: python -m crawler.probe_jdihn
         continue-on-error: true
 
+      - name: Probe alternative central sources (BPK, JDIHN-BPHN, data.go.id)
+        run: python -m crawler.probe_central
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,6 +48,7 @@ jobs:
           path: |
             data/probe_jdih_pw.json
             data/probe_jdihn.json
+            data/probe_central.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
