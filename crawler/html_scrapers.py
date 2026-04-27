@@ -380,6 +380,48 @@ def parse_bnpt(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     return out
 
 
+def parse_bps(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
+    """bps (통계청): /public/dokumen-hukum/{laravel-signed-id}, with title in card."""
+    out, seen = [], set()
+    for a in soup.select('a[href*="/public/dokumen-hukum/"]'):
+        href = a.get("href") or ""
+        if href in seen or "/dokumen-hukum/" not in href:
+            continue
+        # Skip the category page link itself
+        if href.rstrip("/").endswith("/public/dokumen-hukum"):
+            continue
+        # Title: nearest h3/h4/h5 containing the link or sibling text
+        title = a.get_text(" ", strip=True)
+        if len(title) < 15:
+            # Try parent h-tag
+            h = a.find_parent(["h2", "h3", "h4", "h5"])
+            if h:
+                title = h.get_text(" ", strip=True)
+            else:
+                # Try card structure
+                card = a.find_parent(["div", "article"])
+                if card:
+                    h = card.find(["h3", "h4", "h5"])
+                    if h:
+                        title = h.get_text(" ", strip=True)
+        if not title or len(title) < 10:
+            continue
+        seen.add(href)
+        out.append(LawRecord(
+            category="peraturan",
+            law_type="Peraturan BPS",
+            law_number=_extract_number(title) or "bps-?",
+            title_id=title[:512],
+            source="jdih_bps",
+            source_url=urljoin(page_url, href),
+            ministry_code="bps",
+            ministry_name_ko="중앙통계청",
+            year=_extract_year(title),
+            status="tidak_diketahui",
+        ))
+    return out
+
+
 def parse_atrbpn(soup: BeautifulSoup, page_url: str) -> list[LawRecord]:
     """atrbpn (토지관리청): card with /peraturan/detail/{id}/{slug} link + h2."""
     out, seen = [], set()
@@ -693,6 +735,11 @@ ADAPTERS: dict[str, dict] = {
     "bkpm": {
         "list_template": "https://jdih.bkpm.go.id/id?page={page}",
         "parser": parse_bkpm,
+        "use_playwright": False,
+    },
+    "bps": {
+        "list_template": "https://jdih.bps.go.id/public/dokumen-hukum?page={page}",
+        "parser": parse_bps,
         "use_playwright": False,
     },
 }
