@@ -48,6 +48,10 @@ jobs:
         run: python -m crawler.probe_layers
         continue-on-error: true
 
+      - name: L2-main detailed DOM probe
+        run: python -m crawler.probe_l2_main
+        continue-on-error: true
+
       - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -59,6 +63,7 @@ jobs:
             data/probe_central.json
             data/probe_bpk.json
             data/probe_layers.json
+            data/probe_l2.json
             data/probe/
           if-no-files-found: ignore
           retention-days: 14
