@@ -83,8 +83,8 @@ export default async function LawDetailPage({
 
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
-          <strong>안내</strong> · peraturan.go.id 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine 또는 Google 번역 프록시)를 이용하세요.
+          <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
+          직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine)를 이용하세요.
         </p>
         <SourceLinks law={law} />
       </Section>
