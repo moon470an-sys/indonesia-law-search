@@ -150,7 +150,10 @@ def fetch_one(client: httpx.Client, row) -> dict | None:
     if not url:
         return None
     try:
-        r = client.get(url, timeout=30, follow_redirects=True)
+        # Tight timeout — pages slower than 8s are almost always being
+        # rate-limited or are dead. Better to skip and move on than burn
+        # the whole shard waiting on stragglers.
+        r = client.get(url, timeout=8, follow_redirects=True)
         if r.status_code != 200:
             return None
         soup = BeautifulSoup(r.text, "html.parser")

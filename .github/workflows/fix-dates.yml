@@ -25,6 +25,7 @@ permissions:
 jobs:
   fix:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
@@ -36,10 +37,13 @@ jobs:
           python-version: "3.11"
       - run: pip install httpx[http2] beautifulsoup4
       - name: phase 2 (shard ${{ matrix.shard }}/16)
+        # Lower per-shard concurrency (8 workers) so total connection
+        # pressure on peraturan.go.id is 16 * 8 = 128, not 384. Past
+        # runs at 384 took ~3h/shard — almost certainly rate-limited.
         run: |
           if [ "${{ inputs.mode }}" = "all" ]; then EXTRA="--all"; else EXTRA=""; fi
           python -X utf8 -m scripts.fix_promulgation_dates \
-            --phase 2 --workers 24 --shard ${{ matrix.shard }}/16 $EXTRA
+            --phase 2 --workers 8 --shard ${{ matrix.shard }}/16 $EXTRA
       - uses: actions/upload-artifact@v4
         with:
           name: fixed-shard-${{ matrix.shard }}
