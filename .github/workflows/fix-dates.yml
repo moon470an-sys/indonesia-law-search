@@ -49,10 +49,12 @@ jobs:
   merge:
     needs: fix
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -66,31 +68,51 @@ jobs:
           for f in artifacts/fixed-shard-*/fixed_promulgation_dates.jsonl; do
             [ -f "$f" ] && cat "$f" >> data/fixed_promulgation_dates.jsonl || true
           done
-          wc -l data/fixed_promulgation_dates.jsonl || true
-      - name: merge into JSONL source
-        run: python -X utf8 -m scripts.fix_promulgation_dates --phase merge
-      - name: commit fixes
+          wc -l data/fixed_promulgation_dates.jsonl || echo "patch file empty"
+      - name: pull latest main before applying patch
+        # main may have moved while the 16-shard fix matrix was running.
+        # Apply the patch on top of the latest tree so a) we don't drop
+        # other people's changes, and b) the eventual push is fast-forward.
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+      - name: merge into JSONL source
+        timeout-minutes: 5
+        run: python -X utf8 -m scripts.fix_promulgation_dates --phase merge
+      - name: commit and push
+        timeout-minutes: 5
+        run: |
+          set -e
           git add data/laws/*.jsonl
           if git diff --cached --quiet; then
-            echo "no changes — nothing to commit"
+            echo "no changes to commit — patch had no novel data"
             exit 0
           fi
           git commit -m "data: re-fetch Tanggal Penetapan for every law (mode=${{ inputs.mode }})"
-          # Race-safe push: someone may have committed to main while
-          # the matrix shards were running, so rebase before pushing.
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git rebase origin/main || { git rebase --abort; sleep 5; continue; }
+          # Push with retry. Non-interactive — if a race causes rejection
+          # we re-pull latest main, re-apply by cherry-picking our commit.
+          for attempt in 1 2 3 4 5; do
             if git push origin HEAD:main; then
               echo "push succeeded on attempt $attempt"
               exit 0
             fi
-            echo "push attempt $attempt rejected; will retry"
-            sleep $((attempt * 5))
+            echo "push attempt $attempt rejected; pulling and retrying"
+            our_sha=$(git rev-parse HEAD)
+            git fetch origin main
+            git reset --hard origin/main
+            # Re-apply our promulgation_date patch on top of latest main.
+            python -X utf8 -m scripts.fix_promulgation_dates --phase merge
+            git add data/laws/*.jsonl
+            if git diff --cached --quiet; then
+              echo "patch already applied upstream; nothing to push"
+              exit 0
+            fi
+            git commit -m "data: re-fetch Tanggal Penetapan for every law (mode=${{ inputs.mode }})"
+            sleep $((attempt * 3))
           done
-          echo "push failed after 3 attempts"
+          echo "push failed after 5 attempts"
           exit 1
