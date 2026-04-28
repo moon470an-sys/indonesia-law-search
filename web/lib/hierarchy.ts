@@ -10,8 +10,8 @@ export type HierarchyKey =
   | "UU"        // 법률 (Perppu 포함)
   | "PP"        // 정부령 (시행령)
   | "Perpres"   // 대통령령
-  | "Permen"    // 부령 (Permen + 모든 Permen<X>)
-  | "Kepmen"    // 장관 결정
+  | "Permen"    // 정부령 (Permen + 모든 Permen<X>)
+  | "Kepmen"    // 장관령
   | "Perda_Prov"// 도 조례
   | "Perda_Kab" // 시·군 조례
   | "Lainnya";  // 기타
@@ -89,7 +89,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Permen", name_ko: "부령 (Permen)", name_id: "Peraturan Menteri (Permen)", rank: 6,
+    key: "Permen", name_ko: "정부령 (Permen)", name_id: "Peraturan Menteri (Permen)", rank: 6,
     classes: {
       text:      "text-teal-700",
       bg:        "bg-teal-50",
@@ -100,7 +100,7 @@ export const HIERARCHIES: Hierarchy[] = [
     },
   },
   {
-    key: "Kepmen", name_ko: "장관결정 (Kepmen)", name_id: "Keputusan Menteri (Kepmen)", rank: 7,
+    key: "Kepmen", name_ko: "장관령 (Kepmen)", name_id: "Keputusan Menteri (Kepmen)", rank: 7,
     classes: {
       text:      "text-emerald-700",
       bg:        "bg-emerald-50",
