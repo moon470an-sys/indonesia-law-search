@@ -30,12 +30,6 @@ export default function SearchPage() {
     <div className="space-y-6">
       <SearchBox />
 
-      <p className="text-sm text-slate-500">
-        본 페이지는 한국어 번역이 적용된{" "}
-        <span className="font-bold text-slate-900">{translated.length.toLocaleString()}</span>건만 표시합니다.
-        전체 메타({all.length.toLocaleString()}건)는 위계별 인덱스에서 인니어로 열람할 수 있습니다.
-      </p>
-
       <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-3 md:grid-cols-5">
         {HIERARCHIES.filter((h) => (untranslatedByHierarchy.get(h.key) ?? 0) > 0).map((h) => {
           const cnt = untranslatedByHierarchy.get(h.key) ?? 0;

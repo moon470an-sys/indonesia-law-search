@@ -132,7 +132,6 @@ export default function SearchResults({
   const onlyTranslated = sp.get("translated") === "1";
   const recent = sp.get("recent");
 
-  const [grouped, setGrouped] = useState(false);
   const [page, setPage] = useState(1);
   // Per-hierarchy expand/collapse state for the sidebar sub-buckets.
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -187,27 +186,14 @@ export default function SearchResults({
     return out;
   }, [laws, q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, fixedHierarchy]);
 
-  // Reset to page 1 whenever the filter / mode set changes
+  // Reset to page 1 whenever the filter set changes
   useEffect(() => {
     setPage(1);
-  }, [q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, grouped]);
+  }, [q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const safePage = Math.min(page, totalPages);
   const pageRows = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
-
-  const groups = useMemo(() => {
-    if (!grouped) return [];
-    const map = new Map<HierarchyKey, Row[]>();
-    for (const law of filtered) {
-      const k = classify(law);
-      if (!map.has(k)) map.set(k, []);
-      map.get(k)!.push(law);
-    }
-    return HIERARCHIES
-      .map((h) => ({ h, items: map.get(h.key) ?? [] }))
-      .filter((g) => g.items.length > 0);
-  }, [filtered, grouped]);
 
   const baseParams = new URLSearchParams();
   if (q) baseParams.set("q", q);
@@ -316,12 +302,6 @@ export default function SearchResults({
       <aside className="space-y-4 text-sm">
         {!fixedHierarchy && (
           <FilterBox title="법위계">
-            <FilterLink
-              href={hLink({ hierarchy: undefined, ministry: undefined })}
-              active={!activeHierarchy}
-            >
-              전체 <Count n={laws.length} />
-            </FilterLink>
             {HIERARCHIES.map((h) => {
               const cnt = laws.filter((l) => classify(l) === h.key).length;
               if (cnt === 0) return null;
@@ -402,96 +382,16 @@ export default function SearchResults({
       </aside>
 
       <div className="space-y-5">
-        <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-slate-200 pb-3">
-          <p className="text-base text-slate-700">
-            {filtered.length === 0 ? (
-              "검색 결과가 없습니다."
-            ) : (
-              <>
-                <span className="text-2xl font-bold text-slate-900 tabular-nums">
-                  {filtered.length.toLocaleString()}
-                </span>
-                <span className="ml-1 font-semibold text-slate-700">건</span>
-                <span className="ml-1 text-slate-500">의 결과</span>
-                {q ? (
-                  <span className="ml-2 text-slate-500">
-                    · "<span className="font-medium text-slate-800">{q}</span>"
-                  </span>
-                ) : null}
-              </>
-            )}
+        {q && (
+          <p className="text-sm text-slate-500">
+            검색어: "<span className="font-medium text-slate-800">{q}</span>"
           </p>
-
-          {filtered.length > 0 && !fixedHierarchy && (
-            <div className="inline-flex rounded-md border border-slate-200 bg-white p-0.5 text-xs">
-              <button
-                type="button"
-                onClick={() => setGrouped(false)}
-                className={
-                  "rounded px-3 py-1.5 font-semibold transition " +
-                  (!grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
-                }
-              >
-                전체 목록
-              </button>
-              <button
-                type="button"
-                onClick={() => setGrouped(true)}
-                className={
-                  "rounded px-3 py-1.5 font-semibold transition " +
-                  (grouped ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900")
-                }
-              >
-                위계별
-              </button>
-            </div>
-          )}
-        </header>
+        )}
 
         {filtered.length === 0 ? (
           <p className="rounded-lg border border-slate-200 bg-white p-8 text-center text-base text-slate-500">
             검색 결과가 없습니다.
           </p>
-        ) : grouped && !fixedHierarchy ? (
-          <div className="space-y-6">
-            {groups.map(({ h, items }) => (
-              <section
-                key={h.key}
-                className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
-              >
-                <header
-                  className={`flex items-center justify-between border-l-4 ${h.classes.border} ${h.classes.bg} px-5 py-3`}
-                >
-                  <div>
-                    <p className={`text-[11px] font-bold uppercase tracking-wider ${h.classes.text}`}>
-                      Rank {h.rank}
-                    </p>
-                    <h3 className="text-base font-bold text-slate-900">
-                      {h.name_ko}
-                      <span className="ml-2 text-sm font-normal italic text-slate-500">
-                        {h.name_id}
-                      </span>
-                    </h3>
-                  </div>
-                  <p className="text-sm font-semibold text-slate-700 tabular-nums">
-                    {items.length.toLocaleString()}건
-                  </p>
-                </header>
-                <LawTable laws={items.slice(0, 20)} compact />
-                {items.length > 20 && (
-                  <div className="border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-xs text-slate-500">
-                    상위 20건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
-                    <a
-                      href={path(`/search/${SLUG_OF[h.key]}/`)}
-                      className="font-semibold text-brand hover:underline"
-                    >
-                      {h.name_ko} 인덱스 →
-                    </a>
-                  </div>
-                )}
-              </section>
-            ))}
-          </div>
         ) : (
           <>
             <PageInfo
