@@ -178,8 +178,13 @@ export function classify(input: {
     return "Permen";
   }
 
-  // Kepmen 패밀리: 'KEPUTUSAN MENTERI ESDM', 'Kepmen', …
-  if (lt === "kepmen" || lt.includes("keputusan menteri") || lt.startsWith("keputusan ")) {
+  // Kepmen 패밀리: 'KEPUTUSAN MENTERI ESDM', 'Kepmen', 'Kepmenaker', 'Kepmenesdm', …
+  if (
+    lt === "kepmen" ||
+    lt.startsWith("kepmen") ||
+    lt.includes("keputusan menteri") ||
+    lt.startsWith("keputusan ")
+  ) {
     return "Kepmen";
   }
 
