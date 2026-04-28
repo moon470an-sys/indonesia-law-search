@@ -40,6 +40,51 @@ type Row = {
 
 type Ministry = { code: string; name_ko: string; count: number };
 
+/**
+ * Extract the region name (Provinsi X / Kabupaten Y / Kota Z) from a Perda
+ * title. Returns canonicalized "<Provinsi|Kabupaten|Kota> <Name>" or empty
+ * string when no pattern matches.
+ */
+function extractRegion(title: string): string {
+  if (!title) return "";
+  // Patterns ordered most-specific first.
+  const patterns: [RegExp, (m: RegExpMatchArray) => string][] = [
+    // "Peraturan Daerah Provinsi X Nomor ..."
+    [/Peraturan\s+Daerah\s+Provinsi\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Provinsi ${m[1].trim()}`],
+    // "Peraturan Daerah Kabupaten X Nomor ..."
+    [/Peraturan\s+Daerah\s+Kabupaten\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kabupaten ${m[1].trim()}`],
+    // "Peraturan Daerah Kota X Nomor ..."
+    [/Peraturan\s+Daerah\s+Kota\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kota ${m[1].trim()}`],
+    // "Peraturan Gubernur X Nomor ..."
+    [/Peraturan\s+Gubernur\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Provinsi ${m[1].trim()}`],
+    // "Peraturan Bupati X Nomor ..."
+    [/Peraturan\s+Bupati\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kabupaten ${m[1].trim()}`],
+    // "Peraturan Wali Kota X Nomor ..." or "Peraturan Walikota X Nomor ..."
+    [/Peraturan\s+Wali\s*[Kk]ota\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kota ${m[1].trim()}`],
+    // "Peraturan Daerah Khusus Ibu Kota Jakarta" (DKI)
+    [/Peraturan\s+Daerah\s+(?:Khusus\s+)?(?:Provinsi\s+)?(?:Daerah\s+Khusus\s+Ibukota\s+Jakarta|DKI\s+Jakarta)/i,
+      () => "Provinsi DKI Jakarta"],
+    // "Keputusan Gubernur/Bupati/Walikota X" (Perda 카테고리에 들어가는 결정)
+    [/Keputusan\s+Gubernur\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Provinsi ${m[1].trim()}`],
+    [/Keputusan\s+Bupati\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kabupaten ${m[1].trim()}`],
+    [/Keputusan\s+Wali\s*[Kk]ota\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i,
+      (m) => `Kota ${m[1].trim()}`],
+  ];
+  for (const [re, build] of patterns) {
+    const m = title.match(re);
+    if (m) return build(m).replace(/\s{2,}/g, " ").slice(0, 60);
+  }
+  return "";
+}
+
 export default function SearchResults({
   laws,
   ministries,
@@ -82,7 +127,12 @@ export default function SearchResults({
       out = out.filter((law) => classify(law) === target);
     }
     if (ministry) {
-      out = out.filter((law) => law.ministry_code === ministry);
+      if (ministry.startsWith("region:")) {
+        const target = ministry.slice("region:".length);
+        out = out.filter((law) => extractRegion(law.title_id || "") === target);
+      } else {
+        out = out.filter((law) => law.ministry_code === ministry);
+      }
     }
     if (statusParam && (STATUSES as string[]).includes(statusParam)) {
       out = out.filter((law) => law.status === statusParam);
@@ -141,17 +191,26 @@ export default function SearchResults({
   const transCount = laws.filter((l) => l.title_ko != null).length;
 
   // Sub-buckets for hierarchies that benefit from a 2nd-level breakdown:
-  //   Permen / Kepmen → by ministry (장관별)
-  //   Perda_Prov / Perda_Kab → by ministry (지역 코드 역할)
+  //   Permen / Kepmen     → by ministry (장관별)
+  //   Perda_Prov / Perda_Kab → by region extracted from title_id (지역별)
   const subBucketKeys: HierarchyKey[] = ["Permen", "Kepmen", "Perda_Prov", "Perda_Kab"];
   const subBuckets = useMemo(() => {
     const out: Record<string, { code: string; label: string; count: number }[]> = {};
+    const isPerda = (k: HierarchyKey) => k === "Perda_Prov" || k === "Perda_Kab";
     for (const key of subBucketKeys) {
       const counts = new Map<string, { label: string; count: number }>();
       for (const law of laws) {
         if (classify(law) !== key) continue;
-        const code = law.ministry_code || "__none__";
-        const label = law.ministry_name_ko || (code === "__none__" ? "(미분류)" : code);
+        let code: string;
+        let label: string;
+        if (isPerda(key)) {
+          const region = extractRegion(law.title_id || "");
+          code = region ? `region:${region}` : "__none__";
+          label = region || "(지역 미상)";
+        } else {
+          code = law.ministry_code || "__none__";
+          label = law.ministry_name_ko || (code === "__none__" ? "(미분류)" : code);
+        }
         const cur = counts.get(code) ?? { label, count: 0 };
         cur.count += 1;
         counts.set(code, cur);
