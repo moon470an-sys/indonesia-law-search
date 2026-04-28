@@ -35,7 +35,36 @@ type Row = {
   ministry_name_ko: string | null;
   promulgation_date: string | null;
   status: string;
+  source: string;
   source_url: string;
+};
+
+const SOURCE_LABEL: Record<string, string> = {
+  peraturan_go_id: "peraturan.go.id (정부 통합)",
+  jdih_dephub: "JDIH 교통부",
+  jdih_esdm: "JDIH 에너지광물자원부",
+  jdih_bkpm: "JDIH 투자조정청",
+  jdih_kemenkeu: "JDIH 재무부",
+  jdih_kemendag: "JDIH 무역부",
+  jdih_kemnaker: "JDIH 인력부",
+  jdih_kemkes: "JDIH 보건부",
+  jdih_kemenag: "JDIH 종교부",
+  jdih_kemenpppa: "JDIH 여성·아동권익부",
+  jdih_kemenpora: "JDIH 청소년·체육부",
+  jdih_kemhan: "JDIH 국방부",
+  jdih_kpu: "JDIH 선거관리위원회(KPU)",
+  jdih_polri: "JDIH 국가경찰청(POLRI)",
+  jdih_brin: "JDIH 국가연구혁신청(BRIN)",
+  jdih_bmkg: "JDIH 기상기후지구물리청(BMKG)",
+  jdih_bps: "JDIH 중앙통계청(BPS)",
+  jdih_bnn: "JDIH 마약수사청(BNN)",
+  jdih_bnpt: "JDIH 테러대응청(BNPT)",
+  jdih_atrbpn: "JDIH 토지·공간행정부",
+  jdih_pkp: "JDIH 주거단지부",
+  jdih_kejaksaan: "JDIH 검찰청",
+  mk_go_id: "헌법재판소",
+  mahkamahagung_go_id: "대법원",
+  lainnya: "기타",
 };
 
 type Ministry = { code: string; name_ko: string; count: number };
@@ -98,6 +127,7 @@ export default function SearchResults({
   const q = (sp.get("q") ?? "").trim();
   const hierarchySlug = sp.get("hierarchy");
   const ministry = sp.get("ministry");
+  const source = sp.get("source");
   const statusParam = sp.get("status");
   const onlyTranslated = sp.get("translated") === "1";
   const recent = sp.get("recent");
@@ -141,6 +171,9 @@ export default function SearchResults({
     if (statusParam && (STATUSES as string[]).includes(statusParam)) {
       out = out.filter((law) => law.status === statusParam);
     }
+    if (source) {
+      out = out.filter((law) => law.source === source);
+    }
     if (onlyTranslated) {
       out = out.filter((law) => law.title_ko != null);
     }
@@ -152,12 +185,12 @@ export default function SearchResults({
     }
 
     return out;
-  }, [laws, q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, fixedHierarchy]);
+  }, [laws, q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, fixedHierarchy]);
 
   // Reset to page 1 whenever the filter / mode set changes
   useEffect(() => {
     setPage(1);
-  }, [q, hierarchySlug, ministry, statusParam, onlyTranslated, recent, grouped]);
+  }, [q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, grouped]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const safePage = Math.min(page, totalPages);
@@ -225,6 +258,58 @@ export default function SearchResults({
     }
     return out;
   }, [laws]);
+
+  // Source distribution for the "원본 출처" sidebar box. Counts honour every
+  // active filter EXCEPT `source` itself so the user can see how many rows
+  // each crawler contributed to the rest-of-filters subset, even while a
+  // source pin is active.
+  const filteredIgnoringSource = useMemo(() => {
+    let out = laws;
+    if (q) {
+      const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+      out = out.filter((law) => {
+        const hay = (
+          (law.title_ko ?? "") + " " +
+          (law.title_id ?? "") + " " +
+          (law.law_number ?? "") + " " +
+          (law.law_type ?? "") + " " +
+          (law.ministry_name_ko ?? "")
+        ).toLowerCase();
+        return tokens.every((t) => hay.includes(t));
+      });
+    }
+    if (!fixedHierarchy && hierarchySlug && hierarchySlug in HIERARCHY_SLUG) {
+      const target = HIERARCHY_SLUG[hierarchySlug];
+      out = out.filter((law) => classify(law) === target);
+    }
+    if (ministry) {
+      if (ministry.startsWith("region:")) {
+        const target = ministry.slice("region:".length);
+        out = out.filter((law) => extractRegion(law.title_id || "") === target);
+      } else {
+        out = out.filter((law) => law.ministry_code === ministry);
+      }
+    }
+    if (statusParam && (STATUSES as string[]).includes(statusParam)) {
+      out = out.filter((law) => law.status === statusParam);
+    }
+    if (onlyTranslated) out = out.filter((law) => law.title_ko != null);
+    return out;
+  }, [laws, q, hierarchySlug, ministry, statusParam, onlyTranslated, fixedHierarchy]);
+  const sourceCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const law of filteredIgnoringSource) {
+      const k = law.source || "lainnya";
+      counts.set(k, (counts.get(k) ?? 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .map(([code, count]) => ({
+        code,
+        label: SOURCE_LABEL[code] ?? code,
+        count,
+      }))
+      .sort((a, b) => b.count - a.count);
+  }, [filteredIgnoringSource]);
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-[260px_1fr]">
@@ -295,6 +380,24 @@ export default function SearchResults({
             })}
           </FilterBox>
         )}
+
+        <FilterBox title="원본 출처">
+          <FilterLink
+            href={link({ source: undefined })}
+            active={!source}
+          >
+            전체 <Count n={filteredIgnoringSource.length} />
+          </FilterLink>
+          {sourceCounts.map((s) => (
+            <FilterLink
+              key={s.code}
+              href={link({ source: source === s.code ? undefined : s.code })}
+              active={source === s.code}
+            >
+              {s.label} <Count n={s.count} />
+            </FilterLink>
+          ))}
+        </FilterBox>
 
       </aside>
 

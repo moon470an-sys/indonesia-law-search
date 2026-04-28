@@ -103,6 +103,7 @@ export type LawMin = {
   year: number | null;
   promulgation_date: string | null;
   status: string;
+  source: string;
   source_url: string;
   pdf_url_id: string | null;
 };
@@ -112,7 +113,7 @@ export function listAllMin(): LawMin[] {
     .prepare(
       `SELECT id, category, law_type, law_number, title_id, title_ko,
               ministry_code, ministry_name_ko, year, promulgation_date, status,
-              source_url, pdf_url_id
+              source, source_url, pdf_url_id
          FROM laws`,
     )
     .all() as Record<string, unknown>[];
@@ -128,6 +129,7 @@ export function listAllMin(): LawMin[] {
     year: (r.year as number | null) ?? null,
     promulgation_date: (r.promulgation_date as string | null) ?? null,
     status: r.status as string,
+    source: r.source as string,
     source_url: r.source_url as string,
     pdf_url_id: (r.pdf_url_id as string | null) ?? null,
   }));
