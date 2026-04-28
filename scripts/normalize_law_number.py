@@ -1,31 +1,20 @@
-"""Normalize law_number across all data/laws/jdih_*.jsonl files.
+"""Normalize law_number across all data/laws/*.jsonl files.
 
-Current state (audited):
-  - peraturan.go.id  : "Nomor 2 Tahun 2023"          ← clean
-  - esdm             : "esdm-detail-100" placeholder OR "1565 K/10/MEM/2008"
-  - kemnaker / polri / bnn / bps / bmkg : just "6"   ← no year
-  - dephub           : "KM 2 TAHUN 2020"             ← prefix + year
-  - kemkes / brin / kpu / bnpt / pkp : placeholder ("kemkes-?", "brin-{id}")
-  - kejaksaan        : "6 TAHUN 2021(KEP)"
-  - atrbpn           : "16" OR "1/Juknis-100.HK.02.01/I/2022"
+Strategy (in priority order, per row):
+  1. Title-based extraction. Indonesian regulation titles routinely
+     start with the literal "Nomor <X>/CODE..." or "Nomor <X> Tahun
+     <Y>" — the most authoritative source for the canonical number.
+  2. Strip the trailing " Tahun YYYY" suffix when the leading slug
+     already encodes the year (so "144-pmk-07-2009 Tahun 2009" loses
+     its tail).
+  3. Decode slug-style numbers (lowercase + hyphens, the form used by
+     URL slugs): convert hyphens to slashes/dots, uppercase known
+     ministry tokens. Heuristic — when uncertain, leave as-is.
+  4. Empty / placeholder strings get an extracted value or
+     "Tidak Diketahui".
 
-Standardized output format (Indonesian legal convention):
-  "<number> Tahun <YYYY>"  — for plain number+year (e.g. "2 Tahun 2023")
-  "<complex-code>"         — for codes already containing slashes / dots
-                              (e.g. "159/KPTS/M/2025", "HK.02.02/F/065/2026")
-  ""                       — when nothing extractable (rare; placeholder dropped)
-
-Extraction priority (per row), checked against title_id:
-  1. "Nomor X Tahun Y"          → "X Tahun Y"
-  2. "Nomor X/COMPLEX-CODE"     → "X/COMPLEX-CODE"
-  3. "Nomor: X" or "Nomor X"    → "X"
-  4. "<TYPE> X TAHUN Y"         → "X Tahun Y"
-  5. fallback: keep current law_number if it's not a placeholder, else ""
-
-Placeholders detected and stripped: anything matching /^[a-z]+-\?$/ or
-/^[a-z]+-[a-f0-9\-]{6,}$/ (e.g. kemkes-?, brin-001777ec, bnpt-0yOxKMWwr).
-
-Run: python -m scripts.normalize_law_number [--dry-run]
+The script writes back to JSONL in place. Run scripts.build_db
+afterwards to refresh laws.db.
 """
 from __future__ import annotations
 
@@ -37,107 +26,259 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LAWS = ROOT / "data" / "laws"
 
-# Detect adapter-generated placeholder values
 PLACEHOLDER_RE = re.compile(
-    r"^(?:[a-z]+-(?:\?|[a-f0-9\-]{4,}|detail-\d+))$|^kpu-\?$|^bkpm-\?$|^kemkes-\?$|^bps-\?$|^bnpt-[\w]+$",
+    r"^(?:[a-z]+-(?:\?|[a-f0-9\-]{4,}|detail-\d+))$|^(?:kpu|bkpm|kemkes|bps|bnpt)-\?$",
     re.IGNORECASE,
 )
 
-# Extraction patterns, in priority order. Each returns the canonical string when matched.
-def _extract_from_title(title: str) -> str | None:
+# Tokens we always uppercase when found inside a slug-style number.
+# Roman numerals and ministry abbreviations that are conventionally CAPS.
+SLUG_UPPER_TOKENS = {
+    "pmk", "kmk", "pp", "uu", "perpres", "kepmen",
+    "permen", "permendag", "permenkeu", "permenkes", "permenhut", "permentan",
+    "permenkominfo", "permenaker", "permenpan", "permenperin", "permenpora",
+    "menhut", "menlhk", "mendag", "menkeu", "menkes", "mentan", "mendagri",
+    "menpan", "menag", "kemnaker", "kemenkeu", "kemenpora", "kemkes",
+    "kemenkop", "kemendag", "kemendikbud", "kemenhub", "kemensos", "kemenag",
+    "kapolri", "djbc", "djpb", "djpu", "djpl", "djka",
+    "esdm", "mb", "mem", "hk", "kp", "kpt", "kep", "kpts",
+    "rb", "kpa", "ses", "sj", "set", "setjen", "setneg",
+    "skj", "sm", "ind", "pkp", "ppa", "lhk",
+    "m", "p", "per", "kpts",
+}
+ROMAN_RE = re.compile(r"^(?:i{1,3}|iv|v|vi{0,3}|ix|x|xi{0,3}|xiv|xv|xvi{0,3}|xix|xx|xxi{0,3}|xxiv|xxv)$", re.IGNORECASE)
+
+
+# Phrases that indicate the upcoming "Nomor X" refers to a DIFFERENT law
+# (the one being amended/repealed/cited), not the law in this row.
+_REFERENCE_PREFIX_RE = re.compile(
+    r"(?:Perubahan|Pencabutan|Atas|Sebagaimana|Mencabut|Menetapkan|Mengubah)\b"
+    r"[\s\S]{0,40}$",
+    re.IGNORECASE,
+)
+
+
+def _is_reference_match(title: str, match_start: int) -> bool:
+    """True if the "Nomor X" we just matched is preceded by a phrase like
+    'Perubahan Atas …' (i.e. it points at the amended law, not this one)."""
+    head = title[: match_start].rstrip()
+    if not head:
+        return False
+    return bool(_REFERENCE_PREFIX_RE.search(head[-60:]))
+
+
+def _title_extract(title: str, year: int | None) -> str | None:
+    """Try the canonical "Nomor X..." patterns inside title_id.
+
+    Skips matches that follow "Perubahan Atas / Pencabutan ..." since
+    those reference the amended law, not the current one. Prefers a
+    match whose 4-digit year matches the row's `year` column."""
     if not title:
         return None
     t = title.strip()
 
-    # 1. "Nomor X Tahun Y" / "No. X Tahun Y" / "No X Tahun Y" / "Number X Of Y" (English)
-    m = re.search(r"\b(?:Nomor|No\.?|Number)\s*[:.]?\s*([^\s,;]+(?:\s+[^\s,;]+)?)\s+(?:Tahun|Of)\s+(\d{4})", t, re.IGNORECASE)
-    if m:
-        num = m.group(1).strip().rstrip(".,")
-        year = m.group(2)
-        if num.lower() not in ("tahun", "of"):
-            return f"{num} Tahun {year}"
+    candidates: list[tuple[str, int | None, int]] = []
 
-    # 2. "Nomor X/CODE/CODE" / "No. X/CODE" — complex code
-    m = re.search(r"\b(?:Nomor|No\.?)\s*[:.]?\s*([^\s,;]+\/[^\s,;]+)", t, re.IGNORECASE)
-    if m:
-        return m.group(1).strip().rstrip(".,")
+    # Pattern A: "Nomor X Tahun YYYY"
+    for m in re.finditer(
+        r"\b(?:Nomor|No\.?|Number)\s*[:.]?\s*([0-9][\w./-]*?)\s+(?:Tahun|Of)\s+(\d{4})",
+        t, re.IGNORECASE,
+    ):
+        if _is_reference_match(t, m.start()):
+            continue
+        cand = f"{m.group(1).strip()} Tahun {m.group(2)}"
+        candidates.append((cand, int(m.group(2)), m.start()))
 
-    # 3. ALL-CAPS "X TAHUN Y" without "Nomor" prefix (e.g. dephub "KM 2 TAHUN 2020")
-    m = re.search(r"^[A-Z]+\.?\s+(\S+)\s+TAHUN\s+(\d{4})", t)
-    if m:
-        return f"{m.group(1).strip()} Tahun {m.group(2)}"
+    # Pattern B: "Nomor X.Y/CODE/.../YYYY" composite
+    for m in re.finditer(
+        r"\b(?:Nomor|No\.?)\s*[:.]?\s*([0-9][\w.]*\/[\w.]+(?:\/[\w.]+){1,4}\/(\d{4}))",
+        t, re.IGNORECASE,
+    ):
+        if _is_reference_match(t, m.start()):
+            continue
+        cand = m.group(1).rstrip(".,;)")
+        candidates.append((cand, int(m.group(2)), m.start()))
 
-    # 4. "X Tahun Y" at start of title (e.g. polri "4 Tahun 2017")
-    m = re.match(r"^(\S+)\s+Tahun\s+(\d{4})\b", t, re.IGNORECASE)
-    if m and not m.group(1).lower().startswith("tahun"):
-        return f"{m.group(1).strip()} Tahun {m.group(2)}"
+    # Pattern C: "Nomor X/CODE..." without trailing year
+    for m in re.finditer(
+        r"\b(?:Nomor|No\.?)\s*[:.]?\s*([0-9][\w./-]*\/[\w./-]+(?:\/[\w./-]+){1,4})",
+        t, re.IGNORECASE,
+    ):
+        if _is_reference_match(t, m.start()):
+            continue
+        cand = m.group(1).rstrip(".,;)")
+        if "/" in cand:
+            candidates.append((cand, None, m.start()))
 
-    # 5. "Nomor X" / "No. X" / "Number X" (no Tahun cluster)
-    m = re.search(r"\b(?:Nomor|No\.?|Number)\s*[:.]?\s*([^\s,;]+)", t, re.IGNORECASE)
-    if m:
-        cand = m.group(1).strip().rstrip(".,")
-        if cand.lower() in ("tahun", "of", ""):
-            cand = ""
-        if cand:
-            ym = re.search(r"\b(?:Tahun|Of)\s+(\d{4})\b", t, re.IGNORECASE)
-            if ym:
-                return f"{cand} Tahun {ym.group(1)}"
-            return cand
+    if not candidates:
+        return None
 
-    return None
+    # Prefer ones whose year aligns with the row's year column
+    if year is not None:
+        for cand, cy, _ in candidates:
+            if cy == year:
+                return cand
+    # Otherwise the first non-reference match
+    return candidates[0][0]
+
+
+def _strip_redundant_year_suffix(s: str, year: int | None) -> str:
+    """Drop trailing " Tahun YYYY" when the leading slug already ends in YYYY."""
+    m = re.match(r"^(.*?)\s+Tahun\s+(\d{4})\s*$", s, re.IGNORECASE)
+    if not m:
+        return s
+    head, yr = m.group(1).strip(), m.group(2)
+    # If the head already ends in -YYYY or /YYYY (same year), drop the tail
+    if re.search(rf"[-/]{yr}$", head):
+        return head
+    return s
+
+
+def _decode_slug(s: str) -> str:
+    """Convert "144-pmk-07-2009" → "144/PMK.07/2009"-style canonical form.
+
+    Conservative: only acts on lowercase-plus-hyphen patterns whose first
+    segment is digits and last segment is a 4-digit year. Other slugs are
+    returned unchanged so we don't break already-canonical strings."""
+    if not re.match(r"^[a-z0-9]([\w.\-/]*[a-z0-9])?$", s.strip(), re.IGNORECASE):
+        return s
+    if "-" not in s or "/" in s:
+        return s
+
+    parts = s.split("-")
+    if len(parts) < 3:
+        return s
+    if not parts[0].lstrip("0").isdigit() and not (
+        len(parts[0]) == 1 and parts[0].lower() in ("p", "m")
+    ):
+        # Doesn't start with a recognizable number/prefix
+        return s
+    if not re.fullmatch(r"\d{4}", parts[-1]):
+        return s
+
+    out_parts: list[str] = []
+    i = 0
+    while i < len(parts):
+        tok = parts[i]
+        if i == 0 and tok.lower() == "p" and len(parts) > 1 and parts[1].isdigit():
+            # "p-56-menhut-ii-2014" → "P.56/..."
+            out_parts.append(f"P.{parts[1]}")
+            i += 2
+            continue
+        if i == 0 and tok.lower() == "m" and len(parts) > 2 and parts[1].isalpha():
+            # "m-dag-per-1-2017" — actually rare; "01-m-dag-per-1-2017" more common
+            pass
+
+        # Try to merge "{ALPHA}-{2DIGIT}" pairs into "ALPHA.NN" (PMK style)
+        if (
+            tok.isalpha()
+            and i + 1 < len(parts)
+            and re.fullmatch(r"\d{2,3}", parts[i + 1])
+            and tok.lower() in {"pmk", "kmk", "pmk."}
+        ):
+            out_parts.append(f"{tok.upper()}.{parts[i + 1]}")
+            i += 2
+            continue
+
+        # Roman numeral? uppercase
+        if ROMAN_RE.match(tok):
+            out_parts.append(tok.upper())
+            i += 1
+            continue
+
+        # Known token? uppercase
+        if tok.lower() in SLUG_UPPER_TOKENS:
+            out_parts.append(tok.upper())
+            i += 1
+            continue
+
+        # Pure digit?
+        if tok.isdigit():
+            out_parts.append(tok)
+            i += 1
+            continue
+
+        # Mixed letters — uppercase if all lower
+        if tok.islower():
+            out_parts.append(tok.upper())
+        else:
+            out_parts.append(tok)
+        i += 1
+
+    # Insert "M-{X}" combination: if we have e.g. ["1", "M", "DAG", "PER", "1", "2017"]
+    # we want "1/M-DAG/PER/1/2017". The "M" and following ministry token glue.
+    glued: list[str] = []
+    j = 0
+    while j < len(out_parts):
+        tok = out_parts[j]
+        if (
+            tok == "M"
+            and j + 1 < len(out_parts)
+            and out_parts[j + 1].isalpha()
+            and len(out_parts[j + 1]) <= 6
+            and out_parts[j + 1] != "M"
+        ):
+            glued.append(f"M-{out_parts[j + 1]}")
+            j += 2
+            continue
+        glued.append(tok)
+        j += 1
+
+    return "/".join(glued)
+
+
+def _broken_dash(s: str) -> bool:
+    """e.g. "18- Tahun 2026" — the part after the dash is missing/empty."""
+    return bool(re.match(r"^\d+-\s+Tahun\s+\d{4}$", s.strip(), re.IGNORECASE))
 
 
 def normalize(row: dict) -> str | None:
-    """Return new law_number, or None to keep as-is."""
+    """Return a new law_number, or None to keep the existing value.
+
+    Order: clean up the existing value first (slug decode, strip
+    redundant "Tahun YYYY", drop "Nomor " prefix). Only fall back to
+    title-based extraction when the current value is empty, a known
+    placeholder, or a broken-dash artefact. This prevents pulling the
+    "Perubahan Atas Peraturan ... Nomor X Tahun Y" reference into the
+    current row."""
     cur = (row.get("law_number") or "").strip()
     title = row.get("title_id") or ""
+    year = row.get("year")
 
-    derived = _extract_from_title(title)
+    # Empty / placeholder / broken — try title extraction
+    if not cur or PLACEHOLDER_RE.match(cur) or _broken_dash(cur):
+        derived = _title_extract(title, year)
+        if derived:
+            return derived
+        if not cur:
+            return "Tidak Diketahui"
+        return None  # leave placeholder for phase-2 re-fetch
 
-    # If current is a placeholder, prefer derived; if no derived, fall back to current (don't blank)
-    if PLACEHOLDER_RE.match(cur):
-        return derived if derived else None  # keep placeholder rather than empty
+    # Strip redundant " Tahun YYYY" tail
+    new = _strip_redundant_year_suffix(cur, year)
 
-    # If current empty AND no derived, set "Tidak Diketahui" so DB NOT NULL passes
-    if not cur and not derived:
-        return "Tidak Diketahui"
+    # Strip leading "Nomor "
+    if new.lower().startswith("nomor "):
+        new = new[6:].strip()
 
-    # If current is already a "X Tahun Y" form and derived agrees, keep
-    if re.match(r"^\S+\s+Tahun\s+\d{4}$", cur, re.IGNORECASE):
-        # Convert "X TAHUN Y" → "X Tahun Y" (lowercase "Tahun")
-        normalized = re.sub(r"\bTAHUN\b", "Tahun", cur)
-        if normalized != cur:
-            return normalized
-        return None
+    # Lowercase "tahun" canonicalisation
+    new = re.sub(r"\bTAHUN\b", "Tahun", new)
 
-    # If current looks like "Nomor X Tahun Y", strip the "Nomor " prefix
-    if cur.lower().startswith("nomor "):
-        stripped = cur[6:].strip()
-        # ensure year-case canon
-        stripped = re.sub(r"\bTAHUN\b", "Tahun", stripped)
-        return stripped
+    # Slug decode (best-effort)
+    decoded = _decode_slug(new)
+    if decoded != new:
+        new = decoded
 
-    # If current is a complex code (contains /), keep as-is
-    if "/" in cur and len(cur) >= 5:
-        return None
+    # Trim
+    new = re.sub(r"\s+", " ", new).strip()
 
-    # If current is just digits and derived has more info, prefer derived
-    if re.fullmatch(r"\d+", cur) and derived and "Tahun" in derived:
-        return derived
-
-    # If current is empty but derived available, use it
-    if not cur and derived:
-        return derived
-
-    # If "TAHUN" appears in cur uppercase, lowercase it
-    if "TAHUN" in cur:
-        return re.sub(r"\bTAHUN\b", "Tahun", cur)
-
+    if new != cur:
+        return new
     return None
 
 
 def process_file(path: Path, dry_run: bool) -> tuple[int, int]:
-    rows = []
+    rows: list[dict] = []
     changed = 0
     total = 0
     for line in path.read_text(encoding="utf-8").splitlines():
