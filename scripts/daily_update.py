@@ -41,7 +41,9 @@ import subprocess
 import sys
 import traceback
 from datetime import datetime, timezone, timedelta
-from email.message import EmailMessage
+from email.mime.text import MIMEText
+from email.header import Header
+from email.utils import formataddr
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -156,21 +158,39 @@ def send_email(subject: str, body: str) -> str:
             "SMTP env vars missing (JDIH_SMTP_HOST/USER/PASSWORD/EMAIL_FROM) — "
             f"would have emailed:\nTo: {recipient}\nSubject: {subject}\n\n{body[:1500]}"
         )
-    msg = EmailMessage()
-    msg["From"] = sender
-    msg["To"] = recipient
-    msg["Subject"] = subject
-    msg.set_content(body)
+    # Manual MIME assembly: every header value is base64-encoded for safety
+    # and the body is base64-encoded UTF-8. This avoids smtplib's habit of
+    # re-encoding headers as ASCII when send_message() walks the message.
+    import base64
+    enc_subject = "=?utf-8?b?" + base64.b64encode(subject.encode("utf-8")).decode("ascii") + "?="
+    enc_body = base64.b64encode(body.encode("utf-8")).decode("ascii")
+    raw = (
+        f"From: {sender}\r\n"
+        f"To: {recipient}\r\n"
+        f"Subject: {enc_subject}\r\n"
+        f"MIME-Version: 1.0\r\n"
+        f"Content-Type: text/plain; charset=utf-8\r\n"
+        f"Content-Transfer-Encoding: base64\r\n"
+        f"\r\n"
+        f"{enc_body}\r\n"
+    ).encode("ascii")
     ctx = ssl.create_default_context()
+    # Force an ASCII local hostname for EHLO. Python defaults to socket.gethostname()
+    # which on this Windows host returns Korean ("문윤석"), and smtplib tries to
+    # ASCII-encode it on the wire — UnicodeEncodeError otherwise.
+    local_hostname = "jdih-daily.local"
     if port == 465:
-        with smtplib.SMTP_SSL(host, port, context=ctx, timeout=30) as s:
+        with smtplib.SMTP_SSL(host, port, context=ctx, timeout=30,
+                              local_hostname=local_hostname) as s:
             s.login(user, password)
-            s.send_message(msg)
+            s.sendmail(sender, [recipient], raw)
     else:
-        with smtplib.SMTP(host, port, timeout=30) as s:
+        with smtplib.SMTP(host, port, timeout=30, local_hostname=local_hostname) as s:
+            s.ehlo()
             s.starttls(context=ctx)
+            s.ehlo()
             s.login(user, password)
-            s.send_message(msg)
+            s.sendmail(sender, [recipient], raw)
     return f"sent to {recipient} via {host}:{port}"
 
 
