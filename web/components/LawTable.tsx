@@ -77,12 +77,12 @@ export default function LawTable({
             </th>
             <th className="px-3 py-3 text-left whitespace-nowrap">
               <SortHeader k="ministry" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
-                소관
+                출처
               </SortHeader>
             </th>
             <th className="px-3 py-3 text-left whitespace-nowrap">
               <SortHeader k="promulgation_date" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
-                공포일
+                제정일
               </SortHeader>
             </th>
             <th className="px-3 py-3 text-left whitespace-nowrap">
