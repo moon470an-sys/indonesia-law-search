@@ -140,6 +140,49 @@ def fetch_new_laws(limit: int = 30) -> list[dict]:
 SITE_URL = "https://moon470an-sys.github.io/indonesia-law-search"
 
 
+def fetch_hukumonline_section() -> str:
+    """Fetch latest hukumonline.com articles via Jina Reader and render as
+    a Korean-labeled Markdown block. Indonesian titles/descriptions are
+    surfaced verbatim because automated translation is forbidden by
+    CLAUDE.md; each entry gets a Google Translate proxy link so the
+    reader can one-click translate to Korean."""
+    try:
+        from crawler.hukumonline_news import fetch_latest
+        items = fetch_latest(limit=8)
+    except Exception:
+        return ""
+    if not items:
+        return ""
+    parts = ["", "---", "", "## 📰 Hukumonline 오늘의 업데이트", "(인도네시아 법조 종합 매체 hukumonline.com 최신 기사 — 인니어 원문)", ""]
+    for it in items:
+        title = (it.get("title") or "").strip()
+        date = (it.get("date_id") or "").strip()
+        author = (it.get("author") or "").strip()
+        description = (it.get("description") or "").strip()
+        url = (it.get("url") or "").strip()
+        # translate.goog proxy URL form for one-click Korean rendering
+        try:
+            from urllib.parse import urlparse
+            host = urlparse(url).hostname or "www.hukumonline.com"
+            tg_host = host.replace("-", "--").replace(".", "-")
+            translate_path = urlparse(url).path
+            translate_url = (
+                f"https://{tg_host}.translate.goog{translate_path}"
+                f"?_x_tr_sl=id&_x_tr_tl=ko&_x_tr_hl=ko"
+            )
+        except Exception:
+            translate_url = url
+        parts.append(f"### {title[:160]}")
+        if date or author:
+            parts.append(f"  - 📅 {date}{(' · ' + author) if author else ''}")
+        if description:
+            parts.append(f"  - {description[:300]}")
+        parts.append(f"  - 원문: {url}")
+        parts.append(f"  - 한국어 자동번역: {translate_url}")
+        parts.append("")
+    return "\n".join(parts)
+
+
 def format_law_block(law: dict) -> str:
     """One readable Korean block per law. Falls back to Indonesian title
     when the Korean translation hasn't been produced yet (translation is
@@ -205,6 +248,7 @@ def format_summary(summary: dict | None, step_logs: list[str]) -> tuple[str, str
             f"jdih.esdm 등)를 점검했지만 신규 항목이 발견되지 않았습니다.\n\n"
             f"기존 법령 검색: {SITE_URL}/search\n"
         )
+        body += fetch_hukumonline_section()
         return subject, body
 
     new_laws = fetch_new_laws(limit=min(30, total_new))
@@ -253,6 +297,7 @@ def format_summary(summary: dict | None, step_logs: list[str]) -> tuple[str, str
     body_parts.append("")
     body_parts.append("---")
     body_parts.append(f"전체 검색 페이지: {SITE_URL}/search")
+    body_parts.append(fetch_hukumonline_section())
     return subject, "\n".join(body_parts)
 
 
