@@ -21,35 +21,33 @@ export function WaybackLink({ url, label }: { url: string; label: string }) {
     if (busy) return;
     setBusy(true);
     try {
-      const cdxUrl =
-        "https://web.archive.org/cdx/search/cdx" +
-        `?url=${encodeURIComponent(target)}` +
-        "&output=json&filter=statuscode:200&limit=-1";
-      const r = await fetch(cdxUrl, { mode: "cors" });
+      // Availability API has CORS enabled (Access-Control-Allow-Origin: *)
+      // and returns the closest *200 OK* snapshot — automatically skipping
+      // 5xx-captured snapshots. Required: full URL with https:// prefix.
+      const apiUrl =
+        "https://archive.org/wayback/available" +
+        `?url=${encodeURIComponent(target)}`;
+      const r = await fetch(apiUrl, { mode: "cors" });
       if (r.ok) {
-        const rows: unknown = await r.json();
-        // CDX returns [["urlkey","timestamp","original",...], ["...",...]]
-        const arr = Array.isArray(rows) ? (rows as string[][]) : [];
-        if (arr.length > 1) {
-          const last = arr[arr.length - 1];
-          const ts = last[1];
-          const original = last[2] || target;
-          window.open(
-            `https://web.archive.org/web/${ts}/${original}`,
-            "_blank",
-            "noopener",
-          );
+        const data: unknown = await r.json();
+        const closest = (data as {
+          archived_snapshots?: { closest?: { url?: string; available?: boolean } };
+        })?.archived_snapshots?.closest;
+        if (closest?.available && closest.url) {
+          // closest.url comes back as http://; force https for mixed-content safety
+          const cached = closest.url.replace(/^http:\/\//, "https://");
+          window.open(cached, "_blank", "noopener");
           return;
         }
       }
-      // No 200 capture → offer Save Page Now
+      // No snapshot → offer Save Page Now form (always works)
       window.open(
         `https://web.archive.org/save/?url=${encodeURIComponent(target)}`,
         "_blank",
         "noopener",
       );
     } catch {
-      // Network or CORS failure → fall back to calendar
+      // Network/CORS failure → fallback to calendar
       window.open(
         `https://web.archive.org/web/2*/${target}`,
         "_blank",
