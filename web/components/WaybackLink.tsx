@@ -2,20 +2,16 @@
 
 import { useState } from "react";
 
-/**
- * Smart Wayback link.
- *
- * On click we hit the Wayback CDX API to find the *latest status-200* snapshot
- * (skipping snapshots that captured a 5xx error page) and navigate to that
- * exact timestamp. Falls back to:
- *   1. /web/<url> (latest, regardless of status) if CDX is reachable but has
- *      no 200 captures
- *   2. /save/?url=<url> if the URL has zero captures
- *   3. /web/2*/url calendar if the API is unreachable (network failure)
- *
- * Canonicalizes peraturan.go.id → www.peraturan.go.id so Wayback's URL key
- * matches the snapshots actually filed there.
- */
+// Smart Wayback link.
+//
+// On click we hit the Wayback CDX API to find the latest status-200 snapshot
+// (skipping snapshots that captured a 5xx error page) and navigate to that
+// exact timestamp. Falls back to:
+//   1. /save/?url=<url>     if the URL has zero captures
+//   2. /web/2-star/<url>    calendar if the API is unreachable (network)
+//
+// Canonicalizes peraturan.go.id → www.peraturan.go.id so Wayback's URL key
+// matches the snapshots actually filed there.
 export function WaybackLink({ url, label }: { url: string; label: string }) {
   const [busy, setBusy] = useState(false);
   const target = canonicalize(url);
