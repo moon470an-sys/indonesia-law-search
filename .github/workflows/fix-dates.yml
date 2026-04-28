@@ -25,25 +25,28 @@ permissions:
 jobs:
   fix:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 50
     strategy:
       fail-fast: false
+      max-parallel: 32
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install httpx[http2] beautifulsoup4
-      - name: phase 2 (shard ${{ matrix.shard }}/16)
-        # Lower per-shard concurrency (8 workers) so total connection
-        # pressure on peraturan.go.id is 16 * 8 = 128, not 384. Past
-        # runs at 384 took ~3h/shard — almost certainly rate-limited.
+      - name: phase 2 (shard ${{ matrix.shard }}/32)
+        # 32 shards × 8 workers = 256 concurrent conns to peraturan.go.id
+        # (down from 384 in the failed run). Each shard now handles only
+        # ~1,745 rows, comfortably within the 50-minute job timeout even
+        # if the average response is on the slow side.
         run: |
           if [ "${{ inputs.mode }}" = "all" ]; then EXTRA="--all"; else EXTRA=""; fi
           python -X utf8 -m scripts.fix_promulgation_dates \
-            --phase 2 --workers 8 --shard ${{ matrix.shard }}/16 $EXTRA
+            --phase 2 --workers 8 --shard ${{ matrix.shard }}/32 $EXTRA
       - uses: actions/upload-artifact@v4
         with:
           name: fixed-shard-${{ matrix.shard }}
