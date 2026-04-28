@@ -131,6 +131,11 @@ export default function SearchResults({
     }
     return path(`/search/${p.toString() ? "?" + p : ""}`);
   };
+  // Hierarchy navigation always resets the active text-search query so the
+  // user can browse the full bucket without their previous keyword acting
+  // as an implicit AND filter.
+  const hLink = (extra: Record<string, string | undefined>) =>
+    link({ ...extra, q: undefined });
 
   const activeHierarchy = fixedHierarchy ?? (hierarchySlug ? HIERARCHY_SLUG[hierarchySlug] : null);
   const transCount = laws.filter((l) => l.title_ko != null).length;
@@ -164,7 +169,7 @@ export default function SearchResults({
         {!fixedHierarchy && (
           <FilterBox title="법위계">
             <FilterLink
-              href={link({ hierarchy: undefined, ministry: undefined })}
+              href={hLink({ hierarchy: undefined, ministry: undefined })}
               active={!activeHierarchy}
             >
               전체 <Count n={laws.length} />
@@ -178,7 +183,7 @@ export default function SearchResults({
               return (
                 <li key={h.key}>
                   <FilterLink
-                    href={link({ hierarchy: SLUG_OF[h.key], ministry: undefined })}
+                    href={hLink({ hierarchy: SLUG_OF[h.key], ministry: undefined })}
                     active={isActive && !ministry}
                     dot={h.classes.bgStrong}
                     nested={false}
@@ -194,7 +199,7 @@ export default function SearchResults({
                         return (
                           <FilterLink
                             key={b.code}
-                            href={link({
+                            href={hLink({
                               hierarchy: SLUG_OF[h.key],
                               ministry: codeForLink,
                             })}
