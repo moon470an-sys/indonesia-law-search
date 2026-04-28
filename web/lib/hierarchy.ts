@@ -159,15 +159,31 @@ export function classify(input: {
   law_type: string;
   category?: string | null;
   source_url?: string | null;
+  title_id?: string | null;
 }): HierarchyKey {
   const lt = (input.law_type || "").trim().toLowerCase();
   const cat = (input.category || "").toLowerCase();
   const url = (input.source_url || "").toLowerCase();
+  const title = (input.title_id || "").trim();
 
   if (cat === "putusan") return "Lainnya"; // 판례는 별도 trail이지만 위계 모드에서는 lainnya
   if (cat === "lampiran" || cat === "perjanjian" || cat === "lainnya") return "Lainnya";
 
   if (lt === "uud" || lt === "uud 1945") return "UUD";
+
+  // Title-based override for the constitutional documents themselves
+  // (UUD 1945 + its 4 amendments + UUDS 1950 + RIS 1949). Mahkamah
+  // Konstitusi laws are NOT constitutional texts and are excluded.
+  if (title && !/Mahkamah\s+Konstitusi/i.test(title)) {
+    if (
+      /^Undang-Undang Dasar/i.test(title) ||
+      /Perubahan\s+(Pertama|Kedua|Ketiga|Keempat)\s+Atas\s+Undang-Undang\s+Dasar/i.test(title) ||
+      /Perubahan\s+Konstitusi\s+Sementara/i.test(title) ||
+      /Pengesahan\s+Konstitusi\s+Republik\s+Indonesia\s+Serikat/i.test(title)
+    ) {
+      return "UUD";
+    }
+  }
   if (lt === "tap" || lt.startsWith("tap mpr")) return "TAP";
   if (lt === "uu" || lt === "perppu" || lt.startsWith("uu ") || lt === "undang-undang") return "UU";
   if (lt === "pp" || lt === "peraturan pemerintah") return "PP";
