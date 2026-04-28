@@ -1,6 +1,5 @@
-import { Suspense } from "react";
 import SearchBox from "@/components/SearchBox";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "@/components/SearchResultsClient";
 import { listAllMin, listMinistries } from "@/lib/db";
 import { HIERARCHIES, classify, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
@@ -56,9 +55,7 @@ export default function SearchPage() {
         })}
       </div>
 
-      <Suspense fallback={<p className="text-sm text-slate-500">불러오는 중…</p>}>
-        <SearchResults laws={translated} ministries={ministries} />
-      </Suspense>
+      <SearchResults laws={translated} ministries={ministries} />
     </div>
   );
 }

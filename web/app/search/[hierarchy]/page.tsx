@@ -1,7 +1,6 @@
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import SearchBox from "@/components/SearchBox";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "@/components/SearchResultsClient";
 import { listAllMin, listMinistries } from "@/lib/db";
 import { HIERARCHIES, classify, getHierarchy, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
@@ -100,9 +99,7 @@ export default async function HierarchyIndexPage({
 
       <SearchBox />
 
-      <Suspense fallback={<p className="text-sm text-slate-500">불러오는 중…</p>}>
-        <SearchResults laws={all} ministries={ministries} fixedHierarchy={key} />
-      </Suspense>
+      <SearchResults laws={all} ministries={ministries} fixedHierarchy={key} />
     </div>
   );
 }

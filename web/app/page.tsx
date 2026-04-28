@@ -1,6 +1,5 @@
-import { Suspense } from "react";
 import SearchBox from "@/components/SearchBox";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "@/components/SearchResultsClient";
 import { listAllMin, listMinistries } from "@/lib/db";
 
 export const dynamic = "force-static";
@@ -22,9 +21,7 @@ export default function HomePage() {
 
       <SearchBox />
 
-      <Suspense fallback={<p className="text-sm text-slate-500">불러오는 중…</p>}>
-        <SearchResults laws={all} ministries={ministries} />
-      </Suspense>
+      <SearchResults laws={all} ministries={ministries} />
     </div>
   );
 }

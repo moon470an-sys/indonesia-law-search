@@ -1,7 +1,6 @@
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import SearchBox from "@/components/SearchBox";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "@/components/SearchResultsClient";
 import { listAllMin, listMinistries } from "@/lib/db";
 import { MINISTRIES, getMinistry } from "@/lib/ministries";
 import { path } from "@/lib/paths";
@@ -67,9 +66,7 @@ export default async function MinistryIndexPage({
 
       <SearchBox />
 
-      <Suspense fallback={<p className="text-sm text-slate-500">불러오는 중…</p>}>
-        <SearchResults laws={all} ministries={allMinistries} />
-      </Suspense>
+      <SearchResults laws={all} ministries={allMinistries} />
     </div>
   );
 }
