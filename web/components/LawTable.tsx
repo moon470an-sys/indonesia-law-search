@@ -70,18 +70,13 @@ export default function LawTable({
                   >
                     {translated ? law.title_ko : law.title_id}
                   </a>
-                  {translated && (
-                    <p className="mt-1 text-[13px] italic leading-relaxed text-slate-500 line-clamp-2">
-                      {law.title_id}
-                    </p>
-                  )}
-                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    {!translated && (
+                  {!translated && (
+                    <div className="mt-2">
                       <span className="rounded bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 ring-1 ring-amber-200">
                         미번역
                       </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </td>
                 {!compact && (
                   <td className="px-3 py-4 align-top whitespace-nowrap">
