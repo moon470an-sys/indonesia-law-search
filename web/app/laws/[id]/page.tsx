@@ -84,7 +84,8 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          직접 링크가 열리지 않으면 아래 우회 링크(Wayback Machine)를 이용하세요.
+          직접 링크가 열리지 않으면 <strong>Wayback 보관본</strong>으로 캐시된 페이지를 보거나,
+          보관본이 없을 경우 <strong>Wayback에 저장</strong>으로 즉시 새로 보관할 수 있습니다.
         </p>
         <SourceLinks law={law} />
       </Section>
@@ -152,9 +153,18 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
               target="_blank"
               rel="noreferrer"
               className="text-brand hover:underline"
-              title="Wayback Machine 캐시본 (한국에서 접속 가능)"
+              title="Wayback Machine 보관본 보기 (캐시된 페이지)"
             >
-              📦 Wayback Machine
+              📦 Wayback 보관본
+            </a>
+            <a
+              href={waybackSaveUrl(it.url)}
+              target="_blank"
+              rel="noreferrer"
+              className="text-slate-500 hover:underline"
+              title="Wayback에 보관본이 없을 때 클릭 — 즉시 새로 보관"
+            >
+              💾 Wayback에 저장
             </a>
           </div>
         </li>
@@ -170,17 +180,25 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
  * on a populated calendar.
  */
 function waybackUrl(rawUrl: string): string {
-  let target = rawUrl;
+  return `https://web.archive.org/web/*/${canonicalizeForWayback(rawUrl)}`;
+}
+
+/** Pre-fills Wayback's Save Page Now form. Always works even if no snapshot exists. */
+function waybackSaveUrl(rawUrl: string): string {
+  return `https://web.archive.org/save/?url=${encodeURIComponent(canonicalizeForWayback(rawUrl))}`;
+}
+
+function canonicalizeForWayback(rawUrl: string): string {
   try {
     const u = new URL(rawUrl);
     if (u.hostname === "peraturan.go.id") {
       u.hostname = "www.peraturan.go.id";
-      target = u.toString();
+      return u.toString();
     }
   } catch {
     /* leave as-is on parse failure */
   }
-  return `https://web.archive.org/web/*/${target}`;
+  return rawUrl;
 }
 
 function prettySource(s: string): string {
