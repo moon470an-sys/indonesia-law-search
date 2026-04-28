@@ -1,57 +1,45 @@
 {
-  "generated_at": "2026-04-27T08:58:21Z",
-  "date": "2026-04-27",
+  "generated_at": "2026-04-28T06:08:18Z",
+  "date": "2026-04-28",
   "full": false,
   "ministries": {
-    "kemenhan": {
-      "ministry_code": "kemenhan",
-      "chunk_files": [
-        "data\\pending\\chunks\\kemenhan_2026-04-27-b2_01.json",
-        "data\\pending\\chunks\\kemenhan_2026-04-27-b2_02.json"
-      ]
+    "PeraturanGoIdScraper": {
+      "ministry_code": "kumham",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
-    "kemenpora": {
-      "ministry_code": "kemenpora",
-      "chunk_files": [
-        "data\\pending\\chunks\\kemenpora_2026-04-27-b2_01.json"
-      ]
+    "DephubScraper": {
+      "ministry_code": "dephub",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
-    "kemenkes": {
-      "ministry_code": "kemenkes",
-      "chunk_files": [
-        "data\\pending\\chunks\\kemenkes_2026-04-27-b2_01.json",
-        "data\\pending\\chunks\\kemenkes_2026-04-27-b2_02.json",
-        "data\\pending\\chunks\\kemenkes_2026-04-27-b2_03.json"
-      ]
+    "EsdmScraper": {
+      "ministry_code": "esdm",
+      "yielded": 5,
+      "new_in_db": 0,
+      "chunk_files": []
     },
-    "kemenag": {
-      "ministry_code": "kemenag",
-      "chunk_files": [
-        "data\\pending\\chunks\\kemenag_2026-04-27-b2_01.json",
-        "data\\pending\\chunks\\kemenag_2026-04-27-b2_02.json",
-        "data\\pending\\chunks\\kemenag_2026-04-27-b2_03.json",
-        "data\\pending\\chunks\\kemenag_2026-04-27-b2_04.json"
-      ]
+    "BkpmScraper": {
+      "ministry_code": "bkpm",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
-    "bnpt": {
-      "ministry_code": "bnpt",
-      "chunk_files": [
-        "data\\pending\\chunks\\bnpt_2026-04-27-b2_01.json"
-      ]
+    "KemenkeuScraper": {
+      "ministry_code": "kemenkeu",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
+    },
+    "KemendagScraper": {
+      "ministry_code": "kemendag",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
-  "total_new": 2029,
-  "chunk_files": [
-    "data\\pending\\chunks\\kemenhan_2026-04-27-b2_01.json",
-    "data\\pending\\chunks\\kemenhan_2026-04-27-b2_02.json",
-    "data\\pending\\chunks\\kemenpora_2026-04-27-b2_01.json",
-    "data\\pending\\chunks\\kemenkes_2026-04-27-b2_01.json",
-    "data\\pending\\chunks\\kemenkes_2026-04-27-b2_02.json",
-    "data\\pending\\chunks\\kemenkes_2026-04-27-b2_03.json",
-    "data\\pending\\chunks\\kemenag_2026-04-27-b2_01.json",
-    "data\\pending\\chunks\\kemenag_2026-04-27-b2_02.json",
-    "data\\pending\\chunks\\kemenag_2026-04-27-b2_03.json",
-    "data\\pending\\chunks\\kemenag_2026-04-27-b2_04.json",
-    "data\\pending\\chunks\\bnpt_2026-04-27-b2_01.json"
-  ]
+  "total_new": 0,
+  "chunk_files": []
 }
