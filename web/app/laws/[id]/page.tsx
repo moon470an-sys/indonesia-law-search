@@ -180,7 +180,11 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
  * on a populated calendar.
  */
 function waybackUrl(rawUrl: string): string {
-  return `https://web.archive.org/web/*/${canonicalizeForWayback(rawUrl)}`;
+  // The /web/<url> form (no timestamp) returns a 302 redirect to the
+  // actual closest snapshot — bypassing Wayback's calendar UI entirely.
+  // For URLs without any snapshot it 404s, in which case the user can
+  // fall back to the "Wayback에 저장" link next to it.
+  return `https://web.archive.org/web/${canonicalizeForWayback(rawUrl)}`;
 }
 
 /** Pre-fills Wayback's Save Page Now form. Always works even if no snapshot exists. */
