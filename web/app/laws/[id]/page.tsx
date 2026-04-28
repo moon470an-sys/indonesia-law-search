@@ -85,10 +85,9 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단되거나
-          원본 서버가 일시적으로 다운된 경우가 있습니다. 아래 4개 링크 중 하나를 시도하세요:
-          <strong>🌐 텍스트로 보기</strong>(외부 서버로 라이브 페이지 fetch),
-          <strong>📦 Wayback</strong>·<strong>🗃 archive.ph</strong>(보관된 캐시),
-          <strong>🔎 Google</strong>(원본·아카이브 모두 안 될 때 다른 출처에서 본문 찾기).
+          원본 서버가 일시적으로 다운된 경우가 있습니다. 직접 링크가 열리지 않으면
+          <strong>📦 Wayback</strong>(보관된 캐시본)을 먼저 시도하고, 보관본이 없거나
+          원본까지 다운된 경우 <strong>🔎 Google</strong> 검색으로 다른 출처에서 본문을 찾으세요.
         </p>
         <SourceLinks law={law} />
       </Section>
