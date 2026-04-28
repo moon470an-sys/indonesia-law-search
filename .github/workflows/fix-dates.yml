@@ -1,13 +1,23 @@
 name: fix-dates
 
-# Re-fetches every peraturan.go.id row whose promulgation_date is NULL,
-# epoch, or year-mismatched, in 8 parallel shards. Final job merges
-# all per-shard patch files into the JSONL source-of-truth and commits.
+# Re-fetches the "Tanggal Penetapan" date from every regulation's source
+# detail page (peraturan.go.id + every JDIH ministry) in 16 parallel
+# shards. Final job merges all per-shard patch files into the JSONL
+# source-of-truth and commits.
 #
 # Trigger manually from GitHub Actions UI (workflow_dispatch).
+# Use `mode: all` to re-fetch every row; `mode: suspect` re-fetches only
+# rows whose promulgation_date is NULL/epoch/year-mismatched.
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "scope of re-fetch"
+        required: true
+        default: "all"
+        type: choice
+        options: [all, suspect]
 
 permissions:
   contents: write
@@ -18,21 +28,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install httpx[http2] beautifulsoup4
-      - name: phase 2 (shard ${{ matrix.shard }}/8)
+      - name: phase 2 (shard ${{ matrix.shard }}/16)
         run: |
+          if [ "${{ inputs.mode }}" = "all" ]; then EXTRA="--all"; else EXTRA=""; fi
           python -X utf8 -m scripts.fix_promulgation_dates \
-            --phase 2 --workers 16 --shard ${{ matrix.shard }}/8
+            --phase 2 --workers 24 --shard ${{ matrix.shard }}/16 $EXTRA
       - uses: actions/upload-artifact@v4
         with:
           name: fixed-shard-${{ matrix.shard }}
           path: data/fixed_promulgation_dates.jsonl
+          if-no-files-found: ignore
 
   merge:
     needs: fix
@@ -52,23 +64,19 @@ jobs:
           mkdir -p data
           : > data/fixed_promulgation_dates.jsonl
           for f in artifacts/fixed-shard-*/fixed_promulgation_dates.jsonl; do
-            cat "$f" >> data/fixed_promulgation_dates.jsonl
+            [ -f "$f" ] && cat "$f" >> data/fixed_promulgation_dates.jsonl || true
           done
-          wc -l data/fixed_promulgation_dates.jsonl
+          wc -l data/fixed_promulgation_dates.jsonl || true
       - name: merge into JSONL source
         run: python -X utf8 -m scripts.fix_promulgation_dates --phase merge
-      - name: rebuild laws.db from JSONL
-        run: |
-          pip install httpx beautifulsoup4
-          python -X utf8 -m crawler.build_db || true
       - name: commit fixes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/laws/peraturan_go_id.jsonl
+          git add data/laws/*.jsonl
           if git diff --cached --quiet; then
             echo "no changes"
             exit 0
           fi
-          git commit -m "data: re-fetch promulgation_date from peraturan.go.id"
+          git commit -m "data: re-fetch Tanggal Penetapan for every law (mode=${{ inputs.mode }})"
           git push origin HEAD:main
