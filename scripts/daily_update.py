@@ -108,42 +108,152 @@ def read_summary() -> dict | None:
         return None
 
 
+def fetch_new_laws(limit: int = 30) -> list[dict]:
+    """Pull the rows newly added in the just-finished crawl from the DB.
+
+    "Newly added" = highest ids; the crawler only inserts new rows with
+    AUTOINCREMENT ids, so the last batch always sits at the tail.
+    """
+    try:
+        import sqlite3
+        from crawler.db import DB_PATH
+        if not DB_PATH.exists():
+            return []
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            """
+            SELECT id, source, law_type, law_number, year, title_id, title_ko,
+                   summary_ko, ministry_name_ko, promulgation_date, source_url
+            FROM laws
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception:
+        return []
+
+
+SITE_URL = "https://moon470an-sys.github.io/indonesia-law-search"
+
+
+def format_law_block(law: dict) -> str:
+    """One readable Korean block per law. Falls back to Indonesian title
+    when the Korean translation hasn't been produced yet (translation is
+    manual via Claude Code chat per CLAUDE.md)."""
+    nomor = (law.get("law_number") or "").strip()
+    year = law.get("year") or ""
+    type_label = (law.get("law_type") or "").strip()
+    ministry = (law.get("ministry_name_ko") or "").strip()
+    promulgation = (law.get("promulgation_date") or "").strip()
+    title_ko = (law.get("title_ko") or "").strip()
+    title_id = (law.get("title_id") or "").strip()
+    summary_ko = (law.get("summary_ko") or "").strip()
+
+    headline_parts = [type_label] if type_label else []
+    if nomor:
+        headline_parts.append(f"제{nomor}호")
+    if year:
+        headline_parts.append(f"({year})")
+    headline = " ".join(headline_parts) or "(법령 정보)"
+
+    detail_link = f"{SITE_URL}/laws/{law['id']}/"
+
+    lines = [f"### {headline}"]
+    if ministry:
+        lines.append(f"  - 소관: {ministry}")
+    if promulgation:
+        lines.append(f"  - 공포일: {promulgation}")
+    if title_ko:
+        lines.append(f"  - 제목: {title_ko}")
+    elif title_id:
+        lines.append(f"  - 제목(인니어): {title_id[:200]}")
+        lines.append("  - (한국어 번역 대기 중 — `/translate-pending` 실행 후 반영)")
+    if summary_ko:
+        lines.append(f"  - 요약: {summary_ko}")
+    lines.append(f"  - 상세: {detail_link}")
+    return "\n".join(lines)
+
+
 def format_summary(summary: dict | None, step_logs: list[str]) -> tuple[str, str]:
-    """Returns (subject, body)."""
+    """Returns (subject, body). Email focuses on the actual newly-enacted
+    laws rather than crawl pipeline statistics."""
     now = datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
-    if summary:
-        total_new = summary.get("total_new", 0)
-        ministries = summary.get("ministries", {}) or {}
-        rows = []
-        for name, info in ministries.items():
-            err = info.get("error")
-            if err:
-                rows.append(f"  - {name}: ERROR — {err[:120]}")
-            else:
-                rows.append(
-                    f"  - {name} ({info.get('ministry_code', '?')}): "
-                    f"new={info.get('new_in_db', 0)}, chunks={len(info.get('chunk_files', []))}"
-                )
-        bucket_lines = "\n".join(rows) if rows else "  (no ministries reported)"
-        subject = f"[JDIH 일일 크롤] {now} — +{total_new} 건"
+    today_label = datetime.now(KST).strftime("%Y-%m-%d")
+    total_new = (summary or {}).get("total_new", 0) or 0
+
+    if summary is None:
+        subject = f"[인도네시아 법령] {today_label} — 업데이트 정보 없음"
+        body = (
+            f"## 인도네시아 법령 일일 업데이트\n"
+            f"실행 시각: {now}\n\n"
+            f"오늘 새로 추가된 법령이 없거나 크롤 요약 파일이 생성되지 않았습니다.\n\n"
+            f"사이트: {SITE_URL}/search\n\n"
+            f"---\n### 실행 로그\n" + "\n\n".join(step_logs)
+        )
+        return subject, body
+
+    if total_new == 0:
+        subject = f"[인도네시아 법령] {today_label} — 신규 제정 법령 없음"
+        body = (
+            f"## 인도네시아 법령 일일 업데이트\n"
+            f"실행 시각: {now}\n\n"
+            f"오늘 새로 추가된 법령이 없습니다. 등록된 부처 사이트(peraturan.go.id, "
+            f"jdih.esdm 등)를 점검했지만 신규 항목이 발견되지 않았습니다.\n\n"
+            f"기존 법령 검색: {SITE_URL}/search\n"
+        )
+        return subject, body
+
+    new_laws = fetch_new_laws(limit=min(30, total_new))
+    if not new_laws:
+        subject = f"[인도네시아 법령] {today_label} — 신규 {total_new}건 (DB 조회 실패)"
         body = (
             f"## 인도네시아 법령 일일 업데이트\n"
             f"실행 시각: {now}\n"
-            f"신규 미번역: {total_new} 건\n\n"
-            f"### 부처별 결과\n{bucket_lines}\n\n"
-            f"### 다음 단계\n"
-            f"신규 행이 있다면 Claude Code 채팅에서 `/translate-pending` 으로 번역하세요.\n\n"
+            f"신규 추가: {total_new} 건\n\n"
+            f"DB 조회에 실패해 개별 법령 정보를 표시하지 못했습니다. "
+            f"사이트({SITE_URL}/search)에서 직접 확인해주세요.\n\n"
             f"---\n### 실행 로그\n" + "\n\n".join(step_logs)
         )
+        return subject, body
+
+    # Headline highlight = first item's type + number
+    first = new_laws[0]
+    first_label = (first.get("law_type") or "").strip()
+    first_no = (first.get("law_number") or "").strip()
+    headline = f"{first_label} 제{first_no}호" if first_label and first_no else f"{total_new}건"
+    if total_new > 1:
+        subject = f"[인도네시아 법령] {today_label} — 신규 {total_new}건 ({headline} 외)"
     else:
-        subject = f"[JDIH 일일 크롤] {now} — 요약 파일 없음"
-        body = (
-            f"## 인도네시아 법령 일일 업데이트 (요약 누락)\n"
-            f"실행 시각: {now}\n"
-            f"data/pending/today.summary.json 이 생성되지 않았습니다.\n\n"
-            f"---\n### 실행 로그\n" + "\n\n".join(step_logs)
+        subject = f"[인도네시아 법령] {today_label} — 신규 {headline}"
+
+    blocks = [format_law_block(law) for law in new_laws]
+    untranslated = sum(1 for law in new_laws if not (law.get("title_ko") or "").strip())
+
+    body_parts = [
+        f"## 인도네시아 법령 일일 업데이트",
+        f"실행 시각: {now}",
+        f"신규 제정·수집된 법령: {total_new} 건"
+        + (f" (이메일에는 최근 {len(new_laws)}건 표시)" if total_new > len(new_laws) else ""),
+        "",
+    ]
+    if untranslated > 0:
+        body_parts.append(
+            f"※ 이 중 {untranslated}건은 인니어 원제만 수집된 상태입니다. "
+            f"Claude Code 채팅에서 `/translate-pending` 실행 시 한국어 제목·요약이 적용되어 "
+            f"사이트에 반영됩니다."
         )
-    return subject, body
+        body_parts.append("")
+    body_parts.append("---")
+    body_parts.append("")
+    body_parts.extend(blocks)
+    body_parts.append("")
+    body_parts.append("---")
+    body_parts.append(f"전체 검색 페이지: {SITE_URL}/search")
+    return subject, "\n".join(body_parts)
 
 
 def send_email(subject: str, body: str) -> str:
