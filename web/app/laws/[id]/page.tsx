@@ -84,8 +84,8 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          직접 링크가 열리지 않으면 <strong>Wayback 보관본</strong>으로 캐시된 페이지를 보거나,
-          보관본이 없을 경우 <strong>Wayback에 저장</strong>으로 즉시 새로 보관할 수 있습니다.
+          직접 링크가 열리지 않으면 <strong>Wayback Machine</strong>으로 캐시된 페이지를 보세요.
+          (보관본이 없는 경우 Wayback 페이지 상단의 "Save Page Now" 버튼으로 즉시 새로 보관할 수 있습니다.)
         </p>
         <SourceLinks law={law} />
       </Section>
@@ -153,18 +153,9 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
               target="_blank"
               rel="noreferrer"
               className="text-brand hover:underline"
-              title="Wayback Machine 보관본 보기 (캐시된 페이지)"
+              title="Wayback Machine 캐시본 (없으면 페이지 상단에서 즉시 새로 보관 가능)"
             >
-              📦 Wayback 보관본
-            </a>
-            <a
-              href={waybackSaveUrl(it.url)}
-              target="_blank"
-              rel="noreferrer"
-              className="text-slate-500 hover:underline"
-              title="Wayback에 보관본이 없을 때 클릭 — 즉시 새로 보관"
-            >
-              💾 Wayback에 저장
+              📦 Wayback Machine
             </a>
           </div>
         </li>
@@ -180,16 +171,11 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
  * on a populated calendar.
  */
 function waybackUrl(rawUrl: string): string {
-  // The /web/<url> form (no timestamp) returns a 302 redirect to the
-  // actual closest snapshot — bypassing Wayback's calendar UI entirely.
-  // For URLs without any snapshot it 404s, in which case the user can
-  // fall back to the "Wayback에 저장" link next to it.
+  // /web/<url> (no timestamp) → 302 to the closest snapshot when one exists.
+  // When none exists Wayback returns its 404 page, which itself has a
+  // built-in "Save Page Now" button — covering the "no archive yet" path
+  // without needing a second link in our UI.
   return `https://web.archive.org/web/${canonicalizeForWayback(rawUrl)}`;
-}
-
-/** Pre-fills Wayback's Save Page Now form. Always works even if no snapshot exists. */
-function waybackSaveUrl(rawUrl: string): string {
-  return `https://web.archive.org/save/?url=${encodeURIComponent(canonicalizeForWayback(rawUrl))}`;
 }
 
 function canonicalizeForWayback(rawUrl: string): string {
