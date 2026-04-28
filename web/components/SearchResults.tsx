@@ -7,7 +7,7 @@ import type { LawStatus } from "@/lib/meta";
 import { HIERARCHIES, classify, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
-const PER_PAGE = 50;
+const PER_PAGE = 20;
 
 const STATUSES: LawStatus[] = [
   "berlaku", "diubah", "dicabut", "dicabut_sebagian",
@@ -374,10 +374,10 @@ export default function SearchResults({
                     {items.length.toLocaleString()}건
                   </p>
                 </header>
-                <LawTable laws={items.slice(0, 50)} compact />
-                {items.length > 50 && (
+                <LawTable laws={items.slice(0, 20)} compact />
+                {items.length > 20 && (
                   <div className="border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-xs text-slate-500">
-                    상위 50건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
+                    상위 20건만 표시됩니다 — 전체 {items.length.toLocaleString()}건은{" "}
                     <a
                       href={path(`/search/${SLUG_OF[h.key]}/`)}
                       className="font-semibold text-brand hover:underline"
