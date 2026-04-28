@@ -104,6 +104,10 @@ export default function SearchResults({
 
   const [grouped, setGrouped] = useState(false);
   const [page, setPage] = useState(1);
+  // Per-hierarchy expand/collapse state for the sidebar sub-buckets.
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const toggle = (k: string) =>
+    setExpanded((s) => ({ ...s, [k]: !s[k] }));
 
   const filtered = useMemo(() => {
     let out = laws;
@@ -238,18 +242,33 @@ export default function SearchResults({
               if (cnt === 0) return null;
               const isActive = activeHierarchy === h.key;
               const buckets = subBuckets[h.key as string];
-              const expanded = Array.isArray(buckets) && buckets.length > 0;
+              const hasBuckets = Array.isArray(buckets) && buckets.length > 0;
+              // Auto-expand the active hierarchy's sub-list so the user can
+              // see where they currently are; otherwise honor the toggle state.
+              const isOpen = hasBuckets && (expanded[h.key] || (isActive && !!ministry));
               return (
                 <li key={h.key}>
-                  <FilterLink
-                    href={hLink({ hierarchy: SLUG_OF[h.key], ministry: undefined })}
-                    active={isActive && !ministry}
-                    dot={h.classes.bgStrong}
-                    nested={false}
-                  >
-                    {h.name_ko} <Count n={cnt} />
-                  </FilterLink>
-                  {expanded && (
+                  <div className="flex items-center gap-1">
+                    <FilterLink
+                      href={hLink({ hierarchy: SLUG_OF[h.key], ministry: undefined })}
+                      active={isActive && !ministry}
+                      dot={h.classes.bgStrong}
+                      nested={false}
+                    >
+                      {h.name_ko} <Count n={cnt} />
+                    </FilterLink>
+                    {hasBuckets && (
+                      <button
+                        type="button"
+                        onClick={() => toggle(h.key)}
+                        aria-label={isOpen ? "하위 분류 숨기기" : "하위 분류 펼치기"}
+                        className="ml-auto rounded px-1.5 py-0.5 text-xs text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                      >
+                        {isOpen ? "▾" : "▸"}
+                      </button>
+                    )}
+                  </div>
+                  {isOpen && (
                     <ul className="mb-1 ml-4 mt-0.5 space-y-0.5 border-l border-slate-200 pl-2">
                       {buckets.map((b) => {
                         const codeForLink =
