@@ -84,8 +84,9 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          직접 링크가 열리지 않으면 <strong>Wayback Machine</strong>으로 캐시된 페이지를 보세요.
-          (보관본이 없는 경우 Wayback 페이지 상단의 "Save Page Now" 버튼으로 즉시 새로 보관할 수 있습니다.)
+          직접 링크가 열리지 않으면 <strong>Wayback Machine</strong>을 클릭하면 보관본 캘린더가 열립니다 —
+          캘린더의 날짜 셀(녹색=200 OK)을 하나 클릭하면 캐시 페이지가 표시됩니다.
+          (보관본이 없는 URL은 캘린더 상단의 "Save Page Now" 버튼으로 즉시 새로 보관할 수 있습니다.)
         </p>
         <SourceLinks law={law} />
       </Section>
@@ -153,7 +154,7 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
               target="_blank"
               rel="noreferrer"
               className="text-brand hover:underline"
-              title="Wayback Machine 캐시본 (없으면 페이지 상단에서 즉시 새로 보관 가능)"
+              title="Wayback Machine 보관본 캘린더 — 보관본 목록에서 정상(200) 스냅샷 선택"
             >
               📦 Wayback Machine
             </a>
@@ -171,11 +172,15 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
  * on a populated calendar.
  */
 function waybackUrl(rawUrl: string): string {
-  // /web/<url> (no timestamp) → 302 to the closest snapshot when one exists.
-  // When none exists Wayback returns its 404 page, which itself has a
-  // built-in "Save Page Now" button — covering the "no archive yet" path
-  // without needing a second link in our UI.
-  return `https://web.archive.org/web/${canonicalizeForWayback(rawUrl)}`;
+  // /web/2*/url returns the calendar of all captures (always 200).
+  // We deliberately route through the calendar instead of /web/<url>
+  // because the latter blindly redirects to the *latest* snapshot, and
+  // some sites (peraturan.go.id) have recent snapshots captured at
+  // status 500 — the user lands on a Wayback error page even though
+  // earlier 200 snapshots exist. The calendar lists all captures so the
+  // user can pick a green (200) one; for un-archived URLs it offers a
+  // built-in Save Page Now form.
+  return `https://web.archive.org/web/2*/${canonicalizeForWayback(rawUrl)}`;
 }
 
 function canonicalizeForWayback(rawUrl: string): string {
