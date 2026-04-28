@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import LawTable from "./LawTable";
+import LawTable, { type SortKey, type SortDir } from "./LawTable";
 import type { LawStatus } from "@/lib/meta";
-import { HIERARCHIES, classify, type HierarchyKey } from "@/lib/hierarchy";
+import { HIERARCHIES, classify, getHierarchy, type HierarchyKey } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
 
 const PER_PAGE = 20;
@@ -138,6 +138,21 @@ export default function SearchResults({
   const toggle = (k: string) =>
     setExpanded((s) => ({ ...s, [k]: !s[k] }));
 
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const handleSort = (k: SortKey) => {
+    if (sortKey !== k) {
+      setSortKey(k);
+      setSortDir("asc");
+    } else if (sortDir === "asc") {
+      setSortDir("desc");
+    } else {
+      // Third click clears the sort and falls back to the default order.
+      setSortKey(null);
+      setSortDir("asc");
+    }
+  };
+
   const filtered = useMemo(() => {
     let out = laws;
 
@@ -186,14 +201,53 @@ export default function SearchResults({
     return out;
   }, [laws, q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, fixedHierarchy]);
 
-  // Reset to page 1 whenever the filter set changes
+  // Reset to page 1 whenever the filter or sort changes
   useEffect(() => {
     setPage(1);
-  }, [q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent]);
+  }, [q, hierarchySlug, ministry, source, statusParam, onlyTranslated, recent, sortKey, sortDir]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  // Numeric prefix from "12 Tahun 2025" / "76/2024" / "76 of 2024" forms,
+  // used so 법령번호 sorts numerically instead of "1, 10, 11, 2, 20…".
+  const lawNumberKey = (s: string | null | undefined): number => {
+    if (!s) return Number.NEGATIVE_INFINITY;
+    const m = s.match(/\d+/);
+    return m ? Number(m[0]) : Number.NEGATIVE_INFINITY;
+  };
+
+  const sorted = useMemo(() => {
+    if (!sortKey) return filtered;
+    const dir = sortDir === "asc" ? 1 : -1;
+    const arr = [...filtered];
+    arr.sort((a, b) => {
+      const cmp = (() => {
+        switch (sortKey) {
+          case "title": {
+            const ax = (a.title_ko || a.title_id || "").toLowerCase();
+            const bx = (b.title_ko || b.title_id || "").toLowerCase();
+            return ax.localeCompare(bx, "ko");
+          }
+          case "hierarchy":
+            return getHierarchy(classify(a)).rank - getHierarchy(classify(b)).rank;
+          case "law_number":
+            return lawNumberKey(a.law_number) - lawNumberKey(b.law_number);
+          case "ministry":
+            return (a.ministry_name_ko ?? "").localeCompare(b.ministry_name_ko ?? "", "ko");
+          case "promulgation_date":
+            return (a.promulgation_date ?? "").localeCompare(b.promulgation_date ?? "");
+          case "status":
+            return (a.status ?? "").localeCompare(b.status ?? "");
+          default:
+            return 0;
+        }
+      })();
+      return cmp * dir;
+    });
+    return arr;
+  }, [filtered, sortKey, sortDir]);
+
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
   const safePage = Math.min(page, totalPages);
-  const pageRows = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
+  const pageRows = sorted.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
 
   const baseParams = new URLSearchParams();
   if (q) baseParams.set("q", q);
@@ -399,7 +453,12 @@ export default function SearchResults({
               perPage={PER_PAGE}
               total={filtered.length}
             />
-            <LawTable laws={pageRows} />
+            <LawTable
+              laws={pageRows}
+              sortKey={sortKey}
+              sortDir={sortDir}
+              onSort={handleSort}
+            />
             <Pager
               page={safePage}
               totalPages={totalPages}

@@ -1,3 +1,5 @@
+"use client";
+
 import { path } from "@/lib/paths";
 import { STATUS_META, STATUS_CLASSES, type LawStatus } from "@/lib/meta";
 import HierarchyBadge from "./HierarchyBadge";
@@ -15,12 +17,27 @@ type Row = {
   source_url: string;
 };
 
+export type SortKey =
+  | "title"
+  | "hierarchy"
+  | "law_number"
+  | "ministry"
+  | "promulgation_date"
+  | "status";
+export type SortDir = "asc" | "desc";
+
 export default function LawTable({
   laws,
   compact = false,
+  sortKey,
+  sortDir,
+  onSort,
 }: {
   laws: Row[];
   compact?: boolean;
+  sortKey?: SortKey | null;
+  sortDir?: SortDir;
+  onSort?: (key: SortKey) => void;
 }) {
   if (laws.length === 0) {
     return (
@@ -41,14 +58,38 @@ export default function LawTable({
       <table className="w-full text-[15px]">
         <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500">
           <tr>
-            <th className="px-5 py-3 text-left">법령명</th>
+            <th className="px-5 py-3 text-left">
+              <SortHeader k="title" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                법령명
+              </SortHeader>
+            </th>
             {!compact && (
-              <th className="px-3 py-3 text-left whitespace-nowrap">위계</th>
+              <th className="px-3 py-3 text-left whitespace-nowrap">
+                <SortHeader k="hierarchy" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                  위계
+                </SortHeader>
+              </th>
             )}
-            <th className="px-3 py-3 text-left whitespace-nowrap">법령번호</th>
-            <th className="px-3 py-3 text-left whitespace-nowrap">소관</th>
-            <th className="px-3 py-3 text-left whitespace-nowrap">공포일</th>
-            <th className="px-3 py-3 text-left whitespace-nowrap">상태</th>
+            <th className="px-3 py-3 text-left whitespace-nowrap">
+              <SortHeader k="law_number" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                법령번호
+              </SortHeader>
+            </th>
+            <th className="px-3 py-3 text-left whitespace-nowrap">
+              <SortHeader k="ministry" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                소관
+              </SortHeader>
+            </th>
+            <th className="px-3 py-3 text-left whitespace-nowrap">
+              <SortHeader k="promulgation_date" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                공포일
+              </SortHeader>
+            </th>
+            <th className="px-3 py-3 text-left whitespace-nowrap">
+              <SortHeader k="status" sortKey={sortKey} sortDir={sortDir} onSort={onSort}>
+                상태
+              </SortHeader>
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
@@ -105,5 +146,39 @@ export default function LawTable({
         </tbody>
       </table>
     </div>
+  );
+}
+
+function SortHeader({
+  k,
+  sortKey,
+  sortDir,
+  onSort,
+  children,
+}: {
+  k: SortKey;
+  sortKey?: SortKey | null;
+  sortDir?: SortDir;
+  onSort?: (key: SortKey) => void;
+  children: React.ReactNode;
+}) {
+  if (!onSort) return <>{children}</>;
+  const active = sortKey === k;
+  const arrow = !active ? "↕" : sortDir === "asc" ? "▲" : "▼";
+  return (
+    <button
+      type="button"
+      onClick={() => onSort(k)}
+      className={
+        "inline-flex items-center gap-1 font-semibold uppercase tracking-wider transition-colors " +
+        (active ? "text-slate-900" : "text-slate-500 hover:text-slate-800")
+      }
+      aria-sort={active ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+    >
+      <span>{children}</span>
+      <span className="text-[10px] opacity-70" aria-hidden>
+        {arrow}
+      </span>
+    </button>
   );
 }
