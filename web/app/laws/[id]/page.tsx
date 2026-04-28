@@ -3,6 +3,7 @@ import { getById, listAllIds } from "@/lib/db";
 import { CATEGORY_META, STATUS_META, STATUS_CLASSES } from "@/lib/meta";
 import { classify, getHierarchy } from "@/lib/hierarchy";
 import { path } from "@/lib/paths";
+import { WaybackLink } from "@/components/WaybackLink";
 
 export function generateStaticParams() {
   return listAllIds().map((id) => ({ id: String(id) }));
@@ -84,9 +85,8 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          직접 링크가 열리지 않으면 <strong>Wayback Machine</strong>을 클릭하면 보관본 캘린더가 열립니다 —
-          캘린더의 날짜 셀(녹색=200 OK)을 하나 클릭하면 캐시 페이지가 표시됩니다.
-          (보관본이 없는 URL은 캘린더 상단의 "Save Page Now" 버튼으로 즉시 새로 보관할 수 있습니다.)
+          <strong>Wayback Machine</strong> 클릭 시 가장 최근 정상(200 OK) 보관본으로 자동 이동합니다.
+          보관본이 없는 URL은 즉시 새로 보관할 수 있는 페이지로 안내됩니다.
         </p>
         <SourceLinks law={law} />
       </Section>
@@ -149,15 +149,7 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
             >
               ↗ 직접 열기
             </a>
-            <a
-              href={waybackUrl(it.url)}
-              target="_blank"
-              rel="noreferrer"
-              className="text-brand hover:underline"
-              title="Wayback Machine 보관본 캘린더 — 보관본 목록에서 정상(200) 스냅샷 선택"
-            >
-              📦 Wayback Machine
-            </a>
+            <WaybackLink url={it.url} label="📦 Wayback Machine" />
           </div>
         </li>
       ))}
@@ -171,31 +163,6 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
  * 0 captures even when crawls exist. Rewrite known hosts so the link lands
  * on a populated calendar.
  */
-function waybackUrl(rawUrl: string): string {
-  // /web/2*/url returns the calendar of all captures (always 200).
-  // We deliberately route through the calendar instead of /web/<url>
-  // because the latter blindly redirects to the *latest* snapshot, and
-  // some sites (peraturan.go.id) have recent snapshots captured at
-  // status 500 — the user lands on a Wayback error page even though
-  // earlier 200 snapshots exist. The calendar lists all captures so the
-  // user can pick a green (200) one; for un-archived URLs it offers a
-  // built-in Save Page Now form.
-  return `https://web.archive.org/web/2*/${canonicalizeForWayback(rawUrl)}`;
-}
-
-function canonicalizeForWayback(rawUrl: string): string {
-  try {
-    const u = new URL(rawUrl);
-    if (u.hostname === "peraturan.go.id") {
-      u.hostname = "www.peraturan.go.id";
-      return u.toString();
-    }
-  } catch {
-    /* leave as-is on parse failure */
-  }
-  return rawUrl;
-}
-
 function prettySource(s: string): string {
   return ({
     peraturan_go_id: "peraturan.go.id",
