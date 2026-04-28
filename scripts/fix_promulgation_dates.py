@@ -262,15 +262,25 @@ def merge() -> None:
         print("no fixed_promulgation_dates.jsonl to merge")
         return
     patch: dict[str, str] = {}
+    bad = 0
     with OUT_PATH.open(encoding="utf-8") as fp:
         for line in fp:
             line = line.strip()
             if not line:
                 continue
-            rec = json.loads(line)
-            patch[rec["source_url"]] = rec["promulgation_date"]
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                bad += 1
+                continue
+            url = rec.get("source_url")
+            pd = rec.get("promulgation_date")
+            if url and pd:
+                patch[url] = pd
+    if bad:
+        print(f"skipped {bad} malformed patch lines")
     if not patch:
-        print("empty patch")
+        print("empty patch — nothing to merge")
         return
 
     grand = 0
