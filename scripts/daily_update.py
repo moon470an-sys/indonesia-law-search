@@ -140,47 +140,63 @@ def fetch_new_laws(limit: int = 30) -> list[dict]:
 SITE_URL = "https://moon470an-sys.github.io/indonesia-law-search"
 
 
-def fetch_hukumonline_section() -> str:
-    """Fetch latest hukumonline.com articles via Jina Reader and render as
-    a Korean-labeled Markdown block. Indonesian titles/descriptions are
-    surfaced verbatim because automated translation is forbidden by
-    CLAUDE.md; each entry gets a Google Translate proxy link so the
-    reader can one-click translate to Korean."""
+def fetch_repealed_laws(limit: int = 30) -> list[dict]:
+    """Pull rows whose status flipped to 'dicabut' / 'dicabut_sebagian'
+    most recently. Until we keep a per-day snapshot, "recently" means the
+    largest updated_at — repealed_date is unreliable in the source data."""
     try:
-        from crawler.hukumonline_news import fetch_latest
-        items = fetch_latest(limit=8)
+        import sqlite3
+        from crawler.db import DB_PATH
+        if not DB_PATH.exists():
+            return []
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            """
+            SELECT id, source, law_type, law_number, year, title_id, title_ko,
+                   summary_ko, ministry_name_ko, promulgation_date, repealed_date,
+                   status, source_url
+            FROM laws
+            WHERE status IN ('dicabut', 'dicabut_sebagian')
+            ORDER BY COALESCE(updated_at, '') DESC, id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
     except Exception:
-        return ""
-    if not items:
-        return ""
-    parts = ["", "---", "", "## 📰 Hukumonline 오늘의 업데이트", "(인도네시아 법조 종합 매체 hukumonline.com 최신 기사 — 인니어 원문)", ""]
-    for it in items:
-        title = (it.get("title") or "").strip()
-        date = (it.get("date_id") or "").strip()
-        author = (it.get("author") or "").strip()
-        description = (it.get("description") or "").strip()
-        url = (it.get("url") or "").strip()
-        # translate.goog proxy URL form for one-click Korean rendering
-        try:
-            from urllib.parse import urlparse
-            host = urlparse(url).hostname or "www.hukumonline.com"
-            tg_host = host.replace("-", "--").replace(".", "-")
-            translate_path = urlparse(url).path
-            translate_url = (
-                f"https://{tg_host}.translate.goog{translate_path}"
-                f"?_x_tr_sl=id&_x_tr_tl=ko&_x_tr_hl=ko"
-            )
-        except Exception:
-            translate_url = url
-        parts.append(f"### {title[:160]}")
-        if date or author:
-            parts.append(f"  - 📅 {date}{(' · ' + author) if author else ''}")
-        if description:
-            parts.append(f"  - {description[:300]}")
-        parts.append(f"  - 원문: {url}")
-        parts.append(f"  - 한국어 자동번역: {translate_url}")
-        parts.append("")
-    return "\n".join(parts)
+        return []
+
+
+def fetch_latest_translated(limit: int = 1) -> list[dict]:
+    """Used by --test-latest mode: stand in for "today's newly added law"
+    by returning the most recently promulgated row that already has a
+    Korean title."""
+    try:
+        import sqlite3
+        from crawler.db import DB_PATH
+        if not DB_PATH.exists():
+            return []
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            """
+            SELECT id, source, law_type, law_number, year, title_id, title_ko,
+                   summary_ko, ministry_name_ko, promulgation_date, source_url
+            FROM laws
+            WHERE title_ko IS NOT NULL
+              AND promulgation_date IS NOT NULL
+              AND promulgation_date BETWEEN '2020-01-01' AND '2026-12-31'
+            ORDER BY promulgation_date DESC, id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception:
+        return []
 
 
 def format_law_block(law: dict) -> str:
@@ -221,83 +237,101 @@ def format_law_block(law: dict) -> str:
     return "\n".join(lines)
 
 
-def format_summary(summary: dict | None, step_logs: list[str]) -> tuple[str, str]:
-    """Returns (subject, body). Email focuses on the actual newly-enacted
-    laws rather than crawl pipeline statistics."""
+def format_summary(
+    summary: dict | None,
+    step_logs: list[str],
+    *,
+    test_latest: bool = False,
+) -> tuple[str, str]:
+    """Returns (subject, body). Email contains only two sections:
+    추가된 법령 / 폐기된 법령. When `test_latest` is True we ignore the
+    crawl summary and pretend the most recently promulgated translated
+    law was added today — used for end-to-end mail verification."""
     now = datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
     today_label = datetime.now(KST).strftime("%Y-%m-%d")
-    total_new = (summary or {}).get("total_new", 0) or 0
 
-    if summary is None:
-        subject = f"[인도네시아 법령] {today_label} — 업데이트 정보 없음"
-        body = (
-            f"## 인도네시아 법령 일일 업데이트\n"
-            f"실행 시각: {now}\n\n"
-            f"오늘 새로 추가된 법령이 없거나 크롤 요약 파일이 생성되지 않았습니다.\n\n"
-            f"사이트: {SITE_URL}/search\n\n"
-            f"---\n### 실행 로그\n" + "\n\n".join(step_logs)
-        )
-        return subject, body
-
-    if total_new == 0:
-        subject = f"[인도네시아 법령] {today_label} — 신규 제정 법령 없음"
-        body = (
-            f"## 인도네시아 법령 일일 업데이트\n"
-            f"실행 시각: {now}\n\n"
-            f"오늘 새로 추가된 법령이 없습니다. 등록된 부처 사이트(peraturan.go.id, "
-            f"jdih.esdm 등)를 점검했지만 신규 항목이 발견되지 않았습니다.\n\n"
-            f"기존 법령 검색: {SITE_URL}/search\n"
-        )
-        body += fetch_hukumonline_section()
-        return subject, body
-
-    new_laws = fetch_new_laws(limit=min(30, total_new))
-    if not new_laws:
-        subject = f"[인도네시아 법령] {today_label} — 신규 {total_new}건 (DB 조회 실패)"
-        body = (
-            f"## 인도네시아 법령 일일 업데이트\n"
-            f"실행 시각: {now}\n"
-            f"신규 추가: {total_new} 건\n\n"
-            f"DB 조회에 실패해 개별 법령 정보를 표시하지 못했습니다. "
-            f"사이트({SITE_URL}/search)에서 직접 확인해주세요.\n\n"
-            f"---\n### 실행 로그\n" + "\n\n".join(step_logs)
-        )
-        return subject, body
-
-    # Headline highlight = first item's type + number
-    first = new_laws[0]
-    first_label = (first.get("law_type") or "").strip()
-    first_no = (first.get("law_number") or "").strip()
-    headline = f"{first_label} 제{first_no}호" if first_label and first_no else f"{total_new}건"
-    if total_new > 1:
-        subject = f"[인도네시아 법령] {today_label} — 신규 {total_new}건 ({headline} 외)"
+    if test_latest:
+        new_laws = fetch_latest_translated(limit=1)
+        repealed_laws: list[dict] = []
+        total_new = len(new_laws)
+        body_intro_extra = " (테스트 발송 — 최신 제정 법령을 오늘 추가분으로 간주)"
     else:
-        subject = f"[인도네시아 법령] {today_label} — 신규 {headline}"
+        total_new = (summary or {}).get("total_new", 0) or 0
+        new_laws = fetch_new_laws(limit=min(30, total_new)) if total_new else []
+        repealed_laws = fetch_repealed_laws(limit=30)
+        body_intro_extra = ""
 
-    blocks = [format_law_block(law) for law in new_laws]
-    untranslated = sum(1 for law in new_laws if not (law.get("title_ko") or "").strip())
+    total_repealed = len(repealed_laws)
+
+    if total_new == 0 and total_repealed == 0:
+        subject = f"[인도네시아 법령] {today_label} — 신규/폐기 없음"
+        body = (
+            f"## 인도네시아 법령 일일 업데이트{body_intro_extra}\n"
+            f"실행 시각: {now}\n\n"
+            f"오늘 새로 추가되거나 폐기된 법령이 없습니다.\n\n"
+            f"사이트: {SITE_URL}/search\n"
+        )
+        return subject, body
+
+    # Subject summary
+    if new_laws:
+        first = new_laws[0]
+        first_label = (first.get("law_type") or "").strip()
+        first_no = (first.get("law_number") or "").strip()
+        headline = (
+            f"{first_label} 제{first_no}호"
+            if first_label and first_no
+            else f"신규 {total_new}건"
+        )
+    elif repealed_laws:
+        headline = f"폐기 {total_repealed}건"
+    else:
+        headline = "업데이트"
+
+    parts = []
+    if total_new:
+        parts.append(f"신규 {total_new}")
+    if total_repealed:
+        parts.append(f"폐기 {total_repealed}")
+    counts_label = " · ".join(parts) if parts else "업데이트 없음"
+    subject = f"[인도네시아 법령] {today_label} — {counts_label} ({headline})"
 
     body_parts = [
-        f"## 인도네시아 법령 일일 업데이트",
+        f"## 인도네시아 법령 일일 업데이트{body_intro_extra}",
         f"실행 시각: {now}",
-        f"신규 제정·수집된 법령: {total_new} 건"
-        + (f" (이메일에는 최근 {len(new_laws)}건 표시)" if total_new > len(new_laws) else ""),
+        f"추가 {total_new}건 / 폐기 {total_repealed}건",
         "",
     ]
-    if untranslated > 0:
-        body_parts.append(
-            f"※ 이 중 {untranslated}건은 인니어 원제만 수집된 상태입니다. "
-            f"Claude Code 채팅에서 `/translate-pending` 실행 시 한국어 제목·요약이 적용되어 "
-            f"사이트에 반영됩니다."
-        )
-        body_parts.append("")
+
     body_parts.append("---")
     body_parts.append("")
-    body_parts.extend(blocks)
+    body_parts.append(f"## ➕ 추가된 법령 ({total_new}건)")
     body_parts.append("")
+    if new_laws:
+        untranslated = sum(1 for law in new_laws if not (law.get("title_ko") or "").strip())
+        if untranslated:
+            body_parts.append(
+                f"※ 이 중 {untranslated}건은 인니어 원제만 수집된 상태입니다. "
+                f"`/translate-pending` 실행 시 한국어 제목·요약이 반영됩니다."
+            )
+            body_parts.append("")
+        body_parts.extend(format_law_block(law) for law in new_laws)
+    else:
+        body_parts.append("(오늘 새로 추가된 법령이 없습니다.)")
+    body_parts.append("")
+
+    body_parts.append("---")
+    body_parts.append("")
+    body_parts.append(f"## ❌ 폐기된 법령 ({total_repealed}건)")
+    body_parts.append("")
+    if repealed_laws:
+        body_parts.extend(format_law_block(law) for law in repealed_laws)
+    else:
+        body_parts.append("(오늘 폐기 처리된 법령이 없습니다.)")
+    body_parts.append("")
+
     body_parts.append("---")
     body_parts.append(f"전체 검색 페이지: {SITE_URL}/search")
-    body_parts.append(fetch_hukumonline_section())
     return subject, "\n".join(body_parts)
 
 
@@ -354,22 +388,28 @@ def main() -> int:
     ap.add_argument("--no-git", action="store_true", help="skip git pull/push")
     ap.add_argument("--no-email", action="store_true")
     ap.add_argument("--keys", nargs="*", default=[], help="ministry keys (default: all)")
+    ap.add_argument(
+        "--test-latest",
+        action="store_true",
+        help="skip crawl; pretend the most recent translated law is today's add",
+    )
     args = ap.parse_args()
 
     step_logs: list[str] = []
     today_kst = datetime.now(KST).strftime("%Y-%m-%d")
-    try:
-        if not args.no_git:
-            step_logs.append(git_pull())
-        step_logs.append(crawler_update(args.keys))
-        step_logs.append(build_db())
-        if not args.no_git:
-            step_logs.append(git_commit_push(today_kst))
-    except Exception as e:
-        step_logs.append("UNEXPECTED EXCEPTION:\n" + "".join(traceback.format_exc())[-2000:])
+    if not args.test_latest:
+        try:
+            if not args.no_git:
+                step_logs.append(git_pull())
+            step_logs.append(crawler_update(args.keys))
+            step_logs.append(build_db())
+            if not args.no_git:
+                step_logs.append(git_commit_push(today_kst))
+        except Exception:
+            step_logs.append("UNEXPECTED EXCEPTION:\n" + "".join(traceback.format_exc())[-2000:])
 
     summary = read_summary()
-    subject, body = format_summary(summary, step_logs)
+    subject, body = format_summary(summary, step_logs, test_latest=args.test_latest)
 
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOG_PATH.write_text(f"# {subject}\n\n{body}\n", encoding="utf-8")
