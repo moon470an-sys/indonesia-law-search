@@ -85,8 +85,9 @@ export default async function LawDetailPage({
       <Section id="links" heading="원문 자료">
         <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800">
           <strong>안내</strong> · 일부 도메인은 한국 통신망에서 직접 접속이 차단됩니다.
-          <strong>Wayback Machine</strong> 클릭 시 가장 최근 정상(200 OK) 보관본으로 자동 이동합니다.
-          보관본이 없는 URL은 즉시 새로 보관할 수 있는 페이지로 안내됩니다.
+          아래 우회 링크 중 하나를 사용하세요 — <strong>🌐 텍스트로 보기</strong>는 외부 서버를 통해
+          실제 페이지를 fetch해서 본문만 보여주므로 가장 안정적입니다.
+          <strong>📦 Wayback</strong>과 <strong>🗃 archive.ph</strong>는 보관된 캐시를 표시합니다.
         </p>
         <SourceLinks law={law} />
       </Section>
