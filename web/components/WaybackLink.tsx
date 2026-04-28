@@ -1,28 +1,50 @@
 "use client";
 
-// Multi-source "view this page" cluster.
+// Four-way "find this page" cluster.
 //
-// Wayback alone is unreliable: many JDIH URLs aren't archived, and even
-// when they are the latest snapshot is sometimes a captured 5xx page.
-// We render three alternatives so at least one always works:
+// Reality check: when the source site is down AND the URL was never
+// archived, no link can show its content. The four options below cover
+// every case we can serve:
 //
-//   1. r.jina.ai — Jina Reader proxy. Fetches the LIVE page through
-//      Jina's network (US/global IPs, bypasses Korean blocks) and
-//      returns clean Markdown. Works for any reachable URL, no archive
-//      dependency, no auth. This is the primary "just show me the
-//      content" path.
+//   1. 🌐 텍스트로 보기 (r.jina.ai)
+//      Jina Reader proxy fetches the LIVE page through Jina's network
+//      (US/global IPs, bypasses Korean ISP blocks) and returns clean
+//      Markdown. Works whenever the source is up.
 //
-//   2. Wayback Machine — anchored to mid-2024 to dodge any later 5xx
-//      captures. Falls back to Wayback's "Save Page Now" 404 page when
-//      no snapshot exists.
+//   2. 📦 Wayback (anchored to 2024-06)
+//      Closest snapshot near June 2024 — dodges later 5xx captures
+//      that Wayback's /web/<url> latest-pointer often lands on.
 //
-//   3. archive.today — independent archive operating outside Wayback.
-//      Often has snapshots Wayback doesn't.
+//   3. 🗃 archive.ph
+//      Independent archive operating outside Wayback. Different
+//      snapshot universe, sometimes has captures Wayback doesn't.
 //
-// All three open in new tabs so the user can chain through them.
+//   4. 🔎 Google 검색
+//      Fallback when (a) source site is currently down, (b) Wayback
+//      has zero captures, and (c) archive.ph has no snapshot. The
+//      law number/year query usually surfaces news articles, gov
+//      mirror sites, or law-firm summaries that contain the text.
+//
+// All four open in new tabs so the user can chain through them.
 
 export function WaybackLink({ url, label: _label }: { url: string; label: string }) {
-  // _label kept in props for backward compatibility with the old single-link API.
+  // _label kept for backward compatibility with the old single-link API.
+  // Derive a Google query from the slug portion of the URL — last path
+  // segment with hyphens turned into spaces, e.g. "uu-no-12-tahun-2025"
+  // → "uu no 12 tahun 2025".
+  let googleQuery = url;
+  try {
+    const u = new URL(url);
+    const last = u.pathname.split("/").filter(Boolean).pop() || "";
+    const slug = last.replace(/\.(pdf|html?|aspx?)$/i, "").replace(/[-_]+/g, " ").trim();
+    if (slug.length >= 4) googleQuery = slug;
+  } catch {
+    /* leave as-is */
+  }
+  const gSearch =
+    "https://www.google.com/search?q=" +
+    encodeURIComponent(googleQuery);
+
   return (
     <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
       <a
@@ -30,7 +52,7 @@ export function WaybackLink({ url, label: _label }: { url: string; label: string
         target="_blank"
         rel="noreferrer"
         className="text-brand hover:underline"
-        title="Jina Reader 우회 — 실제 페이지를 외부 서버 통해 fetch + 본문만 추출"
+        title="Jina Reader 우회 — 외부 서버 통해 라이브 페이지 fetch + 본문만 추출"
       >
         🌐 텍스트로 보기
       </a>
@@ -51,6 +73,15 @@ export function WaybackLink({ url, label: _label }: { url: string; label: string
         title="archive.today 보관본 (Wayback과 별개 아카이브)"
       >
         🗃 archive.ph
+      </a>
+      <a
+        href={gSearch}
+        target="_blank"
+        rel="noreferrer"
+        className="text-slate-500 hover:underline"
+        title="Google 검색 — 원본 다운 + 미아카이빙 시 다른 출처에서 본문 찾기"
+      >
+        🔎 Google
       </a>
     </span>
   );
