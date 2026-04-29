@@ -2,6 +2,7 @@
 
 import { path } from "@/lib/paths";
 import { STATUS_META, STATUS_CLASSES, type LawStatus } from "@/lib/meta";
+import { classify } from "@/lib/hierarchy";
 import HierarchyBadge from "./HierarchyBadge";
 
 type Row = {
@@ -128,7 +129,7 @@ export default function LawTable({
                   {law.law_number}
                 </td>
                 <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap">
-                  {law.ministry_name_ko ?? "—"}
+                  {law.ministry_name_ko ?? sourceLabel(law)}
                 </td>
                 <td className="px-3 py-4 align-top text-sm text-slate-600 whitespace-nowrap tabular-nums">
                   {law.promulgation_date ?? "—"}
@@ -147,6 +148,44 @@ export default function LawTable({
       </table>
     </div>
   );
+}
+
+/**
+ * For laws whose ministry_name_ko is NULL — almost always national/local
+ * statutes from peraturan.go.id (UU / PP / Perpres / UUD / Perda) — fall
+ * back to the issuing body inferred from the hierarchy. For Perda we try
+ * to extract the region (Provinsi/Kabupaten/Kota X) from the title.
+ */
+function sourceLabel(law: { law_type: string; title_id?: string; category?: string | null; source_url?: string | null; title_ko?: string | null }): string {
+  const h = classify(law);
+  if (h === "UUD") return "헌법기관";
+  if (h === "TAP") return "MPR (인민협의회)";
+  if (h === "UU") return "국회·정부 (DPR/Pemerintah)";
+  if (h === "PP") return "정부 (Pemerintah)";
+  if (h === "Perpres") return "대통령 (Presiden)";
+  if (h === "Perda_Prov" || h === "Perda_Kab") {
+    const region = extractRegionLabel(law.title_id || "");
+    if (region) return region;
+    return h === "Perda_Prov" ? "주 정부 (Pemda Provinsi)" : "시·군 (Pemda Kab/Kota)";
+  }
+  return "—";
+}
+
+function extractRegionLabel(title: string): string {
+  if (!title) return "";
+  const patterns: [RegExp, (m: RegExpMatchArray) => string][] = [
+    [/Peraturan\s+Daerah\s+Provinsi\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Provinsi ${m[1].trim()}`],
+    [/Peraturan\s+Daerah\s+Kabupaten\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Kabupaten ${m[1].trim()}`],
+    [/Peraturan\s+Daerah\s+Kota\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Kota ${m[1].trim()}`],
+    [/Peraturan\s+Gubernur\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Provinsi ${m[1].trim()}`],
+    [/Peraturan\s+Bupati\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Kabupaten ${m[1].trim()}`],
+    [/Peraturan\s+Wali\s*[Kk]ota\s+([A-Z][\w\sA-Za-z'-]+?)\s+(?:Nomor|No\.|Tahun)/i, (m) => `Kota ${m[1].trim()}`],
+  ];
+  for (const [re, build] of patterns) {
+    const m = title.match(re);
+    if (m) return build(m).slice(0, 40);
+  }
+  return "";
 }
 
 function SortHeader({

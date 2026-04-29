@@ -74,6 +74,21 @@ type Ministry = { code: string; name_ko: string; count: number };
  * title. Returns canonicalized "<Provinsi|Kabupaten|Kota> <Name>" or empty
  * string when no pattern matches.
  */
+function hierarchyIssuerLabel(law: { law_type: string; title_id?: string; category?: string | null; source_url?: string | null }): string {
+  const h = classify(law);
+  if (h === "UUD") return "헌법기관";
+  if (h === "TAP") return "MPR";
+  if (h === "UU") return "국회·정부";
+  if (h === "PP") return "정부";
+  if (h === "Perpres") return "대통령";
+  if (h === "Perda_Prov" || h === "Perda_Kab") {
+    const region = extractRegion(law.title_id || "");
+    if (region) return region;
+    return h === "Perda_Prov" ? "주 정부" : "시·군";
+  }
+  return "";
+}
+
 function extractRegion(title: string): string {
   if (!title) return "";
   // Patterns ordered most-specific first.
@@ -230,8 +245,13 @@ export default function SearchResults({
             return getHierarchy(classify(a)).rank - getHierarchy(classify(b)).rank;
           case "law_number":
             return lawNumberKey(a.law_number) - lawNumberKey(b.law_number);
-          case "ministry":
-            return (a.ministry_name_ko ?? "").localeCompare(b.ministry_name_ko ?? "", "ko");
+          case "ministry": {
+            // Same fallback the table uses: when the ministry is empty,
+            // sort by issuing-body label (정부/대통령/지방 etc.).
+            const ax = a.ministry_name_ko ?? hierarchyIssuerLabel(a);
+            const bx = b.ministry_name_ko ?? hierarchyIssuerLabel(b);
+            return ax.localeCompare(bx, "ko");
+          }
           case "promulgation_date":
             return (a.promulgation_date ?? "").localeCompare(b.promulgation_date ?? "");
           case "status":
