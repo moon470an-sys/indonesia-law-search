@@ -29,11 +29,21 @@ export function WaybackLink({
   try {
     const u = new URL(url);
     const last = u.pathname.split("/").filter(Boolean).pop() || "";
-    const slug = last.replace(/\.(pdf|html?|aspx?)$/i, "").replace(/[-_]+/g, " ").trim();
-    // A slug is only useful if it actually carries words. Pure numbers
-    // (DB row ids on JDIH detail pages — "2459", "1208" etc.) and very
-    // short tokens get discarded in favour of the law title.
-    const isMeaningfulSlug = slug.length >= 6 && /[a-z]/i.test(slug);
+    const rawLast = last.replace(/\.(pdf|html?|aspx?)$/i, "");
+    const slug = rawLast.replace(/[-_]+/g, " ").trim();
+    // A slug is only useful if it actually carries words.
+    // Reject:
+    //  - pure numeric ids   ("2459", "1208" — JDIH /dokumen/detail/<id>)
+    //  - very short tokens  (<6 chars)
+    //  - opaque blobs       (e.g. polri PDF links serve base64 JSON
+    //    starting with "eyJ"; long alnum strings with no separator
+    //    are almost always encoded payload, not a slug)
+    const isBase64Json = /^eyJ[A-Za-z0-9+/=]/.test(rawLast);
+    const isLongOpaque =
+      rawLast.length >= 25 && !/[-_./]/.test(rawLast);
+    const hasLetters = /[a-z]/i.test(slug);
+    const isMeaningfulSlug =
+      slug.length >= 6 && hasLetters && !isBase64Json && !isLongOpaque;
     googleQuery = isMeaningfulSlug ? slug : "";
   } catch {
     /* leave as-is */
