@@ -35,15 +35,28 @@ export function WaybackLink({
     // Reject:
     //  - pure numeric ids   ("2459", "1208" — JDIH /dokumen/detail/<id>)
     //  - very short tokens  (<6 chars)
-    //  - opaque blobs       (e.g. polri PDF links serve base64 JSON
-    //    starting with "eyJ"; long alnum strings with no separator
-    //    are almost always encoded payload, not a slug)
+    //  - base64 JSON blobs  (Laravel signed URLs starting with "eyJ")
+    //  - long opaque blobs  (≥25 chars with no separator)
+    //  - short random ids   (e.g. jdih.bnpt.go.id "/dokumen/LZW6e7BGz" —
+    //    mixed-case, no separator, ≤15 chars: human-typed URL slugs are
+    //    almost always all-lowercase with hyphens, so this catches the
+    //    base62-style internal ids without false-positiving on real
+    //    Indonesian regulation slugs.)
     const isBase64Json = /^eyJ[A-Za-z0-9+/=]/.test(rawLast);
     const isLongOpaque =
       rawLast.length >= 25 && !/[-_./]/.test(rawLast);
+    const hasUpper = /[A-Z]/.test(rawLast);
+    const hasLower = /[a-z]/.test(rawLast);
+    const hasSep = /[-_./]/.test(rawLast);
+    const isShortRandomId =
+      rawLast.length <= 15 && hasUpper && hasLower && !hasSep;
     const hasLetters = /[a-z]/i.test(slug);
     const isMeaningfulSlug =
-      slug.length >= 6 && hasLetters && !isBase64Json && !isLongOpaque;
+      slug.length >= 6 &&
+      hasLetters &&
+      !isBase64Json &&
+      !isLongOpaque &&
+      !isShortRandomId;
     googleQuery = isMeaningfulSlug ? slug : "";
   } catch {
     /* leave as-is */
