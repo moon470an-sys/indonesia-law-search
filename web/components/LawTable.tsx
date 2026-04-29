@@ -126,7 +126,7 @@ export default function LawTable({
                   </td>
                 )}
                 <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap tabular-nums">
-                  {law.law_number}
+                  {law.law_number?.trim() ? law.law_number : <span className="text-slate-400">(번호 미상)</span>}
                 </td>
                 <td className="px-3 py-4 align-top text-sm text-slate-700 whitespace-nowrap">
                   {law.ministry_name_ko ?? sourceLabel(law)}

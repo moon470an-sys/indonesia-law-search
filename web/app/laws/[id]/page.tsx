@@ -71,7 +71,7 @@ export default async function LawDetailPage({
         )}
 
         <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-slate-100 pt-5 text-sm sm:grid-cols-4">
-          <Field label="법령번호" value={law.law_number} />
+          <Field label="법령번호" value={law.law_number?.trim() || "(번호 미상)"} />
           <Field label="위계" value={`${law.law_type} (${h.name_ko})`} />
           <Field label="제정일" value={law.enactment_date} />
           <Field label="공포일" value={law.promulgation_date} />
