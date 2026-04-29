@@ -36,8 +36,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-import httpx
-from bs4 import BeautifulSoup
+# httpx and bs4 are deferred imports (only phase 2 needs the network).
+# Keeping them out of the module top means `--phase merge` and
+# `--phase 1` work even when those wheels aren't installed.
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -145,7 +146,8 @@ def parse_indo_date(s: str) -> str | None:
     return f"{year}-{mm}-{day.zfill(2)}"
 
 
-def fetch_one(client: httpx.Client, row) -> dict | None:
+def fetch_one(client, row) -> dict | None:
+    from bs4 import BeautifulSoup  # lazy: phase 2 only
     url = row["source_url"]
     if not url:
         return None
@@ -237,6 +239,7 @@ def phase2(
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     out_fp = OUT_PATH.open("a", encoding="utf-8")
 
+    import httpx  # lazy: phase 2 only
     headers = {"User-Agent": "jdih-fixer/1.0 (+github-actions)"}
     started = time.time()
     fixed = 0
