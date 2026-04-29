@@ -128,12 +128,15 @@ function Field({ label, value }: { label: string; value: string | null | undefin
   );
 }
 
-function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | null; pdf_url_en: string | null; source: string } }) {
+function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | null; pdf_url_en: string | null; source: string; title_id: string; title_ko: string | null } }) {
   const items: { label: string; url: string }[] = [
     { label: `원본 페이지 (${prettySource(law.source)})`, url: law.source_url },
   ];
   if (law.pdf_url_id) items.push({ label: "PDF 원문 (인니어)", url: law.pdf_url_id });
   if (law.pdf_url_en) items.push({ label: "공식 영문 번역본 (Terjemahresmi)", url: law.pdf_url_en });
+  // Indonesian title is the most search-engine-friendly query when the
+  // URL slug itself is just a numeric id (e.g. .../detail/2459).
+  const queryTitle = law.title_id;
 
   return (
     <ul className="space-y-3 text-[14px]">
@@ -150,7 +153,7 @@ function SourceLinks({ law }: { law: { source_url: string; pdf_url_id: string | 
             >
               ↗ 직접 열기
             </a>
-            <WaybackLink url={it.url} label="📦 Wayback Machine" />
+            <WaybackLink url={it.url} title={queryTitle} />
           </div>
         </li>
       ))}
