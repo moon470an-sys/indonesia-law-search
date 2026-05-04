@@ -24,6 +24,9 @@ data/laws.db-journal
 data/laws.db-wal
 data/laws.db-shm
 data/pending/*.md
+data/pending/last_daily_log.txt
+data/pending/last_translate_log.txt
+data/pending/last_daily_email_error.txt
 !data/pending/.gitkeep
 # Probe outputs (one-off diagnostic artifacts)
 data/probe_*.json

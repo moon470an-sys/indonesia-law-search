@@ -41,12 +41,23 @@
 | kemenkeu | Kementerian Keuangan | 재무부 | https://jdih.kemenkeu.go.id |
 | kemendag | Kementerian Perdagangan | 무역부 | https://jdih.kemendag.go.id |
 
+## 매일 아침 자동 파이프라인 (Windows Task Scheduler)
+
+| 시각 (KST) | 작업 | 스크립트 | 동작 |
+|------------|------|----------|------|
+| 09:00 | `JDIH-Daily-Update`     | `python -m scripts.daily_update`    | 부처별 incremental 크롤 → `data/pending/today.summary.json` 생성, 새 행 git push |
+| 10:00 | `JDIH-Daily-Translate`  | `python -m scripts.daily_translate` | 위 summary 의 `chunk_files` 가 비어있지 않으면 `claude -p "/translate-pending" --dangerously-skip-permissions` 호출 → translations/*.json 생성 → import + build_db → git push |
+
+두 작업은 모두 commit/push 까지 자동이라 사이트는 매일 아침 10시 직후 deploy 가 트리거되어 갱신된다.
+번역은 **CLAUDE.md 절대 원칙대로 외부 API 미사용** — Claude Code 가 sub-agent 8개 병렬로 청크를 처리한다.
+실행 결과는 `data/pending/last_daily_log.txt` (크롤) / `data/pending/last_translate_log.txt` (번역) + 이메일.
+
 ## 기술 스택
 
 - **크롤러**: Python 3.11+, Playwright (chromium), httpx, BeautifulSoup4
 - **DB**: SQLite + FTS5 (한국어/인니어 풀텍스트)
 - **웹**: Next.js 15 (App Router, `output: 'export'`), Tailwind CSS, better-sqlite3
-- **자동화**: GitHub Actions
+- **자동화**: GitHub Actions + Windows Task Scheduler (로컬 호스트에서 일일 크롤·번역)
 
 ## 알려진 환경 이슈 (Windows + OneDrive)
 
