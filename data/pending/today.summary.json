@@ -7,9 +7,7 @@
       "ministry_code": "kumham",
       "yielded": 199,
       "new_in_db": 0,
-      "chunk_files": [
-        "data\\pending\\chunks\\kumham_2026-05-04_01.json"
-      ]
+      "chunk_files": []
     },
     "DephubScraper": {
       "ministry_code": "dephub",
@@ -21,9 +19,7 @@
       "ministry_code": "esdm",
       "yielded": 5,
       "new_in_db": 0,
-      "chunk_files": [
-        "data\\pending\\chunks\\esdm_2026-05-04_01.json"
-      ]
+      "chunk_files": []
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -45,8 +41,5 @@
     }
   },
   "total_new": 0,
-  "chunk_files": [
-    "data\\pending\\chunks\\kumham_2026-05-04_01.json",
-    "data\\pending\\chunks\\esdm_2026-05-04_01.json"
-  ]
+  "chunk_files": []
 }

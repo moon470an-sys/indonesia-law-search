@@ -197,16 +197,19 @@ async def main(argv: list[str]) -> int:
     log.info("summary written → %s (total_new=%d, chunks=%d)",
              SUMMARY_PATH.relative_to(ROOT), summary["total_new"], len(summary["chunk_files"]))
 
-    # Re-dump JSONL for sources whose row count changed. We dump unconditionally
-    # for any source that ran, since updated_at also drifts even when no new
-    # rows arrive — keeps `data/laws/*.jsonl` faithful to the live DB.
-    if summary["total_new"] > 0 or args.full:
+    # Re-dump JSONL for any source that ran, unconditionally — even when
+    # `new_in_db == 0`. Reason: upsert_law can produce DB-only rows that the
+    # source-count diff misses (e.g., when a source_url variant is treated
+    # as a new insert by ON CONFLICT, or when a previous run inserted but
+    # crashed before the dump). Skipping the re-dump in those cases lets
+    # DB-only rows accumulate and leak into export_pending_chunks as orphan
+    # IDs (those IDs disappear on the next CI build_db, so chunks reference
+    # ghosts). Dumping is cheap (writes per-source JSONL once) so always do it.
+    sources_touched: list[str] = []
+    for cls in targets:
+        sources_touched.append(source_value_for(cls))
+    if sources_touched:
         from . import dump_jsonl
-        sources_touched = []
-        for cls in targets:
-            code = getattr(cls, "ministry_code", "") or ""
-            src = f"jdih_{code}" if code else "peraturan_go_id"
-            sources_touched.append(src)
         log.info("re-dumping JSONL for: %s", sources_touched)
         dump_jsonl.main(sources_touched)
     return 0
