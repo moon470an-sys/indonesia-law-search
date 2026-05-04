@@ -1,13 +1,15 @@
 {
-  "generated_at": "2026-05-01T00:00:04Z",
-  "date": "2026-05-01",
+  "generated_at": "2026-05-04T14:56:17Z",
+  "date": "2026-05-04",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
       "ministry_code": "kumham",
-      "yielded": 0,
+      "yielded": 199,
       "new_in_db": 0,
-      "chunk_files": []
+      "chunk_files": [
+        "data\\pending\\chunks\\kumham_2026-05-04_01.json"
+      ]
     },
     "DephubScraper": {
       "ministry_code": "dephub",
@@ -17,10 +19,10 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 6,
-      "new_in_db": 1,
+      "yielded": 5,
+      "new_in_db": 0,
       "chunk_files": [
-        "data\\pending\\chunks\\esdm_2026-05-01_01.json"
+        "data\\pending\\chunks\\esdm_2026-05-04_01.json"
       ]
     },
     "BkpmScraper": {
@@ -42,8 +44,9 @@
       "chunk_files": []
     }
   },
-  "total_new": 1,
+  "total_new": 0,
   "chunk_files": [
-    "data\\pending\\chunks\\esdm_2026-05-01_01.json"
+    "data\\pending\\chunks\\kumham_2026-05-04_01.json",
+    "data\\pending\\chunks\\esdm_2026-05-04_01.json"
   ]
 }
