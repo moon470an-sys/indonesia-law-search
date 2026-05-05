@@ -1,19 +1,13 @@
 {
-  "generated_at": "2026-05-04T14:56:17Z",
-  "date": "2026-05-04",
+  "generated_at": "2026-05-05T00:00:04Z",
+  "date": "2026-05-05",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
-      "ministry_code": "kumham",
-      "yielded": 199,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "BrowserType.launch: Connection closed while reading from the driver"
     },
     "DephubScraper": {
-      "ministry_code": "dephub",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "RetryError[<Future at 0x2804d20d310 state=finished raised TimeoutError>]"
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
