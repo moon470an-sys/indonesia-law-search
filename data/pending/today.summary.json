@@ -1,19 +1,29 @@
 {
-  "generated_at": "2026-05-05T00:00:04Z",
-  "date": "2026-05-05",
+  "generated_at": "2026-05-06T00:00:05Z",
+  "date": "2026-05-06",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
-      "error": "BrowserType.launch: Connection closed while reading from the driver"
+      "ministry_code": "kumham",
+      "yielded": 199,
+      "new_in_db": 0,
+      "chunk_files": [
+        "data\\pending\\chunks\\kumham_2026-05-06_01.json"
+      ]
     },
     "DephubScraper": {
-      "error": "RetryError[<Future at 0x2804d20d310 state=finished raised TimeoutError>]"
+      "ministry_code": "dephub",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 7,
+      "new_in_db": 2,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-05-06_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -34,6 +44,9 @@
       "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": []
+  "total_new": 2,
+  "chunk_files": [
+    "data\\pending\\chunks\\kumham_2026-05-06_01.json",
+    "data\\pending\\chunks\\esdm_2026-05-06_01.json"
+  ]
 }
