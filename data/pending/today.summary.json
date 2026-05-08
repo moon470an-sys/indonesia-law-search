@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-07T00:02:22Z",
-  "date": "2026-05-07",
+  "generated_at": "2026-05-08T00:00:03Z",
+  "date": "2026-05-08",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
@@ -8,7 +8,7 @@
       "yielded": 199,
       "new_in_db": 0,
       "chunk_files": [
-        "data\\pending\\chunks\\kumham_2026-05-07_01.json"
+        "data\\pending\\chunks\\kumham_2026-05-08_01.json"
       ]
     },
     "DephubScraper": {
@@ -44,6 +44,6 @@
   },
   "total_new": 0,
   "chunk_files": [
-    "data\\pending\\chunks\\kumham_2026-05-07_01.json"
+    "data\\pending\\chunks\\kumham_2026-05-08_01.json"
   ]
 }
