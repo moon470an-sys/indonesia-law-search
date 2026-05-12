@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-11T00:00:03Z",
-  "date": "2026-05-11",
+  "generated_at": "2026-05-12T00:00:04Z",
+  "date": "2026-05-12",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
@@ -22,7 +22,10 @@
       "chunk_files": []
     },
     "BkpmScraper": {
-      "error": "RetryError[<Future at 0x213c5d71270 state=finished raised Error>]"
+      "ministry_code": "bkpm",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
