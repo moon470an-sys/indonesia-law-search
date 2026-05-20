@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-18T23:11:50Z",
-  "date": "2026-05-18",
+  "generated_at": "2026-05-20T23:19:37Z",
+  "date": "2026-05-20",
   "full": false,
   "ministries": {
     "PeraturanGoIdScraper": {
@@ -17,10 +17,10 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 7,
-      "new_in_db": 2,
+      "yielded": 8,
+      "new_in_db": 3,
       "chunk_files": [
-        "data/pending/chunks/esdm_2026-05-18_01.json"
+        "data/pending/chunks/esdm_2026-05-20_01.json"
       ]
     },
     "BkpmScraper": {
@@ -42,8 +42,8 @@
       "chunk_files": []
     }
   },
-  "total_new": 2,
+  "total_new": 3,
   "chunk_files": [
-    "data/pending/chunks/esdm_2026-05-18_01.json"
+    "data/pending/chunks/esdm_2026-05-20_01.json"
   ]
 }
