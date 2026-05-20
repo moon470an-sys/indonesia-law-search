@@ -23,6 +23,11 @@ data/laws.db
 data/laws.db-journal
 data/laws.db-wal
 data/laws.db-shm
+# 번역 메모리 — laws.db에서 harvest로 재생성 가능한 로컬 캐시
+data/translation_memory.db
+data/translation_memory.db-journal
+data/translation_memory.db-wal
+data/translation_memory.db-shm
 data/pending/*.md
 data/pending/last_daily_log.txt
 data/pending/last_translate_log.txt
