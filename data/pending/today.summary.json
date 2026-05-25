@@ -1,14 +1,8 @@
 {
-  "generated_at": "2026-05-25T03:16:38Z",
+  "generated_at": "2026-05-25T04:16:23Z",
   "date": "2026-05-25",
   "full": false,
   "ministries": {
-    "PeraturanGoIdScraper": {
-      "ministry_code": "kumham",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
-    },
     "DephubScraper": {
       "ministry_code": "dephub",
       "yielded": 0,

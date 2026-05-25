@@ -110,6 +110,7 @@ CREATE TABLE IF NOT EXISTS laws (
     source            TEXT NOT NULL DEFAULT 'peraturan_go_id'
                       CHECK (source IN (
                           'peraturan_go_id',
+                          'peraturan_bpk',
                           'jdih_dephub','jdih_esdm','jdih_bkpm',
                           'jdih_kemenkeu','jdih_kemendag',
                           'jdih_bnn','jdih_bmkg','jdih_polri',

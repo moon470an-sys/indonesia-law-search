@@ -74,6 +74,29 @@ def crawler_update(keys: list[str]) -> str:
     return f"crawler.update_all (exit {code})\n{out[-3000:].strip()}"
 
 
+def bpk_update() -> str:
+    """peraturan.bpk.go.id(국가 법령) 우회 크롤 — peraturan.go.id 가 해외 IP를
+    전부 차단해 BPK 를 대안 소스로 쓴다. cloudscraper 로 로컬 실행(프록시 불필요).
+    신규/폐기를 bpk.summary.json 에 기록 → 이메일에 반영."""
+    year = datetime.now(KST).year
+    code, out = run(
+        [sys.executable, "-X", "utf8", "-m", "scripts.crawl_bpk",
+         "--years", str(year), "--max-pages", "8"],
+        check=False,
+    )
+    return f"scripts.crawl_bpk (exit {code})\n{out[-1500:].strip()}"
+
+
+def read_bpk_summary() -> dict | None:
+    p = ROOT / "data" / "pending" / "bpk.summary.json"
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
 def build_db() -> str:
     code, out = run([sys.executable, "-m", "crawler.build_db"], check=False)
     return f"crawler.build_db (exit {code})\n{out[-1500:].strip()}"
@@ -263,7 +286,12 @@ def format_summary(
 
     total_repealed = len(repealed_laws)
 
-    if total_new == 0 and total_repealed == 0:
+    # 국가 법령 (BPK 우회 크롤 결과) — bpk.summary.json
+    bpk = {} if test_latest else (read_bpk_summary() or {})
+    bpk_new = bpk.get("new_laws") or []
+    bpk_repealed = bpk.get("repealed_laws") or []
+
+    if total_new == 0 and total_repealed == 0 and not bpk_new and not bpk_repealed:
         subject = f"[인도네시아 법령] {today_label} — 신규/폐기 없음"
         body = (
             f"## 인도네시아 법령 일일 업데이트{body_intro_extra}\n"
@@ -289,11 +317,16 @@ def format_summary(
         headline = "업데이트"
 
     parts = []
-    if total_new:
-        parts.append(f"신규 {total_new}")
-    if total_repealed:
-        parts.append(f"폐기 {total_repealed}")
+    tot_new_all = total_new + len(bpk_new)
+    tot_rep_all = total_repealed + len(bpk_repealed)
+    if tot_new_all:
+        parts.append(f"신규 {tot_new_all}")
+    if tot_rep_all:
+        parts.append(f"폐기 {tot_rep_all}")
     counts_label = " · ".join(parts) if parts else "업데이트 없음"
+    if bpk_new and not new_laws:
+        b0 = bpk_new[0]
+        headline = f"{b0.get('law_type','')} {b0.get('law_number','')}".strip() or headline
     subject = f"[인도네시아 법령] {today_label} — {counts_label} ({headline})"
 
     body_parts = [
@@ -329,6 +362,28 @@ def format_summary(
     else:
         body_parts.append("(오늘 폐기 처리된 법령이 없습니다.)")
     body_parts.append("")
+
+    # 국가 법령 (peraturan.bpk.go.id 우회 크롤) — UU/PP/Perpres/Perda 등
+    if bpk_new or bpk_repealed:
+        body_parts.append("---")
+        body_parts.append("")
+        body_parts.append(f"## 🏛️ 국가 법령 — BPK ➕ 신규 {len(bpk_new)} / ❌ 폐기 {len(bpk_repealed)}")
+        body_parts.append("(peraturan.go.id 해외 IP 차단 우회 — BPK 공식 DB에서 수집)")
+        body_parts.append("")
+        for law in bpk_new[:30]:
+            ny = f"({law.get('year')})" if law.get("year") else ""
+            body_parts.append(
+                f"### {law.get('law_type','')} {law.get('law_number','')} {ny}".rstrip())
+            body_parts.append(f"  - 제목: {(law.get('title_id') or '')[:160]}")
+            body_parts.append(f"  - 원문: {law.get('source_url','')}")
+        if bpk_repealed:
+            body_parts.append("")
+            body_parts.append(f"#### ❌ 새로 폐기된 국가 법령 ({len(bpk_repealed)}건)")
+            for law in bpk_repealed[:30]:
+                body_parts.append(
+                    f"  - {law.get('law_type','')} {law.get('law_number','')} | "
+                    f"{(law.get('title_id') or '')[:80]} | {law.get('source_url','')}")
+        body_parts.append("")
 
     body_parts.append("---")
     body_parts.append(f"전체 검색 페이지: {SITE_URL}/search")
@@ -402,6 +457,7 @@ def main() -> int:
             if not args.no_git:
                 step_logs.append(git_pull())
             step_logs.append(crawler_update(args.keys))
+            step_logs.append(bpk_update())
             step_logs.append(build_db())
             if not args.no_git:
                 step_logs.append(git_commit_push(today_kst))
