@@ -11,9 +11,11 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 8,
+      "new_in_db": 3,
+      "chunk_files": [
+        "data/pending/chunks/esdm_2026-05-20_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -34,6 +36,8 @@
       "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": []
+  "total_new": 3,
+  "chunk_files": [
+    "data/pending/chunks/esdm_2026-05-20_01.json"
+  ]
 }
