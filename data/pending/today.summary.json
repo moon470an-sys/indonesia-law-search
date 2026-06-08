@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-05T00:00:03Z",
-  "date": "2026-06-05",
+  "generated_at": "2026-06-08T00:00:03Z",
+  "date": "2026-06-08",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -11,9 +11,11 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 6,
+      "new_in_db": 1,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-06-08_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -34,6 +36,8 @@
       "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": []
+  "total_new": 1,
+  "chunk_files": [
+    "data\\pending\\chunks\\esdm_2026-06-08_01.json"
+  ]
 }
