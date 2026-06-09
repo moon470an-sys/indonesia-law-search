@@ -129,6 +129,25 @@ class SetnegScraper(BaseScraper):
             {"jns": jns, "no": no, "thn": thn}
         )
 
+    def _pdf_url(self, files: str | None, idperaturan: str | None) -> str | None:
+        """원문 PDF 직링크. 프런트 detailperaturan 청크의 다운로드 로직과 동일:
+            GET /api/hukumproduk/pdf?l=uploads&f=<realName>&fl=<idperaturan>
+        realName 에 ':' 가 있으면 f=앞부분, fl=idperaturan+뒷부분 (멀티파일 케이스).
+        reCAPTCHA 없이 단순 fetch 로 200 application/pdf 를 돌려준다.
+        """
+        f = (files or "").strip()
+        idp = (idperaturan or "").strip()
+        if not (f and idp):
+            return None
+        if ":" in f:
+            head, tail = f.split(":", 1)
+            f, fl = head, idp + tail
+        else:
+            fl = idp
+        return f"{self.base_url}/api/hukumproduk/pdf?" + urlencode(
+            {"l": "uploads", "f": f, "fl": fl}
+        )
+
     @staticmethod
     def _date(value: str | None) -> str | None:
         # API 날짜는 ISO "2026-05-20T00:00:00.000Z" → 'YYYY-MM-DD' 만 취함.
@@ -181,6 +200,7 @@ class SetnegScraper(BaseScraper):
                     break
 
                 source_url = self._detail_url(jns, no, thn)
+                pdf_url = self._pdf_url(item.get("files"), item.get("idperaturan"))
                 nama_jenis = (item.get("nama_jenis") or law_type).strip()
                 # 제목: "<Jenis> Nomor <no> Tahun <thn> tentang <tentang>"
                 title_id = f"{nama_jenis} Nomor {no} Tahun {thn} tentang {tentang}"
@@ -207,6 +227,7 @@ class SetnegScraper(BaseScraper):
                     enactment_date=self._date(item.get("tgl_di")),
                     promulgation_date=self._date(item.get("diundangkan")),
                     status=status,
+                    pdf_url_id=pdf_url,
                 )
 
                 if (
