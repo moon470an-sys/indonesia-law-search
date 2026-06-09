@@ -40,6 +40,37 @@
 | bkpm | BKPM | 투자조정청 | https://jdih.bkpm.go.id |
 | kemenkeu | Kementerian Keuangan | 재무부 | https://jdih.kemenkeu.go.id |
 | kemendag | Kementerian Perdagangan | 무역부 | https://jdih.kemendag.go.id |
+| setneg (kemensetneg) | Kementerian Sekretariat Negara | 국가비서실 | https://jdih.setneg.go.id |
+
+### setneg — 국가 1차 법령 (UU/PP/Perpres) 최속 출처
+
+`crawler/ministries/setneg.py` (`SetnegScraper`). peraturan.go.id 가 해외 IP 차단으로
+일일 갱신이 끊긴 자리를, setneg JDIH 의 JSON API 로 대신 채운다. **국가 1차 법령이
+가장 빨리 게시되는 공식 출처.**
+
+- 출처 키: `source = "jdih_kemensetneg"`, `ministry_code = "kemensetneg"` (시드의 국가비서실).
+  CLI 키는 `setneg` (`python -m crawler.update_all setneg`).
+- 수집 타입: UU·Perppu·PP·Perpres·Permensesneg·Keppres·Inpres (7종).
+- DOM 스크래핑이 아니라 API 직호출(Playwright 미사용):
+  `POST /api/hukumproduk/produkhukum`  body `{"jns":[<코드>],"length":50,"start":<offset>,...}`.
+  타입(jns)별 최신순 → 타입별로 따로 페이징(혼합 시 날짜 전역정렬 깨짐). 간헐적 연결
+  리셋(WinError 10054) 때문에 호출마다 6회 재시도.
+- source_url = `/detailperaturan?jns=<jns>&no=<no>&thn=<thn>`. PDF 는 reCAPTCHA 뒤라 비움.
+- 초기 시드: **총 397건.**
+  - 고볼륨 국가법령(UU·PP·Perpres·Keppres·Inpres)은 **2025~2026 만** (min_year=2025).
+    2024 이전 깊은 과거는 peraturan_go_id 아카이브(34,590건)가 커버 → 중복 회피.
+  - setneg 고유 저볼륨 타입은 **전체 이력**: Permensesneg(121, 2005–2024), Perppu(33, 1998–2022).
+    이 둘은 2025-2026 발행분이 0건이라 incremental anchor 가 없어 첫 일일 실행에서
+    전량 백필됐다(타 출처에 거의 없어 오히려 완전 수집이 이득).
+  - 더 과거가 필요하면 `SetnegScraper(min_year=YYYY)` 로 수동 확장 후 dump_jsonl→build_db.
+- 일일 갱신: incremental(`known_source_urls`+`stop_after_known=5`)이라 신규분만 가져온다.
+  ⚠️ 단, 어떤 타입이 known anchor 를 하나도 안 가지면(예: 새 타입 추가 시) 그 타입은
+  stop_after_known 이 안 걸려 **전체 이력을 1회 백필**한다(해당 타입 크기만큼 bounded,
+  이후엔 anchor 가 생겨 안정화). 현재 7개 타입은 모두 anchor 보유.
+- ⚠️ 중복 주의: laws.db 의 dedup 키는 `UNIQUE(source, source_url)` 라 **source 간 dedup
+  이 없다.** 같은 국가법령이 peraturan_go_id / peraturan_bpk 행과 별도로 존재할 수 있다
+  (특히 2025). 사이트 표시단 dedup 이 필요하면 `(law_type, law_number, year)` 기준 후속
+  패스를 build_db 에 추가할 것.
 
 ## 매일 아침 자동 파이프라인 (Windows Task Scheduler)
 

@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS laws (
                           'jdih_kemhan','jdih_kemenpora','jdih_kemkes','jdih_kemenag','jdih_bnpt',
                           'jdih_atrbpn','jdih_kejaksaan','jdih_kpu','jdih_bps',
                           'jdih_dephub',
+                          'jdih_kemensetneg',
                           'mk_go_id','mahkamahagung_go_id',
                           'lainnya'
                       )),

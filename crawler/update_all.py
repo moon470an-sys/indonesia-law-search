@@ -33,7 +33,7 @@ from . import db
 from .ministries import (
     ALL_SCRAPERS, PeraturanGoIdScraper,
     DephubScraper, EsdmScraper, BkpmScraper,
-    KemenkeuScraper, KemendagScraper,
+    KemenkeuScraper, KemendagScraper, SetnegScraper,
 )
 
 logging.basicConfig(
@@ -54,6 +54,7 @@ KEY_MAP = {
     "bkpm":      BkpmScraper,
     "kemenkeu":  KemenkeuScraper,
     "kemendag":  KemendagScraper,
+    "setneg":    SetnegScraper,
 }
 
 CHUNK_SIZE = 300
