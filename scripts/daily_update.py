@@ -102,6 +102,53 @@ def build_db() -> str:
     return f"crawler.build_db (exit {code})\n{out[-1500:].strip()}"
 
 
+def fix_promulgation_dates_phase1() -> str:
+    """Local, network-free cleanup of obviously-wrong promulgation_date values
+    (epoch placeholders, 21XX typos, future-year garbage). Phase 2 needs an
+    Indonesian-reachable network and is skipped here.
+    """
+    code, out = run(
+        [sys.executable, "-X", "utf8", "-m", "scripts.fix_promulgation_dates",
+         "--phase", "1"],
+        check=False,
+    )
+    return f"scripts.fix_promulgation_dates --phase 1 (exit {code})\n{out[-800:].strip()}"
+
+
+def download_setneg() -> str:
+    """신규 setneg 원문 PDF 다운로드 (pdf_url_id 보유 행, 기존 파일 skip).
+
+    setneg PDF 는 reCAPTCHA 없는 API(`/api/hukumproduk/pdf?...`)로 받아 카테고리
+    폴더(법률_UU/정부령_PP/...)에 저장 → RAG 의 discover_pdfs() 가 인덱싱한다.
+    laws.db 에 pdf_url_id 가 있어야 하므로 build_db 이후에 호출한다."""
+    code, out = run(
+        [sys.executable, "-X", "utf8", "-m", "scripts.download_setneg"],
+        check=False,
+    )
+    return f"scripts.download_setneg (exit {code})\n{out[-1500:].strip()}"
+
+
+def rag_incremental_index() -> str:
+    """신규 PDF → RAG v2 인덱싱 (extract → RunPod BGE-M3 임베딩 → v2_indonesia_* upsert).
+
+    반드시 RAG venv(py3.12, chromadb 0.5.23 Content-Type 패치본)의 python 으로
+    호출한다. 글로벌 python 으로 돌리면 패치 부재로 upsert 가 422 로 실패한다.
+    RunPod 임베딩은 신규 청크가 있을 때만 기동하므로 신규가 없으면 비용 0.
+    경로/venv 가 없으면(예: 크롤러만 있는 호스트) 조용히 SKIP 한다."""
+    rag_root = Path(r"D:\인도네시아 법령 원문\RAG_app")
+    venv_dir = os.environ.get("RAG_VENV_DIR", r"D:\venvs\rag_indonesia_law")
+    py = Path(venv_dir) / "Scripts" / "python.exe"
+    if not py.exists():
+        return f"rag index SKIP: venv python 없음 ({py})"
+    if not (rag_root / "scripts" / "incremental_v2.py").exists():
+        return f"rag index SKIP: incremental_v2.py 없음 ({rag_root})"
+    code, out = run(
+        [str(py), "-X", "utf8", "scripts/incremental_v2.py", "--workers", "6"],
+        cwd=rag_root, check=False,
+    )
+    return f"incremental_v2 (exit {code})\n{out[-2000:].strip()}"
+
+
 def git_commit_push(date_label: str) -> str:
     parts = []
     code, out = run(
@@ -164,9 +211,24 @@ SITE_URL = "https://moon470an-sys.github.io/indonesia-law-search"
 
 
 def fetch_repealed_laws(limit: int = 30) -> list[dict]:
-    """Pull rows whose status flipped to 'dicabut' / 'dicabut_sebagian'
-    most recently. Until we keep a per-day snapshot, "recently" means the
-    largest updated_at — repealed_date is unreliable in the source data."""
+    """Today's flipped-to-dicabut rows, sourced from bpk.summary.json.
+
+    The BPK crawl (scripts.crawl_bpk) is the only source we have that tracks
+    "newly repealed" — it records rows whose status flipped from a non-dicabut
+    value to 'dicabut'/'dicabut_sebagian' during the current run, and writes
+    them to bpk.summary.json's `repealed_laws`. We re-query the DB by
+    source_url to pick up title_ko/summary_ko that translation may have
+    landed since the crawl.
+
+    Previous implementation ordered ALL dicabut rows by updated_at — that
+    surfaced rows from earlier days every morning and was the cause of the
+    phantom "오늘 폐기 N건" emails."""
+    bpk = read_bpk_summary() or {}
+    repealed = bpk.get("repealed_laws") or []
+    urls = [r.get("source_url") for r in repealed if r.get("source_url")]
+    if not urls:
+        return []
+    urls = urls[:limit]
     try:
         import sqlite3
         from crawler.db import DB_PATH
@@ -174,17 +236,17 @@ def fetch_repealed_laws(limit: int = 30) -> list[dict]:
             return []
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
+        placeholders = ",".join("?" * len(urls))
         rows = conn.execute(
-            """
+            f"""
             SELECT id, source, law_type, law_number, year, title_id, title_ko,
                    summary_ko, ministry_name_ko, promulgation_date, repealed_date,
                    status, source_url
             FROM laws
-            WHERE status IN ('dicabut', 'dicabut_sebagian')
-            ORDER BY COALESCE(updated_at, '') DESC, id DESC
-            LIMIT ?
+            WHERE source_url IN ({placeholders})
+            ORDER BY id DESC
             """,
-            (limit,),
+            urls,
         ).fetchall()
         conn.close()
         return [dict(r) for r in rows]
@@ -289,7 +351,10 @@ def format_summary(
     # 국가 법령 (BPK 우회 크롤 결과) — bpk.summary.json
     bpk = {} if test_latest else (read_bpk_summary() or {})
     bpk_new = bpk.get("new_laws") or []
-    bpk_repealed = bpk.get("repealed_laws") or []
+    # bpk_repealed is now surfaced through the top-level "폐기된 법령" section
+    # via fetch_repealed_laws — keep an empty list here so the BPK block does
+    # not double-count in the subject or double-print the same rows.
+    bpk_repealed: list = []
 
     if total_new == 0 and total_repealed == 0 and not bpk_new and not bpk_repealed:
         subject = f"[인도네시아 법령] {today_label} — 신규/폐기 없음"
@@ -442,6 +507,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-git", action="store_true", help="skip git pull/push")
     ap.add_argument("--no-email", action="store_true")
+    ap.add_argument("--no-rag", action="store_true",
+                    help="skip setneg PDF 다운로드 + RAG 인덱싱 단계")
     ap.add_argument("--keys", nargs="*", default=[], help="ministry keys (default: all)")
     ap.add_argument(
         "--test-latest",
@@ -459,8 +526,13 @@ def main() -> int:
             step_logs.append(crawler_update(args.keys))
             step_logs.append(bpk_update())
             step_logs.append(build_db())
+            step_logs.append(fix_promulgation_dates_phase1())
             if not args.no_git:
                 step_logs.append(git_commit_push(today_kst))
+            # setneg 원문 PDF 다운로드 → RAG v2 증분 인덱싱 (신규 없으면 RunPod 미기동)
+            if not args.no_rag:
+                step_logs.append(download_setneg())
+                step_logs.append(rag_incremental_index())
         except Exception:
             step_logs.append("UNEXPECTED EXCEPTION:\n" + "".join(traceback.format_exc())[-2000:])
 

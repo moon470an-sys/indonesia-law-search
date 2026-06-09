@@ -76,12 +76,25 @@
 
 | 시각 (KST) | 작업 | 스크립트 | 동작 |
 |------------|------|----------|------|
-| 09:00 | `JDIH-Daily-Update`     | `python -m scripts.daily_update`    | 부처별 incremental 크롤 → `data/pending/today.summary.json` 생성, 새 행 git push |
+| 09:00 | `JDIH-Daily-Update`     | `python -m scripts.daily_update`    | 부처별 incremental 크롤 → `today.summary.json` 생성, 새 행 git push → **setneg 원문 PDF 다운로드 → RAG v2 증분 인덱싱** |
 | 10:00 | `JDIH-Daily-Translate`  | `python -m scripts.daily_translate` | 위 summary 의 `chunk_files` 가 비어있지 않으면 `claude -p "/translate-pending" --dangerously-skip-permissions` 호출 → translations/*.json 생성 → import + build_db → git push |
 
 두 작업은 모두 commit/push 까지 자동이라 사이트는 매일 아침 10시 직후 deploy 가 트리거되어 갱신된다.
 번역은 **CLAUDE.md 절대 원칙대로 외부 API 미사용** — Claude Code 가 sub-agent 8개 병렬로 청크를 처리한다.
 실행 결과는 `data/pending/last_daily_log.txt` (크롤) / `data/pending/last_translate_log.txt` (번역) + 이메일.
+
+### RAG 자동 인덱싱 (daily_update 끝단, 2026-06-09 추가)
+
+`daily_update` 가 crawl/build_db/push 후 두 단계를 더 돈다 (`--no-rag` 로 스킵 가능):
+
+1. `scripts.download_setneg` — `pdf_url_id` 가 있는 신규 setneg 행의 원문 PDF 를
+   카테고리 폴더에 다운로드(기존 파일 skip). 신규 없으면 2초 no-op.
+2. `rag_incremental_index` — **RAG venv**(`D:\venvs\rag_indonesia_law`, py3.12,
+   chromadb 0.5.23 Content-Type 패치본)의 python 으로 `RAG_app/scripts/incremental_v2.py`
+   호출 → PyMuPDF 추출 → **RunPod BGE-M3 임베딩** → `v2_indonesia_*` 컬렉션 upsert.
+   - ⚠️ 반드시 RAG venv 로 호출(글로벌 py3.14 면 chromadb 패치 부재로 upsert 422).
+   - 신규 청크가 있을 때만 RunPod 기동 → 신규 없는 날은 비용 0.
+   - 임베딩은 GPU 필요 → 이 머신엔 GPU 가 없어 RunPod 가 유일 경로(RUNPOD_API_KEY 필요).
 
 ## 기술 스택
 
