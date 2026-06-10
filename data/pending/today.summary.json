@@ -1,21 +1,54 @@
 {
-  "generated_at": "2026-06-09T02:33:34Z",
-  "date": "2026-06-09",
+  "generated_at": "2026-06-10T00:31:48Z",
+  "date": "2026-06-10",
   "full": false,
   "ministries": {
+    "DephubScraper": {
+      "ministry_code": "dephub",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
+    },
+    "EsdmScraper": {
+      "ministry_code": "esdm",
+      "yielded": 6,
+      "new_in_db": 1,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-06-10_01.json"
+      ]
+    },
+    "BkpmScraper": {
+      "ministry_code": "bkpm",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
+    },
+    "KemenkeuScraper": {
+      "ministry_code": "kemenkeu",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
+    },
+    "KemendagScraper": {
+      "ministry_code": "kemendag",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
+    },
     "SetnegScraper": {
       "ministry_code": "kemensetneg",
-      "yielded": 179,
-      "new_in_db": 154,
+      "yielded": 35,
+      "new_in_db": 0,
       "chunk_files": [
-        "data\\pending\\chunks\\kemensetneg_2026-06-09_01.json",
-        "data\\pending\\chunks\\kemensetneg_2026-06-09_02.json"
+        "data\\pending\\chunks\\kemensetneg_2026-06-10_01.json",
+        "data\\pending\\chunks\\kemensetneg_2026-06-10_02.json"
       ]
     }
   },
-  "total_new": 154,
+  "total_new": 1,
   "chunk_files": [
-    "data\\pending\\chunks\\kemensetneg_2026-06-09_01.json",
-    "data\\pending\\chunks\\kemensetneg_2026-06-09_02.json"
+    "data\\pending\\chunks\\esdm_2026-06-10_01.json",
+    "data\\pending\\chunks\\kemensetneg_2026-06-10_01.json",
+    "data\\pending\\chunks\\kemensetneg_2026-06-10_02.json"
   ]
 }
