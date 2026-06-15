@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-12T00:00:04Z",
-  "date": "2026-06-12",
+  "generated_at": "2026-06-15T00:00:03Z",
+  "date": "2026-06-15",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -35,15 +35,11 @@
     },
     "SetnegScraper": {
       "ministry_code": "kemensetneg",
-      "yielded": 36,
-      "new_in_db": 1,
-      "chunk_files": [
-        "data\\pending\\chunks\\kemensetneg_2026-06-12_01.json"
-      ]
+      "yielded": 35,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
-  "total_new": 1,
-  "chunk_files": [
-    "data\\pending\\chunks\\kemensetneg_2026-06-12_01.json"
-  ]
+  "total_new": 0,
+  "chunk_files": []
 }
