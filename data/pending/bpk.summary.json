@@ -1,9 +1,50 @@
 {
-  "date": "2026-06-12",
-  "generated_at": "2026-06-12T09:01:06",
+  "date": "2026-06-16",
+  "generated_at": "2026-06-16T09:01:16",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 5,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "UU",
+      "law_number": "Nomor 3 Tahun 2026",
+      "title_id": "Pelindungan Saksi dan Korban",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349942/uu-no-3-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "PP",
+      "law_number": "Nomor 24 Tahun 2026",
+      "title_id": "Tata Kelola Ekspor Komoditas Sumber Daya Alam Strategis",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349945/pp-no-24-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "PP",
+      "law_number": "Nomor 21 Tahun 2026",
+      "title_id": "Perubahan Ketiga atas Peraturan Pemerintah Nomor 36 Tahun 2023 tentang Devisa Hasil Ekspor dari Kegiatan Pengusahaan, Pengelolaan, dan/atau Pengolahan Sumber Daya Alam",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349944/pp-no-21-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "PP",
+      "law_number": "Nomor 2 Tahun 2026",
+      "title_id": "Perubahan Kedua atas Peraturan Pemerintah Nomor 36 Tahun 2023 tentang Devisa Hasil Ekspor dari Kegiatan Pengusahaan, Pengelolaan, dan/atau Pengolahan Sumber Daya Alam",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349943/pp-no-2-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Inpres",
+      "law_number": "Nomor 4 Tahun 2026",
+      "title_id": "Pengadaan dan Pengelolaan Gabah/Beras Dalam Negeri serta Penyaluran Cadangan Beras Pemerintah Tahun 2026-2029",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349946/inpres-no-4-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
