@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-18T00:00:06Z",
-  "date": "2026-06-18",
+  "generated_at": "2026-06-19T02:09:22Z",
+  "date": "2026-06-19",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -10,7 +10,12 @@
       "chunk_files": []
     },
     "EsdmScraper": {
-      "error": "RetryError[<Future at 0x24985931a70 state=finished raised Error>]"
+      "ministry_code": "esdm",
+      "yielded": 6,
+      "new_in_db": 1,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-06-19_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -32,16 +37,15 @@
     },
     "SetnegScraper": {
       "ministry_code": "kemensetneg",
-      "yielded": 36,
-      "new_in_db": 1,
-      "chunk_files": [
-        "data\\pending\\chunks\\kemensetneg_2026-06-18_01.json"
-      ]
+      "yielded": 35,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
   "total_new": 1,
   "chunk_files": [
-    "data\\pending\\chunks\\kemensetneg_2026-06-18_01.json"
+    "data\\pending\\chunks\\esdm_2026-06-19_01.json",
+    "data\\pending\\chunks\\kumham_2026-06-19_01.json"
   ],
-  "sweep_added": 0
+  "sweep_added": 1
 }
