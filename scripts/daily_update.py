@@ -102,6 +102,20 @@ def build_db() -> str:
     return f"crawler.build_db (exit {code})\n{out[-1500:].strip()}"
 
 
+def sweep_pending_chunks() -> str:
+    """Catch-all: chunk EVERY untranslated row (any source/ministry) and merge
+    into today.summary.json. Runs after build_db (ids final, BPK rows present)
+    so national laws (peraturan_bpk/kumham) — which crawl_bpk inserts after
+    update_all and which no registered scraper bucket covers — still reach the
+    translation queue. Without this, source='peraturan_bpk' rows accumulate
+    untranslated forever (see the 232-row backlog cleared 2026-06-16)."""
+    code, out = run(
+        [sys.executable, "-X", "utf8", "-m", "scripts.export_pending_all"],
+        check=False,
+    )
+    return f"scripts.export_pending_all (exit {code})\n{out[-1500:].strip()}"
+
+
 def fix_promulgation_dates_phase1() -> str:
     """Local, network-free cleanup of obviously-wrong promulgation_date values
     (epoch placeholders, 21XX typos, future-year garbage). Phase 2 needs an
@@ -147,6 +161,27 @@ def rag_incremental_index() -> str:
         cwd=rag_root, check=False,
     )
     return f"incremental_v2 (exit {code})\n{out[-2000:].strip()}"
+
+
+def run_daily_translate() -> str:
+    """Chain the translation pass right after the crawl, in the SAME logged-on
+    session.
+
+    Why chain instead of relying on the standalone 10:00 JDIH-Daily-Translate
+    task: that task is 'run only when the user is logged on' and silently
+    skipped (Task Scheduler Event 332 — 'user was not logged on when the
+    launching conditions were met') whenever nobody was logged on at 10:00,
+    leaving new laws untranslated for days (observed 2026-06-18 → 06-22). The
+    09:00 crawl reliably runs once the user is logged on, so translating here
+    inherits that reliable window. It no-ops fast when nothing is pending
+    (daily_translate exits early on empty chunk_files), and it sends its own
+    email + git push, so the behaviour the user sees is unchanged on busy days.
+    """
+    code, out = run(
+        [sys.executable, "-X", "utf8", "-m", "scripts.daily_translate"],
+        check=False,
+    )
+    return f"scripts.daily_translate (exit {code})\n{out[-2000:].strip()}"
 
 
 def git_commit_push(date_label: str) -> str:
@@ -284,6 +319,58 @@ def fetch_latest_translated(limit: int = 1) -> list[dict]:
         return []
 
 
+def count_untranslated() -> int:
+    """Rows still awaiting Korean translation (title_ko IS NULL).
+
+    This is exactly what the 10:00 daily_translate pass will process — its
+    catch-all sweep (scripts.export_pending_all) chunks every untranslated row
+    regardless of source or insert date. The crawl 'new' counters
+    (total_new / bpk_new) only count rows freshly INSERTED today, so a backlog
+    row inserted on an earlier day (or a national law BPK/kumham inserted after
+    update_all) is missing from them but present here. Reporting this count is
+    what keeps the email honest: '신규 없음' while translation still registers
+    laws was the exact symptom of leaving it out."""
+    try:
+        import sqlite3
+        from crawler.db import DB_PATH
+        if not DB_PATH.exists():
+            return 0
+        conn = sqlite3.connect(str(DB_PATH))
+        n = conn.execute(
+            "SELECT COUNT(*) FROM laws WHERE title_ko IS NULL"
+        ).fetchone()[0]
+        conn.close()
+        return int(n or 0)
+    except Exception:
+        return 0
+
+
+def fetch_pending_translation(limit: int = 30) -> list[dict]:
+    """The untranslated rows themselves (newest first), for the email body."""
+    try:
+        import sqlite3
+        from crawler.db import DB_PATH
+        if not DB_PATH.exists():
+            return []
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            """
+            SELECT id, source, law_type, law_number, year, title_id, title_ko,
+                   summary_ko, ministry_name_ko, promulgation_date, source_url
+            FROM laws
+            WHERE title_ko IS NULL
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception:
+        return []
+
+
 def format_law_block(law: dict) -> str:
     """One readable Korean block per law. Falls back to Indonesian title
     when the Korean translation hasn't been produced yet (translation is
@@ -348,6 +435,13 @@ def format_summary(
 
     total_repealed = len(repealed_laws)
 
+    # 번역 대기(백로그) — 오늘 10:00 daily_translate 가 실제로 처리할 미번역 행 전체.
+    # total_new/bpk_new 는 '오늘 새로 INSERT 된' 행만 세므로, 이전 날 들어와 아직
+    # 번역 안 된 행(특히 국가법령 BPK/kumham)은 여기에만 잡힌다. 이 값을 이메일에
+    # 실어 '신규 없음' 인데 번역은 등록되는 불일치를 없앤다.
+    pending_total = 0 if test_latest else count_untranslated()
+    pending_laws = fetch_pending_translation(limit=30) if pending_total else []
+
     # 국가 법령 (BPK 우회 크롤 결과) — bpk.summary.json
     bpk = {} if test_latest else (read_bpk_summary() or {})
     bpk_new = bpk.get("new_laws") or []
@@ -356,12 +450,13 @@ def format_summary(
     # not double-count in the subject or double-print the same rows.
     bpk_repealed: list = []
 
-    if total_new == 0 and total_repealed == 0 and not bpk_new and not bpk_repealed:
+    if (total_new == 0 and total_repealed == 0 and not bpk_new
+            and not bpk_repealed and pending_total == 0):
         subject = f"[인도네시아 법령] {today_label} — 신규/폐기 없음"
         body = (
             f"## 인도네시아 법령 일일 업데이트{body_intro_extra}\n"
             f"실행 시각: {now}\n\n"
-            f"오늘 새로 추가되거나 폐기된 법령이 없습니다.\n\n"
+            f"오늘 새로 추가되거나 폐기된 법령이 없으며, 번역 대기 중인 법령도 없습니다.\n\n"
             f"사이트: {SITE_URL}/search\n"
         )
         return subject, body
@@ -378,6 +473,11 @@ def format_summary(
         )
     elif repealed_laws:
         headline = f"폐기 {total_repealed}건"
+    elif pending_laws:
+        p0 = pending_laws[0]
+        pl = (p0.get("law_type") or "").strip()
+        pn = (p0.get("law_number") or "").strip()
+        headline = f"{pl} 제{pn}호" if pl and pn else f"번역대기 {pending_total}건"
     else:
         headline = "업데이트"
 
@@ -388,6 +488,8 @@ def format_summary(
         parts.append(f"신규 {tot_new_all}")
     if tot_rep_all:
         parts.append(f"폐기 {tot_rep_all}")
+    if pending_total:
+        parts.append(f"번역대기 {pending_total}")
     counts_label = " · ".join(parts) if parts else "업데이트 없음"
     if bpk_new and not new_laws:
         b0 = bpk_new[0]
@@ -450,6 +552,24 @@ def format_summary(
                     f"{(law.get('title_id') or '')[:80]} | {law.get('source_url','')}")
         body_parts.append("")
 
+    # 번역 대기(백로그) — 오늘 10:00 자동 번역이 실제로 처리·등록할 건수.
+    if pending_total:
+        body_parts.append("---")
+        body_parts.append("")
+        body_parts.append(f"## 📝 번역 대기 — 오늘 번역 예정 ({pending_total}건)")
+        body_parts.append(
+            "오늘 10시 자동 번역이 실제로 처리·등록할 미번역 법령입니다. "
+            "위 '추가된 법령'은 오늘 새로 수집된 건만 잡지만, 번역은 출처·날짜와 "
+            "무관하게 미번역 행 전체(국가법령 BPK/kumham, 이전에 밀린 백로그 포함)를 "
+            "처리합니다. 따라서 '신규 없음' 이어도 이 건수만큼 번역·등록됩니다."
+        )
+        body_parts.append("")
+        body_parts.extend(format_law_block(law) for law in pending_laws)
+        if pending_total > len(pending_laws):
+            body_parts.append("")
+            body_parts.append(f"… 외 {pending_total - len(pending_laws)}건")
+        body_parts.append("")
+
     body_parts.append("---")
     body_parts.append(f"전체 검색 페이지: {SITE_URL}/search")
     return subject, "\n".join(body_parts)
@@ -509,6 +629,8 @@ def main() -> int:
     ap.add_argument("--no-email", action="store_true")
     ap.add_argument("--no-rag", action="store_true",
                     help="skip setneg PDF 다운로드 + RAG 인덱싱 단계")
+    ap.add_argument("--no-translate", action="store_true",
+                    help="skip the chained daily_translate pass at the end")
     ap.add_argument("--keys", nargs="*", default=[], help="ministry keys (default: all)")
     ap.add_argument(
         "--test-latest",
@@ -527,6 +649,11 @@ def main() -> int:
             step_logs.append(bpk_update())
             step_logs.append(build_db())
             step_logs.append(fix_promulgation_dates_phase1())
+            # Catch-all chunk sweep AFTER crawl_bpk + build_db so national laws
+            # (peraturan_bpk/kumham) and any other non-scraper rows still enter
+            # the translation queue. Must precede git_commit_push so the new
+            # chunks + updated summary get committed.
+            step_logs.append(sweep_pending_chunks())
             if not args.no_git:
                 step_logs.append(git_commit_push(today_kst))
             # setneg 원문 PDF 다운로드 → RAG v2 증분 인덱싱 (신규 없으면 RunPod 미기동)
@@ -554,6 +681,17 @@ def main() -> int:
             (LOG_PATH.parent / "last_daily_email_error.txt").write_text(
                 f"{e}\n\n{traceback.format_exc()}", encoding="utf-8",
             )
+
+    # Chain the translation pass in the same logged-on session. Runs AFTER the
+    # crawl email so that email still previews '번역 대기 N건'; the chained pass
+    # then translates them and sends its own confirmation email. No-ops fast
+    # when nothing is pending. Replaces the unreliable standalone 10:00 task.
+    if not args.test_latest and not args.no_translate:
+        try:
+            print("[translate-chain] " + run_daily_translate())
+        except Exception as e:
+            print(f"[translate-chain] FAILED: {e}", file=sys.stderr)
+
     return 0
 
 

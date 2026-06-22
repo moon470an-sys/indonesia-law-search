@@ -76,12 +76,24 @@
 
 | 시각 (KST) | 작업 | 스크립트 | 동작 |
 |------------|------|----------|------|
-| 09:00 | `JDIH-Daily-Update`     | `python -m scripts.daily_update`    | 부처별 incremental 크롤 → `today.summary.json` 생성, 새 행 git push → **setneg 원문 PDF 다운로드 → RAG v2 증분 인덱싱** |
-| 10:00 | `JDIH-Daily-Translate`  | `python -m scripts.daily_translate` | 위 summary 의 `chunk_files` 가 비어있지 않으면 `claude -p "/translate-pending" --dangerously-skip-permissions` 호출 → translations/*.json 생성 → import + build_db → git push |
+| 09:00 | `JDIH-Daily-Update`     | `python -m scripts.daily_update`    | 부처별 incremental 크롤 → `today.summary.json` 생성, 새 행 git push → **setneg 원문 PDF 다운로드 → RAG v2 증분 인덱싱** → 크롤 이메일 발송 → **끝단에서 `daily_translate` 체이닝 실행** |
+| (10:00) | `JDIH-Daily-Translate`  | `python -m scripts.daily_translate` | **⚠️ 비활성화됨 (2026-06-22).** 아래 "번역 체이닝" 참조. 수동 실행은 여전히 가능. |
 
-두 작업은 모두 commit/push 까지 자동이라 사이트는 매일 아침 10시 직후 deploy 가 트리거되어 갱신된다.
+크롤 작업은 commit/push + 크롤 이메일까지 자동이고, 그 끝단에서 번역까지 이어서 돌린다(번역도 자체 commit/push + 이메일). 사이트는 매일 아침 deploy 가 트리거되어 갱신된다.
 번역은 **CLAUDE.md 절대 원칙대로 외부 API 미사용** — Claude Code 가 sub-agent 8개 병렬로 청크를 처리한다.
 실행 결과는 `data/pending/last_daily_log.txt` (크롤) / `data/pending/last_translate_log.txt` (번역) + 이메일.
+
+### 번역 체이닝 (2026-06-22, 단독 10:00 작업 대체)
+
+**증상:** 단독 `JDIH-Daily-Translate`(10:00)가 2026-06-18 이후 며칠간 조용히 미실행 → 신규 법령이 번역 안 됨.
+**원인:** 이 작업이 "사용자 로그온 시에만 실행(Interactive only)"이라, 트리거 시점에 사용자가 로그온 안 돼 있으면
+Task Scheduler 가 **Event 332**("user was not logged on when the launching conditions were met")로 조용히 건너뛴다.
+09:00 크롤은 로그온된 뒤 안정적으로 도는데, 10:00 트리거가 그 보장을 못 받았다.
+**수정:** `daily_update.main()` 끝단에서 `run_daily_translate()`(= `python -m scripts.daily_translate` 서브프로세스)을
+크롤 이메일 발송 **후** 호출 → 크롤이 도는 "로그온 보장" 세션을 그대로 물려받아 번역도 확실히 실행. 번역할 게
+없으면 즉시 no-op. 단독 10:00 작업은 중복/이중이메일 방지 위해 **Disabled** (삭제 아님, 필요시 재활성화).
+부수 변경: `JDIH-Daily-Update` ExecutionTimeLimit `PT1H → PT3H`(체이닝된 번역이 길어져도 안 잘리게).
+크롤만 돌리려면 `python -m scripts.daily_update --no-translate`.
 
 ### RAG 자동 인덱싱 (daily_update 끝단, 2026-06-09 추가)
 
