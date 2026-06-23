@@ -1,9 +1,18 @@
 {
-  "date": "2026-06-18",
-  "generated_at": "2026-06-18T09:01:23",
+  "date": "2026-06-23",
+  "generated_at": "2026-06-23T09:01:04",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 1,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 3 Tahun 2026",
+      "title_id": "Pekalongan Kota Cerdas",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349685/perda-kota-pekalongan-no-3-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
