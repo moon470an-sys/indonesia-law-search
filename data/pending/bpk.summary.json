@@ -1,16 +1,16 @@
 {
-  "date": "2026-06-23",
-  "generated_at": "2026-06-23T09:01:04",
+  "date": "2026-06-24",
+  "generated_at": "2026-06-24T09:01:11",
   "source": "peraturan_bpk",
   "new_count": 1,
   "repealed_count": 0,
   "new_laws": [
     {
-      "law_type": "Perda",
-      "law_number": "Nomor 3 Tahun 2026",
-      "title_id": "Pekalongan Kota Cerdas",
+      "law_type": "UU",
+      "law_number": "Nomor 4 Tahun 2026",
+      "title_id": "Perubahan atas Undang-Undang Nomor 4 Tahun 2023 tentang Pengembangan dan Penguatan Sektor Keuangan",
       "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/349685/perda-kota-pekalongan-no-3-tahun-2026",
+      "source_url": "https://peraturan.bpk.go.id/Details/350166/uu-no-4-tahun-2026",
       "status": "berlaku"
     }
   ],
