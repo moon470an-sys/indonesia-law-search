@@ -1,18 +1,9 @@
 {
-  "date": "2026-06-24",
-  "generated_at": "2026-06-24T09:01:11",
+  "date": "2026-06-27",
+  "generated_at": "2026-06-27T09:01:24",
   "source": "peraturan_bpk",
-  "new_count": 1,
+  "new_count": 0,
   "repealed_count": 0,
-  "new_laws": [
-    {
-      "law_type": "UU",
-      "law_number": "Nomor 4 Tahun 2026",
-      "title_id": "Perubahan atas Undang-Undang Nomor 4 Tahun 2023 tentang Pengembangan dan Penguatan Sektor Keuangan",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/350166/uu-no-4-tahun-2026",
-      "status": "berlaku"
-    }
-  ],
+  "new_laws": [],
   "repealed_laws": []
 }
