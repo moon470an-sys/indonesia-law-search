@@ -1,9 +1,26 @@
 {
-  "date": "2026-06-27",
-  "generated_at": "2026-06-27T09:01:24",
+  "date": "2026-06-30",
+  "generated_at": "2026-06-30T09:01:21",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 2,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 9 Tahun 2026",
+      "title_id": "PERATURAN PELAKSANAAN PERATURAN DAERAH KABUPATEN BONDOWOSO NOMOR 2 TAHUN 2024 TENTANG BANTUAN HUKUM UNTUK MASYARAKAT MISKIN",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350215/perda-kab-bondowoso-no-9-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 4 Tahun 2026",
+      "title_id": "PENCABUTAN PERATURAN DAERAH KABUPATEN MALANG  \r\nNOMOR 1 TAHUN 2018 TENTANG BANGUNAN GEDUNG",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/349539/perda-kab-malang-no-4-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
