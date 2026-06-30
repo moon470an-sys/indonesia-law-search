@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T00:03:02Z",
-  "date": "2026-06-29",
+  "generated_at": "2026-06-30T00:00:04Z",
+  "date": "2026-06-30",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -41,6 +41,8 @@
     }
   },
   "total_new": 0,
-  "chunk_files": [],
-  "sweep_added": 0
+  "chunk_files": [
+    "data\\pending\\chunks\\kumham_2026-06-30_01.json"
+  ],
+  "sweep_added": 1
 }
