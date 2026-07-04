@@ -1,9 +1,34 @@
 {
-  "date": "2026-07-01",
-  "generated_at": "2026-07-01T09:01:22",
+  "date": "2026-07-04",
+  "generated_at": "2026-07-04T09:31:38",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 3,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Keppres",
+      "law_number": "Nomor 9 Tahun 2026",
+      "title_id": "Penambahan Wilayah Kerja Perusahaan Umum (Perum) Jasa Tirta I di Wilayah Sungai Bali-Penida, Wilayah Sungai Pompengan-Larona, Wilayah Sungai Saddang, dan Wilayah Sungai Parigi-Poso",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350721/keppres-no-9-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Keppres",
+      "law_number": "Nomor 8 Tahun 2026",
+      "title_id": "Satuan Tugas Inovasi Pembiayaan Pengelolaan Taman Nasional",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350720/keppres-no-8-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Keppres",
+      "law_number": "Nomor 7 Tahun 2026",
+      "title_id": "Panitia Seleksi Nasional Pengadaan Sumber Daya Manusia Dalam Rangka Pemenuhan Program Prioritas Presiden",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350719/keppres-no-7-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
