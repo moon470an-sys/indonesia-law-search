@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-10T00:00:04Z",
-  "date": "2026-07-10",
+  "generated_at": "2026-07-12T05:52:17Z",
+  "date": "2026-07-12",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -16,16 +16,10 @@
       "chunk_files": []
     },
     "BkpmScraper": {
-      "ministry_code": "bkpm",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "RetryError[<Future at 0x2c49ccd1f30 state=finished raised Error>]"
     },
     "KemenkeuScraper": {
-      "ministry_code": "kemenkeu",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "RetryError[<Future at 0x2c49d13d370 state=finished raised TimeoutError>]"
     },
     "KemendagScraper": {
       "ministry_code": "kemendag",
