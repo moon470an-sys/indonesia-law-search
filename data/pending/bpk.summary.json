@@ -1,9 +1,34 @@
 {
-  "date": "2026-07-14",
-  "generated_at": "2026-07-14T09:20:51",
+  "date": "2026-07-16",
+  "generated_at": "2026-07-16T09:02:06",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 3,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 11 Tahun 2026",
+      "title_id": "Pencabutan\r\nPeraturan Daerah Kabupaten Gresik Nomor 5 Tahun\r\n2016 tentang Rukun Tetangga dan Rukun Warga",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350828/perda-kab-gresik-no-11-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 9 Tahun 2026",
+      "title_id": "Pencabutan\r\nPeraturan Daerah Kabupaten Gresik Nomor 6 Tahun\r\n2010 tentang Penataan dan Pemberdayaan Lembaga\r\nKemasyarakatan Desa dan Kelurahan",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350827/perda-kab-gresik-no-9-tahun-2026",
+      "status": "berlaku"
+    },
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 5 Tahun 2026",
+      "title_id": "Bangunan Gedung",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/350826/perda-kab-gresik-no-5-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
