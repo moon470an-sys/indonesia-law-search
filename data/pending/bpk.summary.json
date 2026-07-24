@@ -1,64 +1,32 @@
 {
-  "date": "2026-07-23",
-  "generated_at": "2026-07-23T09:01:17",
+  "date": "2026-07-24",
+  "generated_at": "2026-07-24T09:01:43",
   "source": "peraturan_bpk",
-  "new_count": 7,
+  "new_count": 3,
   "repealed_count": 0,
   "new_laws": [
     {
-      "law_type": "Perpres",
-      "law_number": "Nomor 40 Tahun 2026",
-      "title_id": "Pembentukan Kejaksaan Negeri Pangandaran, Kejaksaan Negeri Kabupaten Serang, Kejaksaan Negeri Tana Tidung, Kejaksaan Negeri Kubu Raya, Kejaksaan Negeri Lima Puluh Kota, Kejaksaan Negeri Raja Ampat, dan Kejaksan Negeri Pesisir Barat",
+      "law_type": "Keppres",
+      "law_number": "Nomor 14 Tahun 2026",
+      "title_id": "Penetapan Daerah Hukum Kejaksaan Negeri Pangandaran, Kejaksaan Negeri Kabupaten Serang, Kejaksaan Negeri Tana Tidung, Kejaksaan Negeri Kubu Raya, Kejaksaan Negeri Lima Puluh Kota, Kejaksaan Negeri Raja Ampat, dan Kejaksaan Negeri Pesisir Barat",
       "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351535/perpres-no-40-tahun-2026",
+      "source_url": "https://peraturan.bpk.go.id/Details/351609/keppres-no-14-tahun-2026",
       "status": "berlaku"
     },
     {
-      "law_type": "Perpres",
-      "law_number": "Nomor 38 Tahun 2026",
-      "title_id": "Pengembangan Kewirausahaan Nasional",
+      "law_type": "Inpres",
+      "law_number": "Nomor 8 Tahun 2026",
+      "title_id": "Penyelamatan Populasi dan Habitat Gajah Sumatera dan Gajah Kalimantan",
       "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351526/perpres-no-38-tahun-2026",
+      "source_url": "https://peraturan.bpk.go.id/Details/351619/inpres-no-8-tahun-2026",
       "status": "berlaku"
     },
     {
-      "law_type": "Perpres",
-      "law_number": "Nomor 37 Tahun 2026",
-      "title_id": "Rencana Induk Ekonomi Kreatif Tahun 2026-2045",
+      "law_type": "Inpres",
+      "law_number": "Nomor 7 Tahun 2026",
+      "title_id": "Percepatan Program Penataan Badan Usaha Milik Negara dan/atau Anak Usaha Badan Usaha Milik Negara",
       "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351523/perpres-no-37-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Perpres",
-      "law_number": "Nomor 36 Tahun 2026",
-      "title_id": "Pengesahan Persetujuan antara Pemerintah Republik Indonesia dan Pemerintah Malaysia tentang Lintas Batas (Agreement between the Government of the Republic of Indonesia and the Government of Malaysia on Border Crossing)",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351517/perpres-no-36-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Perpres",
-      "law_number": "Nomor 34 Tahun 2026",
-      "title_id": "Pendidik Klinis",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351511/perpres-no-34-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Perpres",
-      "law_number": "Nomor 33 Tahun 2026",
-      "title_id": "Hak Keuangan dan Fasilitas Lainnya bagi Kepala, Wakil Kepala, Sekretaris Badan, Deputi, Kepala Satuan Pemeriksaan Intern, Tenaga Profesional, dan Kelompok Ahli Badan Otorita Pengelola Pantai Utara Jawa",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351507/perpres-no-33-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Perpres",
-      "law_number": "Nomor 28 Tahun 2026",
-      "title_id": "Penyelenggaraan Investasi Pembangunan dalam rangka Percepatan Pertumbuhan Ekonomi",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351498/perpres-no-28-tahun-2026",
+      "source_url": "https://peraturan.bpk.go.id/Details/351613/inpres-no-7-tahun-2026",
       "status": "berlaku"
     }
   ],
