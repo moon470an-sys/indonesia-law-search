@@ -1,16 +1,19 @@
 {
-  "generated_at": "2026-07-27T11:32:08Z",
-  "date": "2026-07-27",
+  "generated_at": "2026-07-28T00:00:03Z",
+  "date": "2026-07-28",
   "full": false,
   "ministries": {
     "DephubScraper": {
       "ministry_code": "dephub",
       "yielded": 0,
-      "new_in_db": -2400,
+      "new_in_db": 0,
       "chunk_files": []
     },
     "EsdmScraper": {
-      "error": "RetryError[<Future at 0x2ba1a38de50 state=finished raised Error>]"
+      "ministry_code": "esdm",
+      "yielded": 5,
+      "new_in_db": 0,
+      "chunk_files": []
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -37,7 +40,7 @@
       "chunk_files": []
     }
   },
-  "total_new": -2400,
+  "total_new": 0,
   "chunk_files": [],
   "sweep_added": 0
 }
