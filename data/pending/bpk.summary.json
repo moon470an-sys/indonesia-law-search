@@ -1,34 +1,9 @@
 {
-  "date": "2026-07-24",
-  "generated_at": "2026-07-24T09:01:43",
+  "date": "2026-07-29",
+  "generated_at": "2026-07-29T09:01:49",
   "source": "peraturan_bpk",
-  "new_count": 3,
+  "new_count": 0,
   "repealed_count": 0,
-  "new_laws": [
-    {
-      "law_type": "Keppres",
-      "law_number": "Nomor 14 Tahun 2026",
-      "title_id": "Penetapan Daerah Hukum Kejaksaan Negeri Pangandaran, Kejaksaan Negeri Kabupaten Serang, Kejaksaan Negeri Tana Tidung, Kejaksaan Negeri Kubu Raya, Kejaksaan Negeri Lima Puluh Kota, Kejaksaan Negeri Raja Ampat, dan Kejaksaan Negeri Pesisir Barat",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351609/keppres-no-14-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Inpres",
-      "law_number": "Nomor 8 Tahun 2026",
-      "title_id": "Penyelamatan Populasi dan Habitat Gajah Sumatera dan Gajah Kalimantan",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351619/inpres-no-8-tahun-2026",
-      "status": "berlaku"
-    },
-    {
-      "law_type": "Inpres",
-      "law_number": "Nomor 7 Tahun 2026",
-      "title_id": "Percepatan Program Penataan Badan Usaha Milik Negara dan/atau Anak Usaha Badan Usaha Milik Negara",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/351613/inpres-no-7-tahun-2026",
-      "status": "berlaku"
-    }
-  ],
+  "new_laws": [],
   "repealed_laws": []
 }
