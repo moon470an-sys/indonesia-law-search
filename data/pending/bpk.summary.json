@@ -1,9 +1,18 @@
 {
-  "date": "2026-07-29",
-  "generated_at": "2026-07-29T09:01:49",
+  "date": "2026-07-31",
+  "generated_at": "2026-07-31T07:45:21",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 1,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Perda",
+      "law_number": "Nomor 16 Tahun 2026",
+      "title_id": "PENGADAAN BARANG DAN JASA PADA BADAN LAYANAN UMUM DAERAH BIDANG KESEHATAN",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/351895/perda-kab-bojonegoro-no-16-tahun-2026",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
