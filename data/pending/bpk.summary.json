@@ -1,16 +1,16 @@
 {
-  "date": "2026-08-04",
-  "generated_at": "2026-08-04T07:39:51",
+  "date": "2026-08-07",
+  "generated_at": "2026-08-07T07:52:01",
   "source": "peraturan_bpk",
   "new_count": 1,
   "repealed_count": 0,
   "new_laws": [
     {
-      "law_type": "Perda",
-      "law_number": "Nomor 18 Tahun 2026",
-      "title_id": "Rencana Induk dan Peta Jalan Pemajuan Ilmu Pengetahuan dan Teknologi Tahun 2025-2029",
+      "law_type": "UU",
+      "law_number": "Nomor 2 Tahun 2026",
+      "title_id": "Pelindungan Pekerja Rumah Tangga",
       "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/350846/perda-kab-karo-no-18-tahun-2026",
+      "source_url": "https://peraturan.bpk.go.id/Details/352436/uu-no-2-tahun-2026",
       "status": "berlaku"
     }
   ],
