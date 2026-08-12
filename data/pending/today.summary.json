@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T22:42:49Z",
+  "generated_at": "2026-08-12T00:00:05Z",
   "date": "2026-08-12",
   "full": false,
   "ministries": {
@@ -22,7 +22,7 @@
       "chunk_files": []
     },
     "KemenkeuScraper": {
-      "error": "RetryError[<Future at 0x2513fb59eb0 state=finished raised TimeoutError>]"
+      "error": "RetryError[<Future at 0x1cd2e3497f0 state=finished raised TimeoutError>]"
     },
     "KemendagScraper": {
       "ministry_code": "kemendag",
@@ -38,8 +38,6 @@
     }
   },
   "total_new": 0,
-  "chunk_files": [
-    "data\\pending\\chunks\\kumham_2026-08-12_01.json"
-  ],
-  "sweep_added": 1
+  "chunk_files": [],
+  "sweep_added": 0
 }
