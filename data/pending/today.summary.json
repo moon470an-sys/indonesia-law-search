@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T23:01:27Z",
+  "generated_at": "2026-08-19T00:00:04Z",
   "date": "2026-08-19",
   "full": false,
   "ministries": {
@@ -22,7 +22,7 @@
       "chunk_files": []
     },
     "KemenkeuScraper": {
-      "error": "RetryError[<Future at 0x191c6bc9250 state=finished raised TimeoutError>]"
+      "error": "RetryError[<Future at 0x139c40ac290 state=finished raised TimeoutError>]"
     },
     "KemendagScraper": {
       "ministry_code": "kemendag",
