@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T22:59:42Z",
+  "generated_at": "2026-09-03T00:00:02Z",
   "date": "2026-09-03",
   "full": false,
   "ministries": {
@@ -41,8 +41,6 @@
     }
   },
   "total_new": 0,
-  "chunk_files": [
-    "data\\pending\\chunks\\kumham_2026-09-03_01.json"
-  ],
-  "sweep_added": 1
+  "chunk_files": [],
+  "sweep_added": 0
 }
