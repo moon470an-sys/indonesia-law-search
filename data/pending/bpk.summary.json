@@ -1,18 +1,9 @@
 {
-  "date": "2026-09-03",
-  "generated_at": "2026-09-03T08:02:40",
+  "date": "2026-09-09",
+  "generated_at": "2026-09-09T09:19:50",
   "source": "peraturan_bpk",
-  "new_count": 1,
+  "new_count": 0,
   "repealed_count": 0,
-  "new_laws": [
-    {
-      "law_type": "Perpres",
-      "law_number": "Nomor 46 Tahun 2026",
-      "title_id": "Perubahan atas Peraturan Presiden Nomor 17 Tahun 2018 tentang Penyelenggaraan Penanggulangan Bencana dalam Keadaan Tertentu",
-      "year": 2026,
-      "source_url": "https://peraturan.bpk.go.id/Details/354148/perpres-no-46-tahun-2026",
-      "status": "berlaku"
-    }
-  ],
+  "new_laws": [],
   "repealed_laws": []
 }
