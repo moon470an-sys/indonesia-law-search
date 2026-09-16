@@ -1,9 +1,18 @@
 {
-  "date": "2026-09-14",
-  "generated_at": "2026-09-14T09:29:51",
+  "date": "2026-09-16",
+  "generated_at": "2026-09-16T08:03:54",
   "source": "peraturan_bpk",
-  "new_count": 0,
+  "new_count": 1,
   "repealed_count": 0,
-  "new_laws": [],
+  "new_laws": [
+    {
+      "law_type": "Keppres",
+      "law_number": "Nomor 1 Tahun 2026",
+      "title_id": "Keputusan Presiden (Keppres) Nomor 1 Tahun 2026",
+      "year": 2026,
+      "source_url": "https://peraturan.bpk.go.id/Details/343433/keppres-no-1-tahun-2026-satuan-tugas-percepatan-rehabilitasi-dan-rekonstruksi-pa",
+      "status": "berlaku"
+    }
+  ],
   "repealed_laws": []
 }
