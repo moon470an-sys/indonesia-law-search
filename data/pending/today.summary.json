@@ -1,13 +1,10 @@
 {
-  "generated_at": "2026-10-07T00:00:05Z",
-  "date": "2026-10-07",
+  "generated_at": "2026-10-07T23:00:35Z",
+  "date": "2026-10-08",
   "full": false,
   "ministries": {
     "DephubScraper": {
-      "ministry_code": "dephub",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "RetryError[<Future at 0x25098750e10 state=finished raised Error>]"
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
