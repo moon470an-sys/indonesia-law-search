@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-20T09:39:50Z",
-  "date": "2026-10-20",
+  "generated_at": "2026-10-20T23:30:44Z",
+  "date": "2026-10-21",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -11,7 +11,7 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 0,
+      "yielded": 5,
       "new_in_db": 0,
       "chunk_files": []
     },
