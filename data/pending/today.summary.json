@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-21T00:00:04Z",
-  "date": "2026-10-21",
+  "generated_at": "2026-10-21T23:17:21Z",
+  "date": "2026-10-22",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -10,10 +10,7 @@
       "chunk_files": []
     },
     "EsdmScraper": {
-      "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "Timeout 30000ms exceeded."
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
