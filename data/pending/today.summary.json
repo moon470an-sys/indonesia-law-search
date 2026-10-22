@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T23:17:21Z",
+  "generated_at": "2026-10-22T00:00:05Z",
   "date": "2026-10-22",
   "full": false,
   "ministries": {
@@ -10,7 +10,12 @@
       "chunk_files": []
     },
     "EsdmScraper": {
-      "error": "Timeout 30000ms exceeded."
+      "ministry_code": "esdm",
+      "yielded": 7,
+      "new_in_db": 2,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-10-22_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -37,7 +42,9 @@
       "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": [],
+  "total_new": 2,
+  "chunk_files": [
+    "data\\pending\\chunks\\esdm_2026-10-22_01.json"
+  ],
   "sweep_added": 0
 }
