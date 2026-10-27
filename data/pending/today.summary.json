@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T22:48:02Z",
+  "generated_at": "2026-10-27T00:00:05Z",
   "date": "2026-10-27",
   "full": false,
   "ministries": {
@@ -34,7 +34,10 @@
       "chunk_files": []
     },
     "SetnegScraper": {
-      "error": "setneg API failed after 6 tries: "
+      "ministry_code": "kemensetneg",
+      "yielded": 35,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
   "total_new": 0,
