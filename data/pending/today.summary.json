@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T22:42:52Z",
+  "generated_at": "2026-11-02T00:00:06Z",
   "date": "2026-11-02",
   "full": false,
   "ministries": {
@@ -18,7 +18,7 @@
       ]
     },
     "BkpmScraper": {
-      "error": "RetryError[<Future at 0x209bd079940 state=finished raised Error>]"
+      "error": "RetryError[<Future at 0x2308ee99940 state=finished raised Error>]"
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
