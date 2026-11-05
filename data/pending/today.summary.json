@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-05T00:00:04Z",
-  "date": "2026-11-05",
+  "generated_at": "2026-11-05T22:47:34Z",
+  "date": "2026-11-06",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -14,7 +14,7 @@
       "yielded": 5,
       "new_in_db": 0,
       "chunk_files": [
-        "data\\pending\\chunks\\esdm_2026-11-05_01.json"
+        "data\\pending\\chunks\\esdm_2026-11-06_01.json"
       ]
     },
     "BkpmScraper": {
@@ -44,7 +44,7 @@
   },
   "total_new": 0,
   "chunk_files": [
-    "data\\pending\\chunks\\esdm_2026-11-05_01.json"
+    "data\\pending\\chunks\\esdm_2026-11-06_01.json"
   ],
   "sweep_added": 0
 }
