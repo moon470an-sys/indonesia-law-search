@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-06T00:00:04Z",
-  "date": "2026-11-06",
+  "generated_at": "2026-11-08T23:03:56Z",
+  "date": "2026-11-09",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -14,7 +14,7 @@
       "yielded": 5,
       "new_in_db": 0,
       "chunk_files": [
-        "data\\pending\\chunks\\esdm_2026-11-06_01.json"
+        "data\\pending\\chunks\\esdm_2026-11-09_01.json"
       ]
     },
     "BkpmScraper": {
@@ -37,14 +37,17 @@
     },
     "SetnegScraper": {
       "ministry_code": "kemensetneg",
-      "yielded": 35,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 37,
+      "new_in_db": 2,
+      "chunk_files": [
+        "data\\pending\\chunks\\kemensetneg_2026-11-09_01.json"
+      ]
     }
   },
-  "total_new": 0,
+  "total_new": 2,
   "chunk_files": [
-    "data\\pending\\chunks\\esdm_2026-11-06_01.json"
+    "data\\pending\\chunks\\esdm_2026-11-09_01.json",
+    "data\\pending\\chunks\\kemensetneg_2026-11-09_01.json"
   ],
   "sweep_added": 0
 }
