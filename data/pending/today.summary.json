@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T23:03:56Z",
+  "generated_at": "2026-11-09T00:00:05Z",
   "date": "2026-11-09",
   "full": false,
   "ministries": {
@@ -37,14 +37,14 @@
     },
     "SetnegScraper": {
       "ministry_code": "kemensetneg",
-      "yielded": 37,
-      "new_in_db": 2,
+      "yielded": 35,
+      "new_in_db": 0,
       "chunk_files": [
         "data\\pending\\chunks\\kemensetneg_2026-11-09_01.json"
       ]
     }
   },
-  "total_new": 2,
+  "total_new": 0,
   "chunk_files": [
     "data\\pending\\chunks\\esdm_2026-11-09_01.json",
     "data\\pending\\chunks\\kemensetneg_2026-11-09_01.json"
