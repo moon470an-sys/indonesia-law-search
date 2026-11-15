@@ -1,16 +1,18 @@
 {
-  "generated_at": "2026-11-13T01:40:28Z",
-  "date": "2026-11-13",
+  "generated_at": "2026-11-15T09:19:23Z",
+  "date": "2026-11-15",
   "full": false,
   "ministries": {
     "DephubScraper": {
-      "error": "RetryError[<Future at 0x1b8d28d0e10 state=finished raised Error>]"
+      "error": "RetryError[<Future at 0x18d3d690e10 state=finished raised Error>]"
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 6,
+      "new_in_db": 1,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-11-15_01.json"
+      ]
     },
     "BkpmScraper": {
       "ministry_code": "bkpm",
@@ -31,10 +33,15 @@
       "chunk_files": []
     },
     "SetnegScraper": {
-      "error": "setneg API failed after 6 tries: Server error '503 Service Temporarily Unavailable' for url 'https://jdih.setneg.go.id/api/hukumproduk/produkhukum'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+      "ministry_code": "kemensetneg",
+      "yielded": 35,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": [],
+  "total_new": 1,
+  "chunk_files": [
+    "data\\pending\\chunks\\esdm_2026-11-15_01.json"
+  ],
   "sweep_added": 0
 }
