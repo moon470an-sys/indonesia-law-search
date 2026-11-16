@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-15T09:27:51Z",
-  "date": "2026-11-15",
+  "generated_at": "2026-11-16T00:00:06Z",
+  "date": "2026-11-16",
   "full": false,
   "ministries": {
     "DephubScraper": {
-      "error": "RetryError[<Future at 0x20af4130e10 state=finished raised Error>]"
+      "error": "RetryError[<Future at 0x1953d7a0e10 state=finished raised Error>]"
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
