@@ -1,10 +1,13 @@
 {
-  "generated_at": "2026-11-17T00:27:03Z",
+  "generated_at": "2026-11-17T10:21:02Z",
   "date": "2026-11-17",
   "full": false,
   "ministries": {
     "DephubScraper": {
-      "error": "RetryError[<Future at 0x20bb1580e10 state=finished raised Error>]"
+      "ministry_code": "dephub",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
@@ -13,10 +16,7 @@
       "chunk_files": []
     },
     "BkpmScraper": {
-      "ministry_code": "bkpm",
-      "yielded": 0,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "RetryError[<Future at 0x17671e19940 state=finished raised Error>]"
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
