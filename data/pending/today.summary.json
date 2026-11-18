@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-18T06:37:50Z",
-  "date": "2026-11-18",
+  "generated_at": "2026-11-18T22:42:24Z",
+  "date": "2026-11-19",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -11,12 +11,14 @@
     },
     "EsdmScraper": {
       "ministry_code": "esdm",
-      "yielded": 5,
-      "new_in_db": 0,
-      "chunk_files": []
+      "yielded": 7,
+      "new_in_db": 2,
+      "chunk_files": [
+        "data\\pending\\chunks\\esdm_2026-11-19_01.json"
+      ]
     },
     "BkpmScraper": {
-      "error": "RetryError[<Future at 0x27cb4c89940 state=finished raised Error>]"
+      "error": "RetryError[<Future at 0x1dc5e36f020 state=finished raised Error>]"
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
@@ -31,10 +33,15 @@
       "chunk_files": []
     },
     "SetnegScraper": {
-      "error": "setneg API failed after 6 tries: Expecting value: line 1 column 1 (char 0)"
+      "ministry_code": "kemensetneg",
+      "yielded": 35,
+      "new_in_db": 0,
+      "chunk_files": []
     }
   },
-  "total_new": 0,
-  "chunk_files": [],
+  "total_new": 2,
+  "chunk_files": [
+    "data\\pending\\chunks\\esdm_2026-11-19_01.json"
+  ],
   "sweep_added": 0
 }
