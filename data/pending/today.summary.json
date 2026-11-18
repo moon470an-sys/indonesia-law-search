@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T04:57:22Z",
+  "generated_at": "2026-11-18T06:37:50Z",
   "date": "2026-11-18",
   "full": false,
   "ministries": {
@@ -16,7 +16,7 @@
       "chunk_files": []
     },
     "BkpmScraper": {
-      "error": "RetryError[<Future at 0x1ae40f99940 state=finished raised Error>]"
+      "error": "RetryError[<Future at 0x27cb4c89940 state=finished raised Error>]"
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
@@ -31,10 +31,7 @@
       "chunk_files": []
     },
     "SetnegScraper": {
-      "ministry_code": "kemensetneg",
-      "yielded": 35,
-      "new_in_db": 0,
-      "chunk_files": []
+      "error": "setneg API failed after 6 tries: Expecting value: line 1 column 1 (char 0)"
     }
   },
   "total_new": 0,
