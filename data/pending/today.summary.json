@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-19T00:00:05Z",
-  "date": "2026-11-19",
+  "generated_at": "2026-11-19T22:43:38Z",
+  "date": "2026-11-20",
   "full": false,
   "ministries": {
     "DephubScraper": {
@@ -16,7 +16,10 @@
       "chunk_files": []
     },
     "BkpmScraper": {
-      "error": "RetryError[<Future at 0x1ed39509130 state=finished raised Error>]"
+      "ministry_code": "bkpm",
+      "yielded": 0,
+      "new_in_db": 0,
+      "chunk_files": []
     },
     "KemenkeuScraper": {
       "ministry_code": "kemenkeu",
